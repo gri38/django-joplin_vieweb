@@ -1,0 +1,9 @@
+{% if notes_metadata %}
+    <ul>
+    {% for one_note in notes_metadata %}
+        <li class="note_item" id="note_item_{{ one_note.id }}"><a onclick="display_note('{{ one_note.id }}', '{{ one_note.name }}');">{{ one_note.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No note here...</p>
+{% endif %}

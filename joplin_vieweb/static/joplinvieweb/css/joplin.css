@@ -1,0 +1,136 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+}
+#joplin_container {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+}
+.header {
+    text-align: center;
+    font-size: larger;
+    font-weight: 550;
+    margin-left: -10px;
+    margin-top: 10px;
+    padding-bottom: 3px;
+    flex-grow: 0;
+}
+.notebook_header {
+    color: white;
+    border-bottom: 1px dotted white;
+}
+#notebooks_tree_ctn {
+    background-color: #313640;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc(15vw - 10px);
+    height: 100%;
+    padding-left: 10px;
+}
+#notebooks_tree {
+    background-color: #313640;
+    
+}
+#notes_list_ctn {
+    background-color: #F4F5F6;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc(15vw - 6px);
+    height: 100%;
+    margin-left: 5px;
+    border-right: 1px solid #cecece;
+}
+.notes_list_header {
+    color: #313640;
+    border-bottom: 1px dotted #313640;
+}
+.note_view_header {
+    color: #ff4411;
+    border-bottom: 1px dotted #ff4411;
+}
+.note_item.selected {
+    background-color: #E5E5E5;
+}
+.note_item:not(.selected):hover{
+    background-color: #CBDAF1;
+}
+#notes_list li {
+    cursor: pointer;
+    list-style-type: none;
+    padding-left: 1em;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    
+}
+#notes_list ul {
+    padding-left: 0px;
+}
+#note_view_ctn {
+    background-color: #FFFFFF;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc(70vw - 20px);
+    height: 100%;
+    padding-left:10px;
+    padding-right:10px;
+    display: flex;
+    flex-direction: column;
+}
+.center {
+    align-self: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.helper_vertical_align {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.toc {
+    color: #0052CC;
+    float: right;
+    position: fixed;
+    width: 25%;
+    right: 10px;
+    top: 100px;
+    background: rgba(229, 232, 232, 0.8);
+    border: 1px solid #0096d6;
+    padding: 5px;
+    min-height: 1em;
+}
+.toc ul {
+    list-style-type: none;
+    padding-left: 10px;
+    margin: 0;
+}
+.toc_ctrl {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+/* a, a:hover, a:active, a:focus {
+    text-decoration: none;
+    outline: 0;
+    border: 0;
+} */
+
+#note_view { padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;}
+#note_view h1 { color: #ff4411; font-size: 1.5em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view h2 { color: #ff4411; font-size: 1.4em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view h3 { color: #ff4411; font-size: 1.3em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view h4 { color: #ff4411; font-size: 1.2em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view h5 { color: #ff4411; font-size: 1em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view h6 { color: #ff4411; font-size: 0.9em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
+#note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; color: #666; }
+#note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s; text-decoration: underline;}
+#note_view a:not(.toc a):hover { color: #a03c21 }
+.border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
+
+.toc a, .toc a:hover, .toc a:active, .toc a:focus {
+    color: #0A84FF;
+    text-decoration: none;
+    outline: 0;
+    border: 0;
+}

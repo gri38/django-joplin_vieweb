@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+recursive-include joplin_vieweb/static *
+recursive-include joplin_vieweb/templates *
