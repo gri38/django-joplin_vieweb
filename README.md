@@ -32,3 +32,13 @@ I tried for some hours to make it run. The master branch was easy to setup, but 
 And the full featured "vuejs" branch: I just didn't succeed to set it up (neither with node nor with docker).... probably a matter of versions with my raspberry distribution.  
 ➡ I decided to do my simple own product, for my simple need: view my notes online.  
 Thanks for joplin-api that helped me ! I liked the WTF licence, I chose it too.
+
+## For dev: how to setup a dev server around this "package"
+Execute script setup_dev_env.sh
+Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.
+Then:
+
+. venv/bin/activate
+cd dev_server
+python manage.py runserver 0:8000
+

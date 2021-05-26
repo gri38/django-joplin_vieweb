@@ -1,0 +1,58 @@
+--- settings.py.bak	2021-05-27 00:40:07.324292994 +0200
++++ settings.py	2021-05-27 00:42:47.133800531 +0200
+@@ -12,6 +12,29 @@
+ 
+ from pathlib import Path
+ 
++import os
++
++import sys
++import pathlib
++joplin_app_folder = pathlib.Path(__file__).parent.parent.parent.absolute()
++sys.path.append(str(joplin_app_folder))
++print(sys.path)
++
++LOGGING = {
++    'version': 1,
++    'disable_existing_loggers': False,
++    'handlers': {
++        'console': {
++            'class': 'logging.StreamHandler',
++        },
++    },
++    'root': {
++        'handlers': ['console'],
++        'level': 'DEBUG',
++    },
++}
++
++
+ # Build paths inside the project like this: BASE_DIR / 'subdir'.
+ BASE_DIR = Path(__file__).resolve().parent.parent
+ 
+@@ -25,12 +48,13 @@
+ # SECURITY WARNING: don't run with debug turned on in production!
+ DEBUG = True
+ 
+-ALLOWED_HOSTS = []
++ALLOWED_HOSTS = ['192.168.21.8']
+ 
+ 
+ # Application definition
+ 
+ INSTALLED_APPS = [
++    'joplin_vieweb.apps.JoplinviewebConfig',
+     'django.contrib.admin',
+     'django.contrib.auth',
+     'django.contrib.contenttypes',
+@@ -116,6 +140,10 @@
+ 
+ # Static files (CSS, JavaScript, Images)
+ # https://docs.djangoproject.com/en/3.2/howto/static-files/
++STATICFILES_DIRS = [
++    BASE_DIR / "static",
++    '/home/pi/.config/joplin/resources/',
++]
+ 
+ STATIC_URL = '/static/'
+ 

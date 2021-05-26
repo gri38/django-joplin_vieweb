@@ -1,0 +1,13 @@
+--- urls.py.bak	2021-05-27 00:26:11.076944750 +0200
++++ urls.py	2021-05-27 00:26:34.686866731 +0200
+@@ -14,8 +14,9 @@
+     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+ """
+ from django.contrib import admin
+-from django.urls import path
++from django.urls import path, include
+ 
+ urlpatterns = [
++    path('joplin/', include('joplin_vieweb.urls')),
+     path('admin/', admin.site.urls),
+ ]
