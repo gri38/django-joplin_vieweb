@@ -34,11 +34,11 @@ And the full featured "vuejs" branch: I just didn't succeed to set it up (neithe
 Thanks for joplin-api that helped me ! I liked the WTF licence, I chose it too.
 
 ## For dev: how to setup a dev server around this "package"
-Execute script setup_dev_env.sh
-Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.
-Then:
-
+Execute script setup_dev_env.sh  
+Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.  
+Then:  
+```
 . venv/bin/activate
 cd dev_server
 python manage.py runserver 0:8000
-
+```
