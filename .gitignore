@@ -1,3 +1,6 @@
 __pycache__/
 venv/
 dev_server/
+build/
+dist/
+django_joplin_vieweb.egg-info/
