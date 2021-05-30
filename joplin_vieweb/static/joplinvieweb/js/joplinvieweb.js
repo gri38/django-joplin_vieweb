@@ -36,12 +36,17 @@ function display_notebooks_tree(data) {
 }
 
 function get_notebooks_from_server() {
+    display_progress($("#notebooks_tree"));
     $.getJSON(
     '/joplin/notebooks/',
     display_notebooks_tree
     )  .fail(function() {
-    console.log("error while getting notebooks" );
-    alert("Failed to get notebooks: click the notebook again.");
+        clear_progress($("#notebooks_tree"));
+        console.log("error while getting notebooks ");
+        $.get(
+        '/joplin/notebooks_error/',
+        function(data) {$("#notebooks_tree").html(data);}
+        )
   });
 }
 

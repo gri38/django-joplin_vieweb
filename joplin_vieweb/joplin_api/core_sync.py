@@ -51,9 +51,8 @@ class JoplinApiSync:
         :param token: string The API token grabbed from the Joplin config page
         :param config: dict for configuration
         """
-        # default value if none are provided when initializing JoplinApi()
-        default_host = 'http://127.0.0.1:{}'.format(config.get('JOPLIN_WEBCLIPPER', 41184))
-        self.JOPLIN_HOST = config.get('JOPLIN_HOST', default_host)
+        self.JOPLIN_HOST = "{}:{}".format(config.get('JOPLIN_HOST', "http://localhost"),
+                                          config.get('JOPLIN_WEBCLIPPER', 41184))
         self.token = token
         self.client = httpx.Client()
 

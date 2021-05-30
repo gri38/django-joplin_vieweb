@@ -21,9 +21,18 @@ def note(request, note_id):
     joplin = Joplin()
     note_html = joplin.get_note_html(note_id)
     return HttpResponse(note_html)
+    
+def notebooks_error(request):
+    return render(request, 'joplinvieweb/notebooks_error.html', {})
 
 def notebook_error(request, notebook_id):
     return render(request, 'joplinvieweb/notebook_error.html', {"notebook_id": notebook_id})
     
 def note_error(request, note_id, note_name):
     return render(request, 'joplinvieweb/note_error.html', {"note_id": note_id, "note_name": note_name})
+
+def joplin_ressource(request, ressource_path):
+    ressource_file = open("/home/pi/.config/joplin/resources/" + ressource_path, 'rb')
+    response = HttpResponse(content=ressource_file)
+
+    return response

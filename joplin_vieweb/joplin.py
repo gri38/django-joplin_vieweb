@@ -4,6 +4,7 @@ import json
 import markdown
 import re
 import pathlib
+from django.conf import settings
 
 
 class Notebook():
@@ -44,7 +45,11 @@ class NoteMetadata:
 
 class Joplin:
     def __init__(self):
-        self.joplin = JoplinApiSync(token='1234567890987654321')
+        joplin_api_conf = {
+                              'JOPLIN_HOST': settings.JOPLIN_SERVER_URL,
+                              'JOPLIN_WEBCLIPPER': settings.JOPLIN_SERVER_PORT,
+                          }
+        self.joplin = JoplinApiSync(settings.JOPLIN_SERVER_TOKEN, **joplin_api_conf)
         self.rootNotebook = Notebook()
         self.rootNotebook.id = ""
         self.rootNotebook.title = "ROOT NOTEBOOK"
@@ -108,7 +113,7 @@ class Joplin:
             file_extension = pathlib.Path(ext).suffix
             note_body = note_body.replace(name, name + file_extension)
 
-        note_body = note_body.replace("](:/", "](/static/")
+        note_body = note_body.replace("](:/", "](/joplin/joplin_ressources/")
 
         return note_body
         
