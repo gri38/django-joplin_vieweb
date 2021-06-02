@@ -13,18 +13,19 @@ html, body {
     font-size: larger;
     font-weight: 550;
     margin-left: -10px;
-    margin-top: 10px;
+    padding-top: 10px;
     padding-bottom: 3px;
     flex-grow: 0;
+    cursor: pointer;
 }
 .notebook_header {
     color: white;
     border-bottom: 1px dotted white;
+    margin-bottom: 2px;
+    background-image: linear-gradient(to bottom, #646060, #313640, #313640, #313640);
 }
 #side_ctn {
     background-color: #313640;
-    flex-grow: 0;
-    flex-shrink: 0;
     flex-basis: calc(15vw - 10px);
     height: 100%;
     padding-left: 10px;
@@ -33,11 +34,19 @@ html, body {
     align-items: stretch;
 }
 #notebooks_tree_ctn, #tags_ctn {
-    height: 50%;
+    min-height: 0; /* So that their children don't make the size heighter than the flex container (cf. https://css-tricks.com/flexbox-truncated-text/) */
+    display: flex;
+    flex-direction: column;
 }
-#notebooks_tree {
+#notebooks_tree_ctn {
+}
+#notebooks_tree, #tags {
     background-color: #313640;
-    
+    overflow: auto;
+    width: 100%
+}
+#notebooks_tree_inner {
+    padding-left: 10px;
 }
 #notes_list_ctn {
     background-color: #F4F5F6;

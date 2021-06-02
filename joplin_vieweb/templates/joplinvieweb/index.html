@@ -12,16 +12,17 @@
 <script src="{% static 'joplinvieweb/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/tree.jquery.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/joplinvieweb.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/side_accordion.js' %}"></script>
 <body onload="joplinvw_onload();">
 
 <div id="joplin_container">
     <div id="side_ctn">
         <div id="notebooks_tree_ctn">
-            <div class="notebook_header header">Notebooks</div>
-            <div id="notebooks_tree"></div>
+            <div class="notebook_header header"><i style="font-size: 0.8em;" class="fas fa-book"></i>&nbsp;&nbsp;&nbsp;Notebooks</div>
+            <div id="notebooks_tree"><div id="notebooks_tree_inner"></div></div>
         </div>
         <div id="tags_ctn">
-            <div class="notebook_header header">Tags</div>
+            <div class="notebook_header header"><i style="font-size: 0.8em;" class="fas fa-tags"></i>&nbsp;&nbsp;&nbsp;Tags</div>
             <div id="tags"></div>
         </div>
     </div>

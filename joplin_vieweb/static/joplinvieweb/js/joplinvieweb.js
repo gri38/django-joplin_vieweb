@@ -21,7 +21,8 @@ function clear_note() {
 }
 
 function display_notebooks_tree(data) {
-    $('#notebooks_tree').tree({
+    clear_progress($("#notebooks_tree_inner"));
+    $('#notebooks_tree_inner').tree({
         data: data,
         autoOpen: 1,
         autoEscape: false,
@@ -30,10 +31,10 @@ function display_notebooks_tree(data) {
     });
     
     // prevent unselection of notebook:
-    $('#notebooks_tree').bind(
+    $('#notebooks_tree_inner').bind(
         'tree.click',
         function(e) {
-            if ($('#notebooks_tree').tree('isNodeSelected', e.node)) {
+            if ($('#notebooks_tree_inner').tree('isNodeSelected', e.node)) {
                 e.preventDefault();
             }
         }
@@ -41,16 +42,16 @@ function display_notebooks_tree(data) {
 }
 
 function get_notebooks_from_server() {
-    display_progress($("#notebooks_tree"));
+    display_progress($("#notebooks_tree_inner"));
     $.getJSON(
     '/joplin/notebooks/',
     display_notebooks_tree
     )  .fail(function() {
-        clear_progress($("#notebooks_tree"));
+        clear_progress($("#notebooks_tree_inner"));
         console.log("error while getting notebooks ");
         $.get(
         '/joplin/notebooks_error/',
-        function(data) {$("#notebooks_tree").html(data);}
+        function(data) {$("#notebooks_tree_inner").html(data);}
         )
   });
 }
