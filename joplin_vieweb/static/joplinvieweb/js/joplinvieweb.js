@@ -1,3 +1,8 @@
+function joplinvw_onload() {
+    clear_note();
+    get_notebooks_from_server();
+    get_tags_from_server();
+}
 
 function display_progress(item) {
     item.addClass("center");
@@ -50,9 +55,24 @@ function get_notebooks_from_server() {
   });
 }
 
-function joplinvw_onload() {
-    clear_note();
-    get_notebooks_from_server();
+function display_tags(data) {
+    clear_progress($("#tags"));
+    $("#tags").html(data);
+}
+
+function get_tags_from_server() {
+    display_progress($("#tags"));
+    $.get(
+    '/joplin/tags/',
+    display_tags
+    )  .fail(function() {
+        clear_progress($("#tags"));
+        console.log("error while getting tags ");
+        $.get(
+        '/joplin/tags_error/',
+        function(data) {$("#tags").html(data);}
+        )
+  });
 }
 
 function display_notebook_notes(data) {

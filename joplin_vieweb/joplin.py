@@ -123,6 +123,19 @@ class Joplin:
         
         return html
         
+    def get_tags(self):
+        logging.debug("==== Tags ====")
+        self.joplin
+        tags = []
+        all_tags = json.loads(self.joplin.get_tags().text)
+        all_tags = all_tags["items"]
+        for one_tag in all_tags:
+            new_tag_metadata = NoteMetadata()
+            new_tag_metadata.id = one_tag["id"]
+            new_tag_metadata.name = one_tag["title"]
+            tags.append(new_tag_metadata)
+        logging.debug(tags)
+        return tags       
 
 
 if __name__ == "__main__":

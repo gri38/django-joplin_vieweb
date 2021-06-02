@@ -39,7 +39,7 @@ def note(request, note_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebooks_error(request):
     return render(request, 'joplinvieweb/notebooks_error.html', {})
-
+  
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebook_error(request, notebook_id):
     return render(request, 'joplinvieweb/notebook_error.html', {"notebook_id": notebook_id})
@@ -54,3 +54,14 @@ def joplin_ressource(request, ressource_path):
     response = HttpResponse(content=ressource_file)
 
     return response
+    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def tags_error(request):
+    return render(request, 'joplinvieweb/tags_error.html', {})
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def tags(request):
+    joplin = Joplin()
+    tags = joplin.get_tags()
+    return render(request, 'joplinvieweb/tags_list.html', {"tags": tags})
+    
