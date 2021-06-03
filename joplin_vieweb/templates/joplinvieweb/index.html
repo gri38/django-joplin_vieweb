@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/joplin.css' %}">
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/codehilite.css' %}">
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/awesomefonts.all.min.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/style-icomoon.css' %}">
 <script src="{% static 'joplinvieweb/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/tree.jquery.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/joplinvieweb.js' %}"></script>
@@ -18,11 +19,15 @@
 <div id="joplin_container">
     <div id="side_ctn">
         <div id="notebooks_tree_ctn">
-            <div class="notebook_header header"><i style="font-size: 0.8em;" class="fas fa-book"></i>&nbsp;&nbsp;&nbsp;Notebooks</div>
+            <div class="notebook_header header">
+            <span class="icon-s-book"></span>
+            &nbsp;&nbsp;Notebooks</div>
             <div id="notebooks_tree"><div id="notebooks_tree_inner"></div></div>
         </div>
         <div id="tags_ctn">
-            <div class="notebook_header header"><i style="font-size: 0.8em;" class="fas fa-tags"></i>&nbsp;&nbsp;&nbsp;Tags</div>
+            <div class="notebook_header header">
+            <span class="icon-s-tags"></span>
+            &nbsp;&nbsp;Tags</div>
             <div id="tags"></div>
         </div>
     </div>

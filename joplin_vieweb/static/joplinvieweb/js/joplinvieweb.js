@@ -26,8 +26,8 @@ function display_notebooks_tree(data) {
         data: data,
         autoOpen: 1,
         autoEscape: false,
-        closedIcon: $('<i class="fas fa-arrow-circle-right"></i>'),
-        openedIcon: $('<i class="fas fa-arrow-circle-down"></i>')
+        closedIcon: $('<span class="icon-arrow-circle-right"></span>'),
+        openedIcon: $('<span class="icon-arrow-circle-down"></span>')
     });
     
     // prevent unselection of notebook:
@@ -106,7 +106,7 @@ function display_note_body(data, note_name) {
         $("#note_view").find(".toc").remove();
     }
     else {
-        $("#note_view").find(".toc").append('<div class="toc_ctrl"><i onclick="toggle_toc(this);" class="fas fa-arrow-circle-down" /> <i onclick="$(\'.toc\').remove();" class="fas fa-times-circle" /></div>')
+        $("#note_view").find(".toc").append('<div class="toc_ctrl"><span onclick="toggle_toc(this);" class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>')
     }
 }
 
@@ -118,8 +118,8 @@ function display_note_error(data, note_name) {
 }
 
 function toggle_toc(item_toggle) {
-    $(item_toggle).toggleClass("fa-arrow-circle-down");
-    $(item_toggle).toggleClass("fa-arrow-circle-right");
+    $(item_toggle).toggleClass("icon-chevron-circle-down");
+    $(item_toggle).toggleClass("icon-chevron-circle-right");
     
     $(".toc ul").fadeToggle();
 }
