@@ -118,7 +118,7 @@ class Joplin:
         return note_body
         
     def get_note_html(self, note_id):
-        md_text = '[TOC]\n' + self.get_note_body(note_id)
+        md_text = '[TOC]\n\n' + self.get_note_body(note_id)
         html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite', 'toc'])
         
         return html
