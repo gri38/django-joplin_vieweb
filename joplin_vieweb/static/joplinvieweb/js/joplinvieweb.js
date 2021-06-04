@@ -19,9 +19,13 @@ function clear_selected_nb_tag(){
     clear_selected_tags();
 }
 
-function display_tag(tag_id) {
+function display_tag_from_click(item, tag_id) {
     clear_selected_nb_tag();
-    $(this).addClass("selected");
+    $(item).addClass("selected");
+    display_tag(tag_id);
+}
+
+function display_tag(tag_id) {
     clear_note();
     display_progress($("#notes_list"));
     

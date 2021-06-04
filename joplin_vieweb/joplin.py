@@ -84,13 +84,6 @@ class Joplin:
                 self.append_notebook(new_notebook, folders_by_parent_id)
                 
     def get_notes_metadata(self, notebook_id):
-        # notes_detail = json.loads(self.joplin.get_folders_notes(notebook_id).text)
-        # notes_detail = notes_detail["items"]
-        # for one_note in notes_detail:
-            # new_note_metadata = NoteMetadata()
-            # new_note_metadata.id = one_note["id"]
-            # new_note_metadata.name = one_note["title"]
-            # print(new_note_metadata)
         notes_metadata = []
         notes_detail = json.loads(self.joplin.get_notes_preview().text)
         notes_detail = notes_detail["items"]
@@ -101,6 +94,24 @@ class Joplin:
                 new_note_metadata.name = one_note["title"]
                 notes_metadata.append(new_note_metadata)
         return notes_metadata
+    
+    def get_notes_metadata_from_tag(self, tag_id):  
+        notes_metadata = []
+        notes_detail = json.loads(self.joplin.get_notes_preview().text)
+        notes_detail = notes_detail["items"]
+        for one_note in notes_detail:
+            one_note_tags = json.loads(self.joplin.get_notes_tags(one_note["id"]).text)
+            one_note_tags = one_note_tags["items"]
+            try:
+                next(tag for tag in one_note_tags if tag["id"] == tag_id)
+                new_note_metadata = NoteMetadata()
+                new_note_metadata.id = one_note["id"]
+                new_note_metadata.name = one_note["title"]
+                notes_metadata.append(new_note_metadata)
+            except:
+                pass # this note has not the target tag.
+        return notes_metadata
+   
         
     def get_note_body(self, note_id):
         note_body = json.loads(self.joplin.get_note(note_id).text)

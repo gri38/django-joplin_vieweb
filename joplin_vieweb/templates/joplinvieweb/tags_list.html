@@ -1,7 +1,7 @@
 {% if tags %}
     <ul>
     {% for one_tag in tags %}
-        <li onclick="display_tag('{{ one_tag.id }}');" class="tag_item" id="tag_item_{{ one_tag.id }}"><a><span class="icon-r-tag"></span>&nbsp;&nbsp;{{ one_tag.name }}</a></li>
+        <li onclick="display_tag_from_click(this, '{{ one_tag.id }}');" class="tag_item" id="tag_item_{{ one_tag.id }}"><a><span class="icon-r-tag"></span>&nbsp;&nbsp;{{ one_tag.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

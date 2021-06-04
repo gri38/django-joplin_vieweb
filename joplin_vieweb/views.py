@@ -72,6 +72,6 @@ def tags(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tag_notes(request, tag_id):
     joplin = Joplin()
-    notes_metadata = joplin.get_notes_metadata(notebook_id)
+    notes_metadata = joplin.get_notes_metadata_from_tag(tag_id)
     return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
     
