@@ -139,8 +139,14 @@ function display_note_body(data, note_name) {
         $("#note_view").find(".toc").remove();
     }
     else {
-        $("#note_view").find(".toc").append('<div class="toc_ctrl"><span onclick="toggle_toc(this);" class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>')
+        $("#note_view").find(".toc").append('<div class="toc_ctrl"><span onclick="toggle_toc(this);" class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
+        $("#note_view").find(".toc").prepend('<center style="display: none;" id="toc_title">Content</center>');
+        note_view_position = $('#note_view').position();
+        $(".toc").css("top", note_view_position.top);
+        $(".toc").css("right", "20px");
     }
+    
+    $('.toc').draggabilly({});
 }
 
 function display_note_error(data, note_name) {
@@ -154,7 +160,13 @@ function toggle_toc(item_toggle) {
     $(item_toggle).toggleClass("icon-chevron-circle-down");
     $(item_toggle).toggleClass("icon-chevron-circle-right");
     
-    $(".toc ul").fadeToggle();
+    state = $("#toc_title").css("display");
+    if (state == "none") {
+        $(".toc>ul").fadeToggle(function() {$("#toc_title").fadeToggle();});
+    }
+    else {
+        $("#toc_title").fadeToggle(function() {$(".toc>ul").fadeToggle();});
+    }
 }
 
 function display_note(note_id, note_name) {

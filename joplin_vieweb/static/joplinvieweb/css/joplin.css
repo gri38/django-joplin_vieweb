@@ -101,7 +101,7 @@ html, body {
 }
 #note_view_ctn {
     background-color: #FFFFFF;
-    flex-grow: 0;
+    flex-grow: 1;
     flex-shrink: 0;
     flex-basis: calc(70vw - 20px);
     height: 100%;
@@ -126,12 +126,13 @@ html, body {
     float: right;
     position: fixed;
     width: 25%;
-    right: 10px;
-    top: 100px;
+    right: 0px;
+    top: 0px;
     background: rgba(229, 232, 232, 0.8);
     border: 1px solid #0096d6;
     padding: 5px;
     min-height: 1em;
+    cursor: move;
 }
 .toc ul {
     list-style-type: none;
@@ -142,6 +143,12 @@ html, body {
     position: absolute;
     top: 0px;
     right: 0px;
+    cursor: pointer;
+}
+#toc_drag {
+    position: absolute;
+    top: 0px;
+    left: 10px;
 }
 /* a, a:hover, a:active, a:focus {
     text-decoration: none;
