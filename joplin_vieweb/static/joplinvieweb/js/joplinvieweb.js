@@ -14,6 +14,34 @@ function clear_progress(item) {
     item.removeClass("center");
 }
 
+function clear_selected_nb_tag(){
+    $(".jqtree-selected").removeClass("jqtree-selected");
+    clear_selected_tags();
+}
+
+function display_tag(tag_id) {
+    clear_selected_nb_tag();
+    $(this).addClass("selected");
+    clear_note();
+    display_progress($("#notes_list"));
+    
+    $.get(
+    '/joplin/tags/' + tag_id + "/notes",
+    display_notebook_notes
+    )  .fail(function() {
+        clear_progress($("#notes_list"));
+        console.log("error while getting notes of tag " + tag_id);
+        $.get(
+        '/joplin/tag_error/' + tag_id,
+        function(data) {$("#notes_list").html(data);}
+        )
+  });    
+}
+
+function clear_selected_tags() {
+    $(".tag_item").removeClass("selected");
+}
+
 function clear_note() {
     $("#note_view").removeClass("border_note");
     $("#note_view").html("");
@@ -82,6 +110,7 @@ function display_notebook_notes(data) {
 }
 
 function display_notebook(nb_id) {
+    clear_selected_nb_tag();
     clear_note();
     display_progress($("#notes_list"));
     $.get(

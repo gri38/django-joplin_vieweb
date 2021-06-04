@@ -5,6 +5,10 @@ ul.jqtree-tree {
     padding: 0;
 }
 
+ul.jqtree-tree > * {
+    outline: none;
+}
+
 
 
     ul.jqtree-tree.jqtree-dnd {
@@ -124,9 +128,14 @@ ul.jqtree-tree {
 
     ul.jqtree-tree li.jqtree-selected > .jqtree-element,
     ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
-        background-color: #131313;
+        /* background-color: #131313; */
+        color: #ff4411;
+        outline: none;
     }
-
+    
+    ul.jqtree-tree li.jqtree-selected >a {
+        outline: none;
+    }
     ul.jqtree-tree .jqtree-moving > .jqtree-element .jqtree-title {
         outline: dashed 1px #0000ff;
     }
@@ -186,6 +195,7 @@ span.jqtree-dragging {
 
 .jqtree-selected {
     color: white;
+    outline: none;
 }
 
 .jqtree-element:hover {

@@ -12,5 +12,7 @@ urlpatterns = [
     path('note/<note_id>/error/<note_name>', views.note_error, name='note error'),
     path('joplin_ressources/<ressource_path>', views.joplin_ressource, name='joplin ressource'),
     path('tags_error/', views.tags_error, name='tags error'),
+    path('tag_error/<tag_id>', views.tag_notes_error, name='tag notes error'),
     path('tags/', views.tags, name='list tags'),
+    path('tags/<tag_id>/notes', views.tag_notes, name='tag notes'),
 ]
