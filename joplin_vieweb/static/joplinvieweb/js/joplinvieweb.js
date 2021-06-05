@@ -130,7 +130,16 @@ function display_notebook(nb_id) {
   });
 }
 
-function display_note_body(data, note_name) {
+function display_note_tags(data) {
+    $("#note_view").prepend(data);
+}
+
+function display_note_body(data, note_name, note_id) {
+    $.get(
+        '/joplin/notes/' + note_id + "/tags",
+        display_note_tags
+    ) ;
+    
     clear_progress($("#note_view"));
     $(".note_view_header").html(note_name);
     $("#note_view").html(data);
@@ -142,7 +151,7 @@ function display_note_body(data, note_name) {
         $("#note_view").find(".toc").append('<div class="toc_ctrl"><span onclick="toggle_toc(this);" class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
         $("#note_view").find(".toc").prepend('<center style="display: none;" id="toc_title">Content</center>');
         note_view_position = $('#note_view').position();
-        $(".toc").css("top", note_view_position.top);
+        $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 17px)");
         $(".toc").css("right", "20px");
     }
     
@@ -177,7 +186,7 @@ function display_note(note_id, note_name) {
     
     $.get(
     '/joplin/notes/' + note_id + "/",
-    function(data) { display_note_body(data, note_name); }
+    function(data) { display_note_body(data, note_name, note_id); }
     )  .fail(function() {
         clear_progress($("#note_view"));
         console.log("error while getting note " + note_id );
@@ -185,5 +194,5 @@ function display_note(note_id, note_name) {
             '/joplin/note/' + note_id + "/error/" + encodeURIComponent(note_name),
             function(data) {display_note_error(data, note_name);}
         )
-  });
+  });  
 }

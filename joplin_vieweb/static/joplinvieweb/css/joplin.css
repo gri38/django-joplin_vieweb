@@ -168,6 +168,9 @@ html, body {
 #note_view a:not(.toc a):hover { color: #a03c21 }
 .border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
 
+.note_tag { border: 1px solid #979797; border-radius: 5px; padding-right: 2px; padding-left: 2px;}
+#note_tags { font-size: 0.8em; color: #868686; text-align: right; }
+
 .toc a, .toc a:hover, .toc a:active, .toc a:focus {
     color: #0A84FF;
     text-decoration: none;

@@ -9,6 +9,7 @@ urlpatterns = [
     path('notebooks_error/', views.notebooks_error, name='notebooks error'),
     path('notebooks/<notebook_id>/error/', views.notebook_error, name='notebook error'),
     path('notes/<note_id>/', views.note, name='note'),
+    path('notes/<note_id>/tags', views.note_tags, name='note'),
     path('note/<note_id>/error/<note_name>', views.note_error, name='note error'),
     path('joplin_ressources/<ressource_path>', views.joplin_ressource, name='joplin ressource'),
     path('tags_error/', views.tags_error, name='tags error'),

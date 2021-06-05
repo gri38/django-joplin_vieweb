@@ -134,6 +134,18 @@ class Joplin:
         
         return html
         
+    def get_note_tags(self, note_id):
+        note_tags = json.loads(self.joplin.get_notes_tags(note_id).text)
+        note_tags = note_tags["items"]
+        tags = []
+        for one_tag in note_tags:
+            new_tag_metadata = NoteMetadata()
+            new_tag_metadata.id = one_tag["id"]
+            new_tag_metadata.name = one_tag["title"]
+            tags.append(new_tag_metadata)
+        return tags       
+    
+        
     def get_tags(self):
         logging.debug("==== Tags ====")
         self.joplin

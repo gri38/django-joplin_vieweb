@@ -35,6 +35,14 @@ def note(request, note_id):
     joplin = Joplin()
     note_html = joplin.get_note_html(note_id)
     return HttpResponse(note_html)
+    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def note_tags(request, note_id):
+    joplin = Joplin()
+    note_tags = joplin.get_note_tags(note_id)
+    return render(request, 'joplinvieweb/note_tags.html', {"note_tags": note_tags})
+    
+    
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebooks_error(request):
