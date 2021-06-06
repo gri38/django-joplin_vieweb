@@ -19,7 +19,7 @@ It's running on a "Django server", running beside a configured & running [Joplin
 - code syntax highlight
 - Add a table of content if note contains headers
 - Display tags, and notes linked.
-### No it doesn't 💔
+### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
 - Create / edit / delete notes or tags
 - No specific handling for todos.
