@@ -117,7 +117,7 @@ class Joplin:
         note_body = json.loads(self.joplin.get_note(note_id).text)
         note_body = note_body["body"]
         
-        # change links to images:
+        # change links to images (markdown format)
         found = re.findall("\!\[([^]]+)\]\(:/([^)]+)\)", note_body)
 
         for ext, name in found:
@@ -125,6 +125,13 @@ class Joplin:
             note_body = note_body.replace(name, name + file_extension)
 
         note_body = note_body.replace("](:/", "](/joplin/joplin_ressources/")
+        
+        # change links to image (html format)
+        found = re.findall('<img src=":/([^"]+)" +alt="([^"]+)"', note_body)
+        for name, ext in found:
+            file_extension = pathlib.Path(ext).suffix
+            note_body = note_body.replace(name, name + file_extension)
+        note_body = note_body.replace('src=":/', 'src="/joplin/joplin_ressources/')
 
         return note_body
         
