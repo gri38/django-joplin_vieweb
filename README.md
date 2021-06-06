@@ -23,6 +23,7 @@ It's running on a "Django server", running beside a configured & running [Joplin
 - Sort notebooks nor notes
 - Create / edit / delete notes or tags
 - No specific handling for todos.
+- Search for notes or tags
 
 
 ## Installation, configuration
