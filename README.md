@@ -3,7 +3,7 @@ A simple web viewer for Joplin app
 [View on github](https://github.com/gri38/django-joplin_vieweb)
 
 ## Purpose
-I'm going to use Joplin as a note application (instead of OneNote).  
+I'm going to use Joplin as a notes application (instead of OneNote).  
 It's a long time I wanted for something like Joplin: opensource, not coupled to a web giant, and without illimited storage: storage has a price, we should pay for it.
 
 This quick dev is to provide an **online view of my Joplin notes**.  
