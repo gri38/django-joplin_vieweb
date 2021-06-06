@@ -10,7 +10,7 @@ This quick dev is to provide an **online view of my Joplin notes**.
 It's running on a "Django server", running beside a configured & running [Joplin terminal app](https://joplinapp.org/terminal/). 
 
 ## A screenshot
-![joplin-vieweb-screenshot](https://user-images.githubusercontent.com/26554495/119501066-cd16bd00-bd68-11eb-93a2-703da697f52b.png)
+![joplin-vieweb-screenshot](https://user-images.githubusercontent.com/26554495/120926743-7dc47b00-c6de-11eb-94d4-3e5e12a0f7bb.png)
 
 ## Features and not(-yet?) features
 ### Yes it does ❤
