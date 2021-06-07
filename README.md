@@ -16,6 +16,8 @@ It's running on a "Django server", running beside a configured & running [Joplin
 ### Yes it does ❤
 - Protect joplin-vieweb access by login
 - Display notebooks, and notes
+  - images
+  - attachments
 - code syntax highlight
 - Add a table of content if note contains headers
 - Display tags, and notes linked.
