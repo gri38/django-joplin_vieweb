@@ -78,3 +78,6 @@ Then:
 cd dev_server
 python manage.py runserver 0:8000
 ```
+
+## Thanks to azure for free domain name
+[![Nom de domaine](http://www.azote.org/pub/azote_120_60_bleu.gif)](https://www.azote.org/)
