@@ -118,7 +118,7 @@ class Joplin:
         note_body = note_body["body"]
         
         # change links to images (markdown format)
-        found = re.findall("\!\[([^]]+)\]\(:/([^)]+)\)", note_body)
+        found = re.findall("\[([^]]+)\]\(:/([^)]+)\)", note_body)
 
         for ext, name in found:
             file_extension = pathlib.Path(ext).suffix

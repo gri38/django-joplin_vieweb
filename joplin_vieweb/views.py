@@ -62,8 +62,20 @@ def note_error(request, note_id, note_name):
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def joplin_ressource(request, ressource_path):
-    ressource_file = open("/home/pi/.config/joplin/resources/" + ressource_path, 'rb')
-    response = HttpResponse(content=ressource_file)
+    from pathlib import Path
+    import mimetypes
+
+    try: 
+        mimetypes.init()
+        file_path = Path("/home/pi/.config/joplin/resources") / Path(ressource_path)
+        mime_type_guess = mimetypes.guess_type(file_path.name)
+        ressource_file = open("/home/pi/.config/joplin/resources/" + ressource_path, 'rb')
+        if mime_type_guess is not None:
+            response = HttpResponse(content=ressource_file, content_type=mime_type_guess[0])
+        else:
+            response = HttpResponse(content=ressource_file)
+    except IOError:
+        response = HttpResponseNotFound()
 
     return response
     
