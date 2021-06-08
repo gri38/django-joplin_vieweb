@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .joplin import Joplin, ReprJsonEncoder
 import logging
+from django.urls import reverse
+import markdown
 import json
 
 def conditional_decorator(dec, condition):
@@ -33,8 +35,22 @@ def notes(request, notebook_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id):
     joplin = Joplin()
-    note_html = joplin.get_note_html(note_id)
-    return HttpResponse(note_html)
+    
+    
+    note_body = joplin.get_note_body(note_id)
+    
+    # add the path to the joplin ressources in the img and attachments:
+    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={'ressource_path':'dontcare'})
+    # => /joplin/joplin_ressources/dontcare
+    path_to_ressources = path_to_ressources[:-len("dontcare")]
+
+    note_body = note_body.replace("](:/", "](" + path_to_ressources)
+    note_body = note_body.replace('src=":/', 'src="' + path_to_ressources)
+    
+    note_body = '[TOC]\n\n' + note_body
+    html = markdown.markdown(note_body, extensions=['fenced_code', 'codehilite', 'toc'])
+    
+    return HttpResponse(html)
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):

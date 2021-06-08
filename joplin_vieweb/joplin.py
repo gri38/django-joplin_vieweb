@@ -1,7 +1,6 @@
 from .joplin_api import JoplinApiSync
 import logging
 import json
-import markdown
 import re
 import pathlib
 from django.conf import settings
@@ -117,29 +116,23 @@ class Joplin:
         note_body = json.loads(self.joplin.get_note(note_id).text)
         note_body = note_body["body"]
         
-        # change links to images (markdown format)
+        # change links to images so they contain the name with the extension (markdown format)
         found = re.findall("\[([^]]+)\]\(:/([^)]+)\)", note_body)
 
         for ext, name in found:
             file_extension = pathlib.Path(ext).suffix
             note_body = note_body.replace(name, name + file_extension)
-
-        note_body = note_body.replace("](:/", "](/joplin/joplin_ressources/")
+            
         
-        # change links to image (html format)
+        
+        # change links to image so they contain the name with the extension (html format)
         found = re.findall('<img src=":/([^"]+)" +alt="([^"]+)"', note_body)
         for name, ext in found:
             file_extension = pathlib.Path(ext).suffix
             note_body = note_body.replace(name, name + file_extension)
-        note_body = note_body.replace('src=":/', 'src="/joplin/joplin_ressources/')
+        
 
         return note_body
-        
-    def get_note_html(self, note_id):
-        md_text = '[TOC]\n\n' + self.get_note_body(note_id)
-        html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite', 'toc'])
-        
-        return html
         
     def get_note_tags(self, note_id):
         note_tags = json.loads(self.joplin.get_notes_tags(note_id).text)
