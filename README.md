@@ -32,7 +32,11 @@ It's running on a "Django server", running beside a configured & running [Joplin
 1. Install [Joplin terminal](https://joplinapp.org/terminal/).  
 Configure it and start it.
 
-2.  Add "joplin_vieweb" to your INSTALLED_APPS settings.py like this:
+2. Install joplin-vieweb with `pip install django-joplin-vieweb`
+
+3. Create a django project and configure it:
+
+4.  Add "joplin_vieweb" to your INSTALLED_APPS settings.py like this:
    ```
    INSTALLED_APPS = [
        ...
@@ -40,7 +44,7 @@ Configure it and start it.
        ...
    ]
    ```
-3. Add some variable in your project settings.py:
+5. Add some variable in your project settings.py:
    ```
    # Joplin variables
    JOPLIN_SERVER_URL="http://127.0.0.1"
@@ -48,18 +52,18 @@ Configure it and start it.
    JOPLIN_SERVER_TOKEN="1234567890987654321"
    JOPLIN_LOGIN_REQUIRED=True # set to True only if you require a logged user for accessing the notes
    ```
-4. If you set JOPLIN_LOGIN_REQUIRED=True
+6. If you set JOPLIN_LOGIN_REQUIRED=True
    1. ```python manage.py migrate```
    2. ```python manage.py createsuperuser```
    3. Add the 'accounts/' path in urls.py (see next point)
 
-5. Include the joplin_vieweb URLconf in your project urls.py like this:
+7. Include the joplin_vieweb URLconf in your project urls.py like this:
    ```
        path('joplin/', include('joplin_vieweb.urls')),
        path('accounts/', include('django.contrib.auth.urls')), # only if JOPLIN_LOGIN_REQUIRED=True
    ```
 
-6. Start the development server and visit 
+8. Start the development server and visit 
    http://127.0.0.1:8000/joplin
 
 ## More advanced guides
