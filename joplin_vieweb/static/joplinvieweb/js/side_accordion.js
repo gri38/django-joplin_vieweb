@@ -3,7 +3,7 @@ $(document).ready(function() {
     $("#notebooks_tree_ctn").css("flex", "1 1 auto");
     $("#tags_ctn").css("flex", "0 0 auto");
     
-    $(".header").click(toggle_side);
+    $(".notebook_header").click(toggle_side);
 });
 
 function toggle_side() {
