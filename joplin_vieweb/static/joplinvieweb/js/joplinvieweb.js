@@ -1,18 +1,22 @@
-function joplinvw_onload() {
-    clear_note();
-    get_notebooks_from_server();
-    get_tags_from_server();
+class JoplinVieweb {
+    constructor() {
+        this.note_view = new NoteView();
+        this.side_bar = new SideBar();
+        
+        this.side_bar.on("notebook_selected", function(notebook_id) { alert(notebook_id); });
+    }
+    
+    init() {
+        this.note_view.clear();
+        this.side_bar.init();
+    }
 }
 
-function display_progress(item) {
-    item.addClass("center");
-    item.html(' <span class="helper_vertical_align"></span><img style="height: 32px;" src="/static/joplinvieweb/img/progress.gif" />');
-}
+var app = new JoplinVieweb();
 
-function clear_progress(item) {
-    item.html('');
-    item.removeClass("center");
-}
+$(window).on("load" , function() { app.init(); } );
+
+
 
 function clear_selected_nb_tag(){
     $(".jqtree-selected").removeClass("jqtree-selected");
@@ -50,62 +54,6 @@ function clear_note() {
     $("#note_view").removeClass("border_note");
     $("#note_view").html("");
     $(".note_view_header").html("...");
-}
-
-function display_notebooks_tree(data) {
-    clear_progress($("#notebooks_tree_inner"));
-    $('#notebooks_tree_inner').tree({
-        data: data,
-        autoOpen: 1,
-        autoEscape: false,
-        closedIcon: $('<span class="icon-arrow-circle-right"></span>'),
-        openedIcon: $('<span class="icon-arrow-circle-down"></span>')
-    });
-    
-    // prevent unselection of notebook:
-    $('#notebooks_tree_inner').bind(
-        'tree.click',
-        function(e) {
-            if ($('#notebooks_tree_inner').tree('isNodeSelected', e.node)) {
-                e.preventDefault();
-            }
-        }
-    );
-}
-
-function get_notebooks_from_server() {
-    display_progress($("#notebooks_tree_inner"));
-    $.getJSON(
-    '/joplin/notebooks/',
-    display_notebooks_tree
-    )  .fail(function() {
-        clear_progress($("#notebooks_tree_inner"));
-        console.log("error while getting notebooks ");
-        $.get(
-        '/joplin/notebooks_error/',
-        function(data) {$("#notebooks_tree_inner").html(data);}
-        )
-  });
-}
-
-function display_tags(data) {
-    clear_progress($("#tags"));
-    $("#tags").html(data);
-}
-
-function get_tags_from_server() {
-    display_progress($("#tags"));
-    $.get(
-    '/joplin/tags/',
-    display_tags
-    )  .fail(function() {
-        clear_progress($("#tags"));
-        console.log("error while getting tags ");
-        $.get(
-        '/joplin/tags_error/',
-        function(data) {$("#tags").html(data);}
-        )
-  });
 }
 
 function display_notebook_notes(data) {

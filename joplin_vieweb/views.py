@@ -27,7 +27,7 @@ def index(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebooks(request):
     joplin = Joplin()
-    data = json.dumps(joplin.rootNotebook.children_notebooks, cls=ReprJsonEncoder, indent=4)
+    data = json.dumps(joplin.rootNotebook.children, default=lambda o: o.__dict__, indent=4)
     return HttpResponse(data)
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
