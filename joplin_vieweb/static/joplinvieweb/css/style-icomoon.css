@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?1w328o');
-  src:  url('fonts/icomoon.eot?1w328o#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?1w328o') format('truetype'),
-    url('fonts/icomoon.woff?1w328o') format('woff'),
-    url('fonts/icomoon.svg?1w328o#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?k0p695');
+  src:  url('fonts/icomoon.eot?k0p695#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?k0p695') format('truetype'),
+    url('fonts/icomoon.woff?k0p695') format('woff'),
+    url('fonts/icomoon.svg?k0p695#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-document-file-html:before {
+  content: "\e90d";
+}
+.icon-times-circle:before {
+  content: "\e90a";
+}
+.icon-chevron-circle-down:before {
+  content: "\e901";
+}
+.icon-chevron-circle-up:before {
+  content: "\e902";
+}
+.icon-r-tag:before {
+  content: "\e900";
+}
+.icon-file-powerpoint-o:before {
+  content: "\e909";
+}
 .icon-refresh:before {
   content: "\e90c";
 }
@@ -52,21 +70,6 @@
 .icon-arrow-circle-left:before {
   content: "\e908";
 }
-.icon-times-circle-o:before {
-  content: "\e909";
-}
-.icon-times-circle:before {
-  content: "\e90a";
-}
-.icon-chevron-circle-down:before {
-  content: "\e901";
-}
-.icon-chevron-circle-up:before {
-  content: "\e902";
-}
-.icon-r-tag:before {
-  content: "\e900";
-}
 .icon-s-book:before {
   content: "\e91f";
 }
@@ -75,6 +78,27 @@
 }
 .icon-s-tags:before {
   content: "\e936";
+}
+.icon-file-empty:before {
+  content: "\e924";
+}
+.icon-file-text2:before {
+  content: "\e926";
+}
+.icon-file-picture:before {
+  content: "\e927";
+}
+.icon-file-music:before {
+  content: "\e928";
+}
+.icon-file-play:before {
+  content: "\e929";
+}
+.icon-file-video:before {
+  content: "\e92a";
+}
+.icon-file-zip:before {
+  content: "\e92b";
 }
 .icon-circle-up:before {
   content: "\ea41";
@@ -87,4 +111,19 @@
 }
 .icon-circle-left:before {
   content: "\ea44";
+}
+.icon-file-pdf:before {
+  content: "\eadf";
+}
+.icon-file-openoffice:before {
+  content: "\eae0";
+}
+.icon-file-word:before {
+  content: "\eae1";
+}
+.icon-file-excel:before {
+  content: "\eae2";
+}
+.icon-libreoffice:before {
+  content: "\eae3";
 }

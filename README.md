@@ -50,6 +50,7 @@ Configure it and start it.
    JOPLIN_SERVER_URL="http://127.0.0.1"
    JOPLIN_SERVER_PORT=41184
    JOPLIN_SERVER_TOKEN="1234567890987654321"
+   JOPLIN_RESSOURCES_PATH="/home/pi/.config/joplin/resources/"
    JOPLIN_LOGIN_REQUIRED=True # set to True only if you require a logged user for accessing the notes
    ```
 6. If you set JOPLIN_LOGIN_REQUIRED=True

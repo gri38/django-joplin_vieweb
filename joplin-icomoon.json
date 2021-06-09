@@ -9,16 +9,87 @@
       "selection": [
         {
           "order": 1,
+          "id": 0,
+          "prevSize": 32,
+          "code": 59661,
+          "name": "document-file-html",
+          "tempChar": ""
+        }
+      ],
+      "id": 5,
+      "metadata": {
+        "name": "Hawcons (subset)",
+        "url": "http://hawcons.com/",
+        "designerURL": "http://www.yanlu.de/",
+        "designer": "Yannick",
+        "licenseURL": "http://hawcons.com/faq/",
+        "license": "Custom",
+        "iconsHash": 2034246827,
+        "importSize": {
+          "width": 32,
+          "height": 32
+        }
+      },
+      "height": 1024,
+      "prevSize": 32,
+      "icons": [
+        {
+          "id": 0,
+          "paths": [
+            "M608 416h320.183c52.919 0 95.817 42.963 95.817 95.961v224.078c0 53.009-42.899 95.961-95.817 95.961h-320.183v64.295c0 34.963-28.617 63.705-63.918 63.705h-480.165c-35.408 0-63.918-28.759-63.918-64.235v-735.531c0-35.488 28.693-64.235 64.088-64.235h351.912l192 224v96zM576 832h-384.183c-52.919 0-95.817-42.963-95.817-95.961v-224.078c0-53.009 42.899-95.961 95.817-95.961h384.183v-64h-128.067c-35.309 0-63.933-28.37-63.933-64.189v-159.811h-320.142c-17.595 0-31.858 14.568-31.858 31.855v736.291c0 17.593 14.551 31.855 31.999 31.855h480.003c17.672 0 31.999-14.238 31.999-31.789v-64.211zM416 144v143.719c0 17.828 14.421 32.281 31.896 32.281h118.503l-150.398-176zM192.235 448c-35.476 0-64.235 28.806-64.235 63.745v224.511c0 35.205 28.747 63.745 64.235 63.745h735.531c35.476 0 64.235-28.806 64.235-63.745v-224.511c0-35.205-28.747-63.745-64.235-63.745h-735.531zM928 704v32h-160v-224h32v192h128zM448 544v192h32v-192h64v-32h-160v32h64zM320 608v-96h32v224h-32v-96h-96v96h-32v-224h32v96h96zM656 608l-48-96h-32v224h32v-160l32 64h32l32-64v160h32v-224h-32l-48 96z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "document-file-html"
+          ],
+          "grid": 32
+        }
+      ],
+      "invisible": false,
+      "colorThemes": []
+    },
+    {
+      "selection": [
+        {
+          "order": 1,
+          "id": 12,
+          "prevSize": 28,
+          "code": 59657,
+          "name": "file-powerpoint-o",
+          "tempChar": ""
+        },
+        {
+          "order": 1,
+          "id": 11,
+          "name": "refresh",
+          "prevSize": 28,
+          "code": 59660,
+          "tempChar": ""
+        },
+        {
+          "order": 26,
+          "id": 10,
+          "name": "repeat, rotate-right",
+          "prevSize": 28,
+          "code": 59659,
+          "tempChar": ""
+        },
+        {
+          "order": 0,
           "id": 9,
           "prevSize": 28,
           "code": 59657,
           "name": "times-circle-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
           "id": 8,
-          "prevSize": 28,
+          "prevSize": 32,
           "code": 59658,
           "name": "times-circle",
           "tempChar": ""
@@ -26,7 +97,7 @@
         {
           "order": 1,
           "id": 7,
-          "prevSize": 28,
+          "prevSize": 32,
           "code": 59649,
           "name": "chevron-circle-down",
           "tempChar": ""
@@ -34,7 +105,7 @@
         {
           "order": 2,
           "id": 6,
-          "prevSize": 28,
+          "prevSize": 32,
           "code": 59650,
           "name": "chevron-circle-up",
           "tempChar": ""
@@ -45,7 +116,7 @@
           "prevSize": 28,
           "code": 59651,
           "name": "chevron-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
@@ -53,7 +124,7 @@
           "prevSize": 28,
           "code": 59652,
           "name": "chevron-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
@@ -61,7 +132,7 @@
           "prevSize": 28,
           "code": 59653,
           "name": "arrow-circle-down",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 6,
@@ -69,7 +140,7 @@
           "prevSize": 28,
           "code": 59654,
           "name": "arrow-circle-up",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 7,
@@ -77,7 +148,7 @@
           "prevSize": 28,
           "code": 59655,
           "name": "arrow-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 8,
@@ -85,7 +156,7 @@
           "prevSize": 28,
           "code": 59656,
           "name": "arrow-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 4,
@@ -106,6 +177,55 @@
       "prevSize": 28,
       "icons": [
         {
+          "id": 12,
+          "paths": [
+            "M838.857 217.143c21.143 21.143 38.857 63.429 38.857 93.714v658.286c0 30.286-24.571 54.857-54.857 54.857h-768c-30.286 0-54.857-24.571-54.857-54.857v-914.286c0-30.286 24.571-54.857 54.857-54.857h512c30.286 0 72.571 17.714 93.714 38.857zM585.143 77.714v214.857h214.857c-3.429-9.714-8.571-19.429-12.571-23.429l-178.857-178.857c-4-4-13.714-9.143-23.429-12.571zM804.571 950.857v-585.143h-237.714c-30.286 0-54.857-24.571-54.857-54.857v-237.714h-438.857v877.714h731.429zM237.714 817.143v60.571h186.857v-60.571h-53.143v-95.429h78.286c24.571 0 46.857-1.143 67.429-8.571 51.429-17.714 83.429-70.857 83.429-133.143s-30.857-110.286-78.286-130.286c-21.714-8.571-48-10.857-74.286-10.857h-210.286v61.143h52.571v317.143h-52.571zM439.429 657.143h-68v-153.143h68.571c20 0 35.429 3.429 47.429 10.286 20.571 12 32 35.429 32 65.714 0 32-11.429 56.571-35.429 68.571-12 5.714-26.857 8.571-44.571 8.571z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 878,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "file-powerpoint-o"
+          ],
+          "grid": 14
+        },
+        {
+          "id": 11,
+          "paths": [
+            "M863.429 603.429c0 1.143 0 2.857-0.571 4-48.571 202.286-215.429 343.429-426.286 343.429-111.429 0-219.429-44-300.571-121.143l-73.714 73.714c-6.857 6.857-16 10.857-25.714 10.857-20 0-36.571-16.571-36.571-36.571v-256c0-20 16.571-36.571 36.571-36.571h256c20 0 36.571 16.571 36.571 36.571 0 9.714-4 18.857-10.857 25.714l-78.286 78.286c53.714 50.286 125.143 78.857 198.857 78.857 101.714 0 196-52.571 249.143-139.429 13.714-22.286 20.571-44 30.286-66.857 2.857-8 8.571-13.143 17.143-13.143h109.714c10.286 0 18.286 8.571 18.286 18.286zM877.714 146.286v256c0 20-16.571 36.571-36.571 36.571h-256c-20 0-36.571-16.571-36.571-36.571 0-9.714 4-18.857 10.857-25.714l78.857-78.857c-54.286-50.286-125.714-78.286-199.429-78.286-101.714 0-196 52.571-249.143 139.429-13.714 22.286-20.571 44-30.286 66.857-2.857 8-8.571 13.143-17.143 13.143h-113.714c-10.286 0-18.286-8.571-18.286-18.286v-4c49.143-202.857 217.714-343.429 428.571-343.429 112 0 221.143 44.571 302.286 121.143l74.286-73.714c6.857-6.857 16-10.857 25.714-10.857 20 0 36.571 16.571 36.571 36.571z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 878,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "refresh"
+          ],
+          "grid": 14
+        },
+        {
+          "id": 10,
+          "paths": [
+            "M877.714 146.286v256c0 20-16.571 36.571-36.571 36.571h-256c-14.857 0-28-9.143-33.714-22.857-5.714-13.143-2.857-29.143 8-39.429l78.857-78.857c-53.714-49.714-124.571-78.286-199.429-78.286-161.143 0-292.571 131.429-292.571 292.571s131.429 292.571 292.571 292.571c90.857 0 174.857-41.143 230.857-113.714 2.857-4 8-6.286 13.143-6.857 5.143 0 10.286 1.714 14.286 5.143l78.286 78.857c6.857 6.286 6.857 17.143 1.143 24.571-83.429 100.571-206.857 158.286-337.714 158.286-241.714 0-438.857-197.143-438.857-438.857s197.143-438.857 438.857-438.857c112.571 0 221.714 45.143 302.286 121.143l74.286-73.714c10.286-10.857 26.286-13.714 40-8 13.143 5.714 22.286 18.857 22.286 33.714z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 878,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "repeat",
+            "rotate-right"
+          ],
+          "grid": 14
+        },
+        {
           "id": 9,
           "paths": [
             "M626.857 616.571l-83.429 83.429c-7.429 7.429-18.857 7.429-26.286 0l-78.286-78.286-78.286 78.286c-7.429 7.429-18.857 7.429-26.286 0l-83.429-83.429c-7.429-7.429-7.429-18.857 0-26.286l78.286-78.286-78.286-78.286c-7.429-7.429-7.429-18.857 0-26.286l83.429-83.429c7.429-7.429 18.857-7.429 26.286 0l78.286 78.286 78.286-78.286c7.429-7.429 18.857-7.429 26.286 0l83.429 83.429c7.429 7.429 7.429 18.857 0 26.286l-78.286 78.286 78.286 78.286c7.429 7.429 7.429 18.857 0 26.286zM749.714 512c0-171.429-139.429-310.857-310.857-310.857s-310.857 139.429-310.857 310.857 139.429 310.857 310.857 310.857 310.857-139.429 310.857-310.857zM877.714 512c0 242.286-196.571 438.857-438.857 438.857s-438.857-196.571-438.857-438.857 196.571-438.857 438.857-438.857 438.857 196.571 438.857 438.857z"
@@ -119,7 +239,7 @@
           "tags": [
             "times-circle-o"
           ],
-          "grid": 14
+          "grid": 32
         },
         {
           "id": 8,
@@ -135,7 +255,7 @@
           "tags": [
             "times-circle"
           ],
-          "grid": 14
+          "grid": 32
         },
         {
           "id": 7,
@@ -151,7 +271,7 @@
           "tags": [
             "chevron-circle-down"
           ],
-          "grid": 14
+          "grid": 32
         },
         {
           "id": 6,
@@ -167,7 +287,7 @@
           "tags": [
             "chevron-circle-up"
           ],
-          "grid": 14
+          "grid": 32
         },
         {
           "id": 5,
@@ -277,7 +397,7 @@
           "prevSize": 32,
           "code": 59648,
           "name": "r-tag",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 3,
@@ -329,27 +449,27 @@
           "name": "s-book",
           "order": 10,
           "id": 0,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59679,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "price-tag",
           "name": "s-tag",
           "order": 14,
           "id": 1,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59701,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "price-tags",
           "name": "s-tags",
           "order": 13,
           "id": 2,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59702,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 2,
@@ -683,8 +803,11 @@
         {
           "ligatures": "file-empty, file3",
           "name": "file-empty",
-          "order": 0,
-          "id": 37
+          "order": 28,
+          "id": 37,
+          "prevSize": 28,
+          "code": 59684,
+          "tempChar": ""
         },
         {
           "ligatures": "files-empty, files",
@@ -695,38 +818,56 @@
         {
           "ligatures": "file-text2, file4",
           "name": "file-text2",
-          "order": 0,
-          "id": 39
+          "order": 29,
+          "id": 39,
+          "prevSize": 28,
+          "code": 59686,
+          "tempChar": ""
         },
         {
           "ligatures": "file-picture, file5",
           "name": "file-picture",
-          "order": 0,
-          "id": 40
+          "order": 30,
+          "id": 40,
+          "prevSize": 28,
+          "code": 59687,
+          "tempChar": ""
         },
         {
           "ligatures": "file-music, file6",
           "name": "file-music",
-          "order": 0,
-          "id": 41
+          "order": 31,
+          "id": 41,
+          "prevSize": 28,
+          "code": 59688,
+          "tempChar": ""
         },
         {
           "ligatures": "file-play, file7",
           "name": "file-play",
-          "order": 0,
-          "id": 42
+          "order": 32,
+          "id": 42,
+          "prevSize": 28,
+          "code": 59689,
+          "tempChar": ""
         },
         {
           "ligatures": "file-video, file8",
           "name": "file-video",
-          "order": 0,
-          "id": 43
+          "order": 33,
+          "id": 43,
+          "prevSize": 28,
+          "code": 59690,
+          "tempChar": ""
         },
         {
           "ligatures": "file-zip, file9",
           "name": "file-zip",
-          "order": 0,
-          "id": 44
+          "order": 34,
+          "id": 44,
+          "prevSize": 28,
+          "code": 59691,
+          "tempChar": ""
         },
         {
           "ligatures": "copy, duplicate",
@@ -2397,36 +2538,36 @@
           "name": "circle-up",
           "order": 18,
           "id": 322,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59969,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-right, right5",
           "name": "circle-right",
           "order": 15,
           "id": 323,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59970,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-down, down3",
           "name": "circle-down",
           "order": 16,
           "id": 324,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59971,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-left, left5",
           "name": "circle-left",
           "order": 17,
           "id": 325,
-          "prevSize": 32,
+          "prevSize": 28,
           "code": 59972,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "tab, arrows",
@@ -3361,32 +3502,47 @@
         {
           "ligatures": "file-pdf, file10",
           "name": "file-pdf",
-          "order": 0,
-          "id": 480
+          "order": 35,
+          "id": 480,
+          "prevSize": 28,
+          "code": 60127,
+          "tempChar": ""
         },
         {
           "ligatures": "file-openoffice, file11",
           "name": "file-openoffice",
-          "order": 0,
-          "id": 481
+          "order": 36,
+          "id": 481,
+          "prevSize": 28,
+          "code": 60128,
+          "tempChar": ""
         },
         {
           "ligatures": "file-word, file12",
           "name": "file-word",
-          "order": 0,
-          "id": 482
+          "order": 37,
+          "id": 482,
+          "prevSize": 28,
+          "code": 60129,
+          "tempChar": ""
         },
         {
           "ligatures": "file-excel, file13",
           "name": "file-excel",
-          "order": 0,
-          "id": 483
+          "order": 39,
+          "id": 483,
+          "prevSize": 28,
+          "code": 60130,
+          "tempChar": ""
         },
         {
           "ligatures": "libreoffice, file14",
           "name": "libreoffice",
-          "order": 0,
-          "id": 484
+          "order": 38,
+          "id": 484,
+          "prevSize": 28,
+          "code": 60131,
+          "tempChar": ""
         },
         {
           "ligatures": "html-five, w3c",
@@ -10951,7 +11107,8 @@
     },
     "historySize": 50,
     "showCodes": true,
-    "gridSize": 16
+    "gridSize": 16,
+    "showGrid": false
   },
   "uid": -1
 }

@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: Tahoma, sans-serif;
+    font-size: 0.9em;
 }
 #joplin_container {
     display: flex;
@@ -164,7 +165,7 @@ html, body {
 #note_view h5 { color: #ff4411; font-size: 1em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h6 { color: #ff4411; font-size: 0.9em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; color: #666; }
-#note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s; text-decoration: underline;}
+#note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s;}
 #note_view a:not(.toc a):hover { color: #a03c21 }
 #note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
 .border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
@@ -181,3 +182,9 @@ html, body {
 .icon-refresh {
     cursor: pointer;
 }
+.attachment_link { display: inline-block; text-align: center; text-decoration: none; cursor: pointer;}
+.attachment_link span { font-size: 32px; }
+.attachment_link:link { text-decoration: none; }
+.attachment_link:visited { text-decoration: none; }
+.attachment_link:hover { text-decoration: none; }
+.attachment_link:active { text-decoration: none; }

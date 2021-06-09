@@ -7,6 +7,10 @@ import logging
 from django.urls import reverse
 import markdown
 import json
+from bs4 import BeautifulSoup 
+from pathlib import Path
+import mimetypes
+from .utils import mimetype_to_icon
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -34,14 +38,10 @@ def notes(request, notebook_id):
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id):
-    joplin = Joplin()
-    
-    
-    note_body = joplin.get_note_body(note_id)
+    note_body = Joplin().get_note_body(note_id)
     
     # add the path to the joplin ressources in the img and attachments:
-    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={'ressource_path':'dontcare'})
-    # => /joplin/joplin_ressources/dontcare
+    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={'ressource_path':'dontcare'}) # => /joplin/joplin_ressources/dontcare
     path_to_ressources = path_to_ressources[:-len("dontcare")]
 
     note_body = note_body.replace("](:/", "](" + path_to_ressources)
@@ -49,6 +49,19 @@ def note(request, note_id):
     
     note_body = '[TOC]\n\n' + note_body
     html = markdown.markdown(note_body, extensions=['fenced_code', 'codehilite', 'toc'])
+    
+    # Finally we set an attachment image to the attachments.
+    # We search for <a href="/joplin/joplin_ressources">
+    soup = BeautifulSoup(html)
+    for link in soup.findAll('a'):
+        if path_to_ressources in link.get('href'):
+            mime_type_guess = mimetypes.guess_type(link.get('href'))
+            img = soup.new_tag("span", **{'class':mimetype_to_icon(mime_type_guess)})
+            br = soup.new_tag("br")
+            link.insert(0, br)
+            link.insert(0, img)
+            link['class'] = link.get('class', []) + ['attachment_link']
+    html = str(soup)
     
     return HttpResponse(html)
     
@@ -78,14 +91,11 @@ def note_error(request, note_id, note_name):
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def joplin_ressource(request, ressource_path):
-    from pathlib import Path
-    import mimetypes
-
     try: 
-        mimetypes.init()
-        file_path = Path("/home/pi/.config/joplin/resources") / Path(ressource_path)
+        ressources_path = settings.JOPLIN_RESSOURCES_PATH
+        file_path = Path(ressources_path) / Path(ressource_path)
         mime_type_guess = mimetypes.guess_type(file_path.name)
-        ressource_file = open("/home/pi/.config/joplin/resources/" + ressource_path, 'rb')
+        ressource_file = open(file_path, 'rb')
         if mime_type_guess is not None:
             response = HttpResponse(content=ressource_file, content_type=mime_type_guess[0])
         else:
