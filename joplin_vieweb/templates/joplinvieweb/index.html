@@ -11,21 +11,24 @@
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/style-icomoon.css' %}">
 <script src="{% static 'joplinvieweb/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/tree.jquery.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/utils.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/NotesList.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/SideBar.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/NoteView.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/joplinvieweb.js' %}"></script>
-<script src="{% static 'joplinvieweb/js/side_accordion.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/draggabilly.pkgd.min.js' %}"></script>
-<body onload="joplinvw_onload();">
+<body>
 
 <div id="joplin_container">
     <div id="side_ctn">
         <div id="notebooks_tree_ctn">
-            <div class="notebook_header header">
+            <div class="accordion_header header">
             <span class="icon-s-book"></span>
             &nbsp;&nbsp;Notebooks</div>
             <div id="notebooks_tree"><div id="notebooks_tree_inner"></div></div>
         </div>
         <div id="tags_ctn">
-            <div class="notebook_header header">
+            <div class="accordion_header header">
             <span class="icon-s-tags"></span>
             &nbsp;&nbsp;Tags</div>
             <div id="tags"></div>

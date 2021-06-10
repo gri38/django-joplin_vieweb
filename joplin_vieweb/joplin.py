@@ -7,25 +7,16 @@ from django.conf import settings
 
 
 class Notebook():
-
-    
     def __init__(self):
         self.id = "NO_ID"
-        self.title = "NO_TITLE"
-        self.children_notebooks = []
-        self.notes = []
+        self.name = "NO_TITLE"
+        self.children = []
         
     def __str__(self):
-        return "{} [{}]\n    {}".format(self.title, self.id, str(self.children_notebooks))
+        return "{} [{}]\n    {}".format(self.name, self.id, str(self.children))
         
     def __repr__(self):
-        return self.__str__()
-        
-    def reprJSON(self):
-    # should be on front side, but I do what I want ;-)
-        return dict(name="""<a onclick="display_notebook('""" + self.id + """');">""" + self.title + "</a>", children=self.children_notebooks) 
-        
-        
+        return self.__str__() 
 
 class ReprJsonEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -51,7 +42,7 @@ class Joplin:
         self.joplin = JoplinApiSync(settings.JOPLIN_SERVER_TOKEN, **joplin_api_conf)
         self.rootNotebook = Notebook()
         self.rootNotebook.id = ""
-        self.rootNotebook.title = "ROOT NOTEBOOK"
+        self.rootNotebook.name = "ROOT NOTEBOOK"
         self.parse_notebooks()
         logging.debug("Init parse result: =============\n" + str(self.rootNotebook))
         
@@ -78,8 +69,8 @@ class Joplin:
             for one_folder in folders_by_parent_id[notebook.id]:
                 new_notebook = Notebook()
                 new_notebook.id = one_folder["id"]
-                new_notebook.title = one_folder["title"]
-                notebook.children_notebooks.append(new_notebook)
+                new_notebook.name = one_folder["title"]
+                notebook.children.append(new_notebook)
                 self.append_notebook(new_notebook, folders_by_parent_id)
                 
     def get_notes_metadata(self, notebook_id):
@@ -164,10 +155,10 @@ class Joplin:
 if __name__ == "__main__":
     nb1 = Notebook()
     nb1.id="id1"
-    nb1.title="tite1"
+    nb1.name="tite1"
     nb2 = Notebook()
     nb2.id="id2"
-    nb2.title="tite2"
-    nb1.children_notebooks.append(nb2)
+    nb2.name="tite2"
+    nb1.children.append(nb2)
    
-    print(json.dumps([nb1], cls=ReprJsonEncoder, indent=4))
+    print(json.dumps([nb1], default=lambda o: o.__dict__, indent=4))

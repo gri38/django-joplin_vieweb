@@ -19,7 +19,7 @@ html, body {
     flex-grow: 0;
     cursor: pointer;
 }
-.notebook_header {
+.accordion_header {
     color: white;
     border-bottom: 1px dotted white;
     margin-bottom: 2px;
