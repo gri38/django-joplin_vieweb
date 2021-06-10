@@ -1,7 +1,7 @@
 {% if notes_metadata %}
     <ul>
     {% for one_note in notes_metadata %}
-        <li class="note_item" id="note_item_{{ one_note.id }}"><a onclick="display_note('{{ one_note.id }}', '{{ one_note.name }}');">{{ one_note.name }}</a></li>
+        <li class="note_item" data-note-id="{{ one_note.id }}" data-note-name="{{ one_note.name }}"><a>{{ one_note.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

@@ -16,13 +16,7 @@ class Notebook():
         return "{} [{}]\n    {}".format(self.name, self.id, str(self.children))
         
     def __repr__(self):
-        return self.__str__()
-        
-    def reprJSON(self):
-    # should be on front side, but I do what I want ;-)
-        return dict(name="""<a onclick="display_notebook('""" + self.id + """');">""" + self.name + "</a>", children=self.children) 
-        
-        
+        return self.__str__() 
 
 class ReprJsonEncoder(json.JSONEncoder):
     def default(self, obj):
