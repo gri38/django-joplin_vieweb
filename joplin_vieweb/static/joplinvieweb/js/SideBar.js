@@ -141,7 +141,15 @@ class SideBar extends EventEmitter{
      *
      */
     udpate_sync_data(data) {
-        $("#sync").html(data);
+        if (data != "ongoing") {
+            $("#sync_action").find("div").removeClass("animated rotate_sync");
+            $("#sync_action").removeClass("animated");
+            $("#sync-data").html("Last: " + data);
+        }
+        else {
+            $("#sync_action").find("div").addClass("animated rotate_sync");
+            $("#sync_action").addClass("animated");
+        }
     }
     
     /**

@@ -25,6 +25,9 @@ html, body {
     margin-bottom: 2px;
     background-image: linear-gradient(to bottom, #646060, #313640, #313640, #313640);
 }
+.accordion-inner {
+    height: 100%
+}
 #side_ctn {
     background-color: #313640;
     flex-basis: calc(15vw - 10px);
@@ -40,7 +43,7 @@ html, body {
 }
 #notebooks_tree_ctn {
 }
-#notebooks_tree, #tags {
+#notebooks_tree, #tags, #sync {
     background-color: #313640;
     overflow: auto;
     width: 100%;
@@ -65,6 +68,50 @@ html, body {
 }
 #notebooks_tree_inner {
     padding-left: 10px;
+}
+#sync {
+    text-align: center;
+}
+#sync_action {
+    font-size: 1.5em;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 2px 20px 2px 20px;
+}
+#sync_action:not(.animated) {
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px lightgrey;
+}
+@keyframes rotate_sync {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg) ;
+	}
+}
+.animated {
+	-webkit-animation-duration: 4s;
+	animation-duration: 4s;
+ 	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+   animation-iteration-count:infinite;
+   animation-timing-function: linear;
+
+}
+.rotate_sync {
+animation-name: rotate_sync;
+}
+#sync_action:not(.animated):hover {
+    cursor: pointer;
+}
+#sync_action.animated:hover {
+    cursor: default;
+}
+#sync_action:not(.animated):active {
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 0 0;
 }
 #notes_list_ctn {
     background-color: #F4F5F6;
@@ -179,7 +226,7 @@ html, body {
     outline: 0;
     border: 0;
 }
-.icon-refresh {
+.icon-refresh:not(.animated) {
     cursor: pointer;
 }
 .attachment_link { display: inline-block; text-align: center; text-decoration: none; cursor: pointer;}

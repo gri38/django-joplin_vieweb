@@ -25,20 +25,23 @@
             <div class="accordion_header header">
             <span class="icon-s-book"></span>
             &nbsp;&nbsp;Notebooks</div>
-            <div id="notebooks_tree"><div id="notebooks_tree_inner"></div></div>
+            <div class="accordion-inner" id="notebooks_tree"><div id="notebooks_tree_inner"></div></div>
         </div>
         <div id="tags_ctn">
             <div class="accordion_header header">
             <span class="icon-s-tags"></span>
             &nbsp;&nbsp;Tags</div>
-            <div id="tags"></div>
+            <div class="accordion-inner" id="tags"></div>
         </div>
         {% if sync_enable %}
         <div id="sync_ctn">
             <div class="accordion_header header">
             <span class="icon-refresh"></span>
             &nbsp;&nbsp;Synchronisation</div>
-            <div id="sync">toto</div>
+            <div class="accordion-inner" id="sync">
+            <div id="sync-data"></div>
+            <div id="sync_action"><div class="icon-refresh"></div></div>
+            </div>
         </div>
         {% endif %}
     </div>
