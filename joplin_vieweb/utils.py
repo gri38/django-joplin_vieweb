@@ -1,3 +1,11 @@
+from django.conf import settings
+from pathlib import Path
+import os
+import datetime
+import logging
+import time
+import threading
+
 def mimetype_to_icon(mimetype):
     type2icon = {
         'image': 'file-picture',
@@ -36,3 +44,32 @@ def mimetype_to_icon(mimetype):
             return "icon-" + icon_name
     return 'icon-file-empty'
     
+def sync_enable():
+    return hasattr(settings, 'JOPLIN_SYNC_PERIOD_S')
+    
+def start_synchronize_joplin():
+    if sync_enable():
+        logging.info("Start joplin periodic synchro ({}s)".format(settings.JOPLIN_SYNC_PERIOD_S))
+        threading.Thread(target=synchronize_joplin, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
+    else:
+        logging.info("No joplin periodic synchro")
+    
+    
+def synchronize_joplin(period_s, info_file):
+    while True:
+        sync_info = Path(info_file)
+        
+        with open(sync_info, "w") as content:
+            content.write("ongoing")
+            
+        os.system("joplin sync")
+        
+        last_synchro = datetime.datetime.now().strftime("%d %b %Y %H:%M")
+        
+        with open(sync_info, "w") as content:
+            content.write(last_synchro)
+            
+        logging.debug("Joplin synchro done")
+        
+        time.sleep(period_s)
+   

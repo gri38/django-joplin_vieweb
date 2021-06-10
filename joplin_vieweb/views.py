@@ -10,7 +10,7 @@ import json
 from bs4 import BeautifulSoup 
 from pathlib import Path
 import mimetypes
-from .utils import mimetype_to_icon
+from .utils import mimetype_to_icon, sync_enable
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -22,7 +22,7 @@ def conditional_decorator(dec, condition):
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def index(request):
-    return render(request, 'joplinvieweb/index.html', dict())
+    return render(request, 'joplinvieweb/index.html', {"sync_enable": sync_enable()})
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebooks(request):
@@ -120,4 +120,15 @@ def tag_notes(request, tag_id):
     joplin = Joplin()
     notes_metadata = joplin.get_notes_metadata_from_tag(tag_id)
     return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
+    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def sync_data(request):
+    sync_info = "N/A"
+    try:
+        with open(settings.JOPLIN_SYNC_INFO_FILE, "r") as sync_info_content:
+            sync_info = sync_info_content.read()
+    except:
+        logging.error("cannot read synchro file " + settings.JOPLIN_SYNC_INFO_FILE)
+        
+    return HttpResponse(sync_info)
     

@@ -1,3 +1,5 @@
+
+
 /**
  * Emits: 
  * - 'notebook_selected', param: notebook_id
@@ -12,7 +14,7 @@ class SideBar extends EventEmitter{
      * Retrieve the notebooks and tags from server.
      */
     init() {
-        //
+        this.sync_polling = null;
         this.init_accordion();
         
         // Gets notebooks and tags from server to display them
@@ -136,33 +138,123 @@ class SideBar extends EventEmitter{
     }
     
     /**
+     *
+     */
+    udpate_sync_data(data) {
+        $("#sync").html(data);
+    }
+    
+    /**
      * fold tags (so they are hidden.
      * Register the click on accordion headers.
      */
     init_accordion() {
-        $("#tags").toggle();
-        $("#notebooks_tree_ctn").css("flex", "1 1 auto");
-        $("#tags_ctn").css("flex", "0 0 auto");
+        this.accordion_opened = {
+            "#notebooks_tree_ctn": true,
+            "#tags_ctn": true,
+            "#sync_ctn": true
+        };
         
-        $(".accordion_header").on("click", () => { this.toggle_accordion(); });
+        $("#notebooks_tree_ctn").css("flex", "1 1 auto");
+        this.accordion_close("#tags_ctn", "#tags");
+        this.accordion_close("#sync_ctn", "#sync");
+        
+        $(".accordion_header").on("click", (ev) => { this.toggle_accordion(ev); });
     }
     
     /**
-     * Toggle one element of accordion
+     * Toogle the part if it's open. Nothing if already closed.
      */
-    toggle_one_accordion_part(elmt_ctn, elmt) {
-        let g1 = elmt_ctn.css("flex-grow");
-        let s1 = elmt_ctn.css("flex-shrink");
-        elmt.toggle(400);
-        elmt_ctn.css("flex-grow", (g1 == "1") ? "0" : "1");
-        elmt_ctn.css("flex-shrink", (s1 == "1") ? "0" : "1");
+    accordion_close(elmt_ctn, elmt) {
+        if (!$(elmt_ctn).length){
+            return; // If synchro is not present.
+        }
+        
+        if (this.accordion_opened[elmt_ctn] == false) {
+            return; // already opened.
+        } 
+        
+        if (elmt_ctn == "#sync_ctn") {
+            if (this.sync_polling != null) {
+                this.sync_polling.stop();
+            }
+            this.sync_polling= null;
+        }
+        
+        this.accordion_opened[elmt_ctn] = false;         
+        $(elmt_ctn).css("flex", "0 1 auto");
+        $(elmt).toggle(400);
+    }
+    
+    /**
+     * Toogle the part if it's closed. Nothing if already opened.
+     */
+    accordion_open(elmt_ctn, elmt) {
+        if (!$(elmt_ctn).length){
+            return; // If synchro is not present.
+        }
+        
+        if (this.accordion_opened[elmt_ctn] == true) {
+            return; // already opened.
+        }
+        
+        if (elmt_ctn == "#sync_ctn") {
+            this.sync_polling = new SyncPolling();
+            this.sync_polling.on("sync_data", (data) => { this.udpate_sync_data(data) });
+        }
+            
+        this.accordion_opened[elmt_ctn] = true;         
+        $(elmt_ctn).css("flex", "1 1 auto");
+        $(elmt).toggle(400);
     }
     
     /**
      * Toggle parts of accordion
      */
-    toggle_accordion() {
-        this.toggle_one_accordion_part($("#notebooks_tree_ctn"), $("#notebooks_tree"));
-        this.toggle_one_accordion_part($("#tags_ctn"), $("#tags"));
+    toggle_accordion(ev) {
+        let parent_id = $(ev.currentTarget).parent().attr('id');
+        if (parent_id == "notebooks_tree_ctn") {
+            this.accordion_open("#notebooks_tree_ctn", "#notebooks_tree");
+            this.accordion_close("#tags_ctn", "#tags");
+            this.accordion_close("#sync_ctn", "#sync");
+        }
+        else if (parent_id == "tags_ctn") {
+            this.accordion_close("#notebooks_tree_ctn", "#notebooks_tree");
+            this.accordion_open("#tags_ctn", "#tags");
+            this.accordion_close("#sync_ctn", "#sync");
+        }
+        else if (parent_id == "sync_ctn") {
+            this.accordion_close("#notebooks_tree_ctn", "#notebooks_tree");
+            this.accordion_close("#tags_ctn", "#tags");
+            this.accordion_open("#sync_ctn", "#sync");
+        }
+    }
+}
+
+/**
+ * Emit: 'sync_data', param: html of sync data.
+ */
+class SyncPolling extends EventEmitter {
+    constructor() {
+        super();
+        this.enable = true;
+        this.poll();
+    }
+    
+    poll() {
+        $.get(
+        '/joplin/sync/',
+        (data) => { super.emit('sync_data', data) }
+        ).fail(() => {
+            console.log("error while getting sync data");
+        });
+        
+        if (this.enable == true) {
+            setTimeout(() => {this.poll();}, 3000);
+        }
+    }
+    
+    stop() {
+        this.enable = false;
     }
 }

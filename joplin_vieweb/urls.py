@@ -18,4 +18,5 @@ urlpatterns = [
     path('tag_error/<tag_id>', views.tag_notes_error, name='tag notes error'),
     path('tags/', views.tags, name='list tags'),
     path('tags/<tag_id>/notes', views.tag_notes, name='tag notes'),
+    path('sync/', views.sync_data, name='get synch data'),
 ]
