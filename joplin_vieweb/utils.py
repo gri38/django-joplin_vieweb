@@ -50,26 +50,24 @@ def sync_enable():
 def start_synchronize_joplin():
     if sync_enable():
         logging.info("Start joplin periodic synchro ({}s)".format(settings.JOPLIN_SYNC_PERIOD_S))
-        threading.Thread(target=synchronize_joplin, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
+        threading.Thread(target=synchronize_joplin_loop, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
     else:
         logging.info("No joplin periodic synchro")
     
     
-def synchronize_joplin(period_s, info_file):
+def synchronize_joplin_loop(period_s, info_file):
     while True:
-        sync_info = Path(info_file)
-        
-        with open(sync_info, "w") as content:
-            content.write("ongoing")
-            
-        os.system("joplin sync")
-        
-        last_synchro = datetime.datetime.now().strftime("%d %b %Y %H:%M")
-        
-        with open(sync_info, "w") as content:
-            content.write(last_synchro)
-            
-        logging.debug("Joplin synchro done")
-        
+        joplin_sync(info_file)
         time.sleep(period_s)
+        
+def joplin_sync(info_file):
+    logging.debug("+++++++++++++++++-> Start Joplin synchro")
+    sync_info = Path(info_file)
+    with open(sync_info, "w") as content:
+        content.write("ongoing")
+    os.system("joplin sync")
+    last_synchro = datetime.datetime.now().strftime("%d %b %Y %H:%M")
+    with open(sync_info, "w") as content:
+        content.write(last_synchro)
+    logging.debug("------------------> Joplin synchro done")
    

@@ -40,13 +40,13 @@ class Joplin:
                               'JOPLIN_WEBCLIPPER': settings.JOPLIN_SERVER_PORT,
                           }
         self.joplin = JoplinApiSync(settings.JOPLIN_SERVER_TOKEN, **joplin_api_conf)
+        self.rootNotebook = None
+        
+    def parse_notebooks(self):
         self.rootNotebook = Notebook()
         self.rootNotebook.id = ""
         self.rootNotebook.name = "ROOT NOTEBOOK"
-        self.parse_notebooks()
-        logging.debug("Init parse result: =============\n" + str(self.rootNotebook))
         
-    def parse_notebooks(self):
         folders = json.loads(self.joplin.get_folders().text)
         folders = folders["items"]
         folders_by_id = { folder["id"]: folder for folder in folders }
@@ -139,7 +139,6 @@ class Joplin:
         
     def get_tags(self):
         logging.debug("==== Tags ====")
-        self.joplin
         tags = []
         all_tags = json.loads(self.joplin.get_tags().text)
         all_tags = all_tags["items"]

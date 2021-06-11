@@ -10,7 +10,8 @@ import json
 from bs4 import BeautifulSoup 
 from pathlib import Path
 import mimetypes
-from .utils import mimetype_to_icon, sync_enable
+from .utils import mimetype_to_icon, sync_enable, joplin_sync
+import threading
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -27,6 +28,7 @@ def index(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notebooks(request):
     joplin = Joplin()
+    joplin.parse_notebooks();
     data = json.dumps(joplin.rootNotebook.children, default=lambda o: o.__dict__, indent=4)
     return HttpResponse(data)
     
@@ -131,4 +133,12 @@ def sync_data(request):
         logging.error("cannot read synchro file " + settings.JOPLIN_SYNC_INFO_FILE)
         
     return HttpResponse(sync_info)
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def do_sync(request):
+    task = threading.Thread(target=joplin_sync, args=(settings.JOPLIN_SYNC_INFO_FILE,))
+    task.daemon = True
+    task.start()
+    return HttpResponse("coucou")
+
     

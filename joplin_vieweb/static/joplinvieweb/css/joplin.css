@@ -28,6 +28,9 @@ html, body {
 .accordion-inner {
     height: 100%
 }
+/* .readonly {
+    color: grey;
+} */
 #side_ctn {
     background-color: #313640;
     flex-basis: calc(15vw - 10px);
@@ -83,6 +86,30 @@ html, body {
     border-radius: 5px;
     box-shadow: 1px 1px 1px lightgrey;
 }
+@keyframes header_readonly {
+  0% {
+  		opacity: 1;
+		transform:  rotateY(0deg);
+        color: white;
+	}
+    100% {
+    opacity: 1;
+    transform: rotateY(180deg);
+    color: grey;
+    }
+}
+@keyframes header_back {
+  0% {
+  		opacity: 1;
+		transform:  rotateY(180deg);
+        color: grey;
+	}
+    100% {
+    opacity: 1;
+    transform: rotateY(360deg);
+    color: white;
+    }
+}
 @keyframes rotate_sync {
 	from {
 		transform: rotate(0deg);
@@ -98,10 +125,23 @@ html, body {
 	animation-fill-mode: both;
    animation-iteration-count:infinite;
    animation-timing-function: linear;
-
+   color: #ff4411;
+}
+.animated_header {
+    -webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
+ 	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+   animation-timing-function: linear;
 }
 .rotate_sync {
 animation-name: rotate_sync;
+}
+.header_back {
+    animation-name: header_back;
+}
+.header_readonly {
+    animation-name: header_readonly;
 }
 #sync_action:not(.animated):hover {
     cursor: pointer;

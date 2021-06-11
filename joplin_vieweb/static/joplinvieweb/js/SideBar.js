@@ -4,6 +4,7 @@
  * Emits: 
  * - 'notebook_selected', param: notebook_id
  * - 'tag_selected', param: tag_id
+ * - 'sync_over' when a joplin synch has finished.
  */
 class SideBar extends EventEmitter{
     constructor() {
@@ -16,8 +17,16 @@ class SideBar extends EventEmitter{
     init() {
         this.sync_polling = null;
         this.init_accordion();
+        this.reload();
         
-        // Gets notebooks and tags from server to display them
+        // a callback to be able to removeListener.        
+        this.reload_side_bar_after_sync_handler = () => { this.reload_after_sync(); };
+    }
+    
+    /**
+     * (re)Load bookmarks and tags from server and display them.
+     */
+    reload() {
         this.get_notebooks_from_server();
         this.get_tags_from_server();
     }
@@ -49,6 +58,7 @@ class SideBar extends EventEmitter{
     display_notebooks_tree(data) {
         clear_progress($("#notebooks_tree_inner"));
         let tree = $('#notebooks_tree_inner');
+        tree.tree("destroy");
         tree.tree({
             data: data,
             autoOpen: 0,
@@ -140,16 +150,63 @@ class SideBar extends EventEmitter{
     /**
      *
      */
-    udpate_sync_data(data) {
-        if (data != "ongoing") {
-            $("#sync_action").find("div").removeClass("animated rotate_sync");
-            $("#sync_action").removeClass("animated");
-            $("#sync-data").html("Last: " + data);
+    udpate_sync_started() {
+        $("#sync_action").off("click");
+        $("#sync_action").find("div").addClass("animated rotate_sync");
+        $("#sync_action").addClass("animated");
+    }
+    
+    /**
+     *
+     */
+    udpate_sync_over(data) {
+        $("#sync_action").off("click");
+        $("#sync_action").on("click",  () => { this.trig_joplin_sync(); });
+        $("#sync_action").find("div").removeClass("animated rotate_sync");
+        $("#sync_action").removeClass("animated");
+        $("#sync-data").html("Last: " + data);
+    }
+    
+    /**
+     *
+     */
+    reload_after_sync() {
+        console.log("reload after sync");
+        this.not_sync_header_back();
+        if (this.sync_polling != null) {
+            this.sync_polling.removeListener("sync_over", this.reload_side_bar_after_sync_handler);
         }
-        else {
-            $("#sync_action").find("div").addClass("animated rotate_sync");
-            $("#sync_action").addClass("animated");
+        
+        this.reload();
+    }
+         
+    /**
+     *
+     */
+    trig_joplin_sync() {
+        console.log("Ask a joplin synchro");
+        $("#sync_action").off("click");
+        if (this.sync_polling != null) {
+            this.sync_polling.on("sync_over", this.reload_side_bar_after_sync_handler);
+            this.sync_polling.pause_emit();
+            this.not_sync_header_readonly();
         }
+        this.udpate_sync_started();
+        $.get(
+        '/joplin/sync/do',
+        () => {
+                if (this.sync_polling != null) {
+                    this.sync_polling.resume_emit();
+              }            
+        }
+        ).fail(() => {
+            this.not_sync_header_back();
+            if (this.sync_polling != null) {
+                    this.resume_emit();
+              }  
+            console.log("error while trigging sync");
+            this.udpate_sync_over("failed to trig sync");
+        });
     }
     
     /**
@@ -167,7 +224,40 @@ class SideBar extends EventEmitter{
         this.accordion_close("#tags_ctn", "#tags");
         this.accordion_close("#sync_ctn", "#sync");
         
+        this.enable_header_click();
+    }
+    
+    /**
+     *
+     */
+    enable_header_click() {
         $(".accordion_header").on("click", (ev) => { this.toggle_accordion(ev); });
+    }
+    
+    
+    /**
+     *
+     */
+    disable_header_click() {
+        $(".accordion_header").off("click");
+    }
+    
+    /**
+     *
+     */
+    not_sync_header_readonly() {
+        this.disable_header_click()
+        $(".not_sync_header").removeClass("animated_header header_back");
+        $(".not_sync_header").addClass("animated_header header_readonly");
+    }
+    
+    /**
+     *
+     */
+    not_sync_header_back() {
+        this.enable_header_click()
+        $(".not_sync_header").removeClass("animated_header header_readonly");
+        $(".not_sync_header").addClass("animated_header header_back");
     }
     
     /**
@@ -183,10 +273,7 @@ class SideBar extends EventEmitter{
         } 
         
         if (elmt_ctn == "#sync_ctn") {
-            if (this.sync_polling != null) {
-                this.sync_polling.stop();
-            }
-            this.sync_polling= null;
+            this.delete_sync_info_polling();
         }
         
         this.accordion_opened[elmt_ctn] = false;         
@@ -207,13 +294,31 @@ class SideBar extends EventEmitter{
         }
         
         if (elmt_ctn == "#sync_ctn") {
-            this.sync_polling = new SyncPolling();
-            this.sync_polling.on("sync_data", (data) => { this.udpate_sync_data(data) });
+            this.create_sync_info_polling();
         }
             
         this.accordion_opened[elmt_ctn] = true;         
         $(elmt_ctn).css("flex", "1 1 auto");
         $(elmt).toggle(400);
+    }
+    
+    /**
+     *
+     */
+    create_sync_info_polling() {
+        this.sync_polling = new SyncPolling();
+        this.sync_polling.on("sync_started", () => { this.udpate_sync_started() });
+        this.sync_polling.on("sync_over", (data) => { this.udpate_sync_over(data) });
+    }
+    
+    /**
+     *
+     */
+    delete_sync_info_polling() {
+        if (this.sync_polling != null) {
+            this.sync_polling.stop();
+        }
+        this.sync_polling= null;
     }
     
     /**
@@ -240,19 +345,26 @@ class SideBar extends EventEmitter{
 }
 
 /**
- * Emit: 'sync_data', param: html of sync data.
+ * Emit:
+ * - 'sync_started'
+ * - 'sync_over', param: last sync date
  */
 class SyncPolling extends EventEmitter {
     constructor() {
         super();
         this.enable = true;
+        this.sync_ongoing = true;
+        this.pause = false;
         this.poll();
     }
     
+    /**
+     *
+     */
     poll() {
         $.get(
         '/joplin/sync/',
-        (data) => { super.emit('sync_data', data) }
+        (data) => { this.process_sync_data(data); }
         ).fail(() => {
             console.log("error while getting sync data");
         });
@@ -262,6 +374,45 @@ class SyncPolling extends EventEmitter {
         }
     }
     
+    /**
+     * We don't pause the pollin, but sto emitting the polling result.
+     */
+    pause_emit() {
+        this.pause = true;
+    }
+    
+    /**
+     * resule emitting polling info.
+     */
+    resume_emit() {
+        this.pause = false;
+    }
+     
+    /**
+     *
+     */
+    process_sync_data(data) {
+        if (data == "ongoing") {
+            if (this.sync_ongoing == false) {
+                this.sync_ongoing = true;
+                if (this.pause == false) {
+                    super.emit('sync_started')
+                }
+            }
+        }
+        else {
+            if (this.sync_ongoing == true) {
+                this.sync_ongoing = false;
+                if (this.pause == false) {
+                    super.emit('sync_over', data);
+                }
+            }
+        }
+    }
+    
+    /**
+     *
+     */
     stop() {
         this.enable = false;
     }
