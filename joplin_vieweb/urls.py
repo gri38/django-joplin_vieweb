@@ -1,5 +1,5 @@
 from django.urls import path
-
+from .utils import start_synchronize_joplin
 from . import views
 
 app_name = 'joplin'
@@ -21,3 +21,7 @@ urlpatterns = [
     path('sync/', views.sync_data, name='get synch data'),
     path('sync/do', views.do_sync, name='joplin synchro'),
 ]
+
+
+# One time launched code
+start_synchronize_joplin()
