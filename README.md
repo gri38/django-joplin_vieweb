@@ -23,6 +23,7 @@ It's running on a "Django server", running beside a configured & running [Joplin
 - Add a table of content if note contains headers
 - Display tags, and notes linked.
 - Joplin sync:
+  - ![image](https://user-images.githubusercontent.com/26554495/121716272-1d6b7a00-cae0-11eb-9f39-d01b81d15d1f.png)
   - Background periodic joplin sync
   - Manual trigged sync, with notebooks and tag refresh
 ### No it doesn't (yet?) 💔
