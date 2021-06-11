@@ -21,6 +21,9 @@ It's running on a "Django server", running beside a configured & running [Joplin
 - code syntax highlight
 - Add a table of content if note contains headers
 - Display tags, and notes linked.
+- Joplin sync:
+  - Background periodic joplin sync
+  - Manual trigged sync, with notebooks and tag refresh
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
 - Create / edit / delete notes or tags
@@ -52,6 +55,8 @@ Configure it and start it.
    JOPLIN_SERVER_TOKEN="1234567890987654321"
    JOPLIN_RESSOURCES_PATH="/home/pi/.config/joplin/resources/"
    JOPLIN_LOGIN_REQUIRED=True # set to True only if you require a logged user for accessing the notes
+   JOPLIN_SYNC_PERIOD_S=86400 # once a day
+   JOPLIN_SYNC_INFO_FILE="/home/pi/.config/joplin/joplin_vieweb_sync_info"
    ```
 6. If you set JOPLIN_LOGIN_REQUIRED=True
    1. ```python manage.py migrate```
