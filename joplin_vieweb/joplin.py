@@ -103,9 +103,10 @@ class Joplin:
         return notes_metadata
    
         
-    def get_note_body(self, note_id):
-        note_body = json.loads(self.joplin.get_note(note_id).text)
-        note_body = note_body["body"]
+    def get_note_body_name(self, note_id):
+        note = json.loads(self.joplin.get_note(note_id).text)
+        note_body = note["body"]
+        note_name = note["title"]
         
         # change links to images so they contain the name with the extension (markdown format)
         found = re.findall("\[([^]]+)\]\(:/([^)]+)\)", note_body)
@@ -123,7 +124,7 @@ class Joplin:
             note_body = note_body.replace(name, name + file_extension)
         
 
-        return note_body
+        return (note_body, note_name)
         
     def get_note_tags(self, note_id):
         note_tags = json.loads(self.joplin.get_notes_tags(note_id).text)

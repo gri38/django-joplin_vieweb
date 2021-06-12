@@ -17,9 +17,9 @@ html, body {
     padding-top: 10px;
     padding-bottom: 3px;
     flex-grow: 0;
-    cursor: pointer;
 }
 .accordion_header {
+    cursor: pointer;
     color: white;
     border-bottom: 1px dotted white;
     margin-bottom: 2px;
@@ -68,6 +68,11 @@ html, body {
 } */
 .tag_item.selected>a{
     color: #ff4411;
+}
+.public_link {
+    float: left;
+    font-size: 1.5em;
+    text-decoration: none;
 }
 #notebooks_tree_inner {
     padding-left: 10px;
@@ -232,6 +237,12 @@ animation-name: rotate_sync;
     top: 0px;
     right: 0px;
     cursor: pointer;
+    width: 100%
+    text-align: right;
+}
+#number_btn {
+    margin-right: 20px;
+    font-size: 1.2em;
 }
 #toc_drag {
     position: absolute;

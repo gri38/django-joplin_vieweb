@@ -40,11 +40,16 @@ def notes(request, notebook_id):
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id):
-    note_body = Joplin().get_note_body(note_id)
+    return HttpResponse(note_body_name(note_id)[0])
+
+def note_body_name(note_id, public=False):
+    note_body, note_name = Joplin().get_note_body_name(note_id)
     
     # add the path to the joplin ressources in the img and attachments:
     path_to_ressources = reverse('joplin:joplin_ressource', kwargs={'ressource_path':'dontcare'}) # => /joplin/joplin_ressources/dontcare
     path_to_ressources = path_to_ressources[:-len("dontcare")]
+    if public:
+        path_to_ressources = path_to_ressources + "public/"
 
     note_body = note_body.replace("](:/", "](" + path_to_ressources)
     note_body = note_body.replace('src=":/', 'src="' + path_to_ressources)
@@ -64,8 +69,23 @@ def note(request, note_id):
             link.insert(0, img)
             link['class'] = link.get('class', []) + ['attachment_link']
     html = str(soup)
+    return (html, note_name)
+ 
+def public_note(request, note_id):
+    joplin = Joplin()
+    tags = joplin.get_note_tags(note_id)
+    if "public" in [tag.name for tag in tags] :
+        return render(request, 'joplinvieweb/public_note.html', {"note_id": note_id})
+    return HttpResponse("not a public note")
     
-    return HttpResponse(html)
+def public_note_data(request, note_id):
+    joplin = Joplin()
+    tags = joplin.get_note_tags(note_id)
+    if "public" in [tag.name for tag in tags] :
+        body, name = note_body_name(note_id, public=True)
+    return HttpResponse(json.dumps({"name": name, "body": body}))
+
+    
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):
@@ -93,6 +113,9 @@ def note_error(request):
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def joplin_ressource(request, ressource_path):
+    return joplin_public_ressource(request, ressource_path)
+
+def joplin_public_ressource(request, ressource_path):
     try: 
         ressources_path = settings.JOPLIN_RESSOURCES_PATH
         file_path = Path(ressources_path) / Path(ressource_path)
@@ -107,6 +130,7 @@ def joplin_ressource(request, ressource_path):
 
     return response
     
+
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tags_error(request):
     return render(request, 'joplinvieweb/tags_error.html', {})

@@ -1,5 +1,7 @@
 class NoteView {
     constructor() {
+        this.current_note_id = null;
+        this.current_note_name = null;
     }
   
     /**
@@ -9,6 +11,8 @@ class NoteView {
         $("#note_view").removeClass("border_note");
         $("#note_view").html("");
         $(".note_view_header").html("...");
+        this.current_note_id = null;
+        this.current_note_name = null;
     }
     
     /**
@@ -21,6 +25,8 @@ class NoteView {
         $.get(
         '/joplin/notes/' + note_id + "/",
         (data) => {
+                    this.current_note_id = note_id;
+                    this.current_note_name = note_name;
                     this.get_note_tags(note_id);
                     this.display_note(data, note_name);
                   }
@@ -49,17 +55,35 @@ class NoteView {
             $("#note_view").find(".toc").remove();
         }
         else {
-            $("#note_view").find(".toc").append('<div class="toc_ctrl"><span id="toggle_toc_btn"  class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
+            $("#note_view").find(".toc").append('<div class="toc_ctrl"><span id="number_btn">#</span><span id="toggle_toc_btn"  class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
             $("#note_view").find(".toc").prepend('<center style="display: none;" id="toc_title">Content</center>');
             let note_view_position = $('#note_view').position();
             $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 17px)");
             $(".toc").css("right", "20px");
+            this.number_displayed = false;
+            $("#number_btn").on("click", (ev) => this.toggle_number());
             $("#toggle_toc_btn").on("click", (ev) => this.toggle_toc(ev));
         }
         
         $('.toc').draggabilly({});
     }
     
+    /**
+     *
+     */
+    toggle_number() {
+        if (this.number_displayed) {
+            remove_css_file(number_header_css_path);
+        }
+        else {
+            load_css_file(number_header_css_path);
+        }
+        this.number_displayed = !this.number_displayed;
+    }
+    
+    /**
+     *
+     */
     display_note_error(data, note_name) {
         clear_progress($("#note_view"));
         $(".note_view_header").html(note_name);
@@ -82,6 +106,9 @@ class NoteView {
      */
     display_note_tags(data) {
         $("#note_view").prepend(data);
+        if (data.includes(">public<")) {
+            $("#note_tags").prepend('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>')
+        }
     }
     
     /**

@@ -1,0 +1,43 @@
+body {
+counter-reset: h1counter h2counter h3counter h4counter h5counter h6counter;
+}
+#note_view h1 {
+    counter-set: h2counter;
+}
+#note_view h1:before {
+    content: counter(h1counter) ".\0000a0\0000a0";
+    counter-increment: h1counter;
+}
+#note_view h2 {
+    counter-set: h3counter;
+}
+#note_view h2:before {
+    content: counter(h1counter) "." counter(h2counter) ".\0000a0\0000a0";
+    counter-increment: h2counter;
+}
+#note_view h3 {
+    counter-set: h4counter;
+}
+#note_view h3:before {
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+    counter-increment: h3counter;
+}
+#note_view h4 {
+    counter-set: h5counter;
+}
+#note_view h4:before {
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0\0000a0";
+    counter-increment: h4counter;
+}
+#note_view h5 {
+    counter-set: h6counter;
+}
+#note_view h5:before {
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) ".\0000a0\0000a0";
+    counter-increment: h5counter;
+}
+
+#note_view h6:before {
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter)  "." counter(h6counter) ".\0000a0\0000a0";
+    counter-increment: h6counter;
+}
