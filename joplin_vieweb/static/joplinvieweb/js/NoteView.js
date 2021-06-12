@@ -1,5 +1,7 @@
 class NoteView {
     constructor() {
+        this.current_note_id = null;
+        this.current_note_name = null;
     }
   
     /**
@@ -9,6 +11,8 @@ class NoteView {
         $("#note_view").removeClass("border_note");
         $("#note_view").html("");
         $(".note_view_header").html("...");
+        this.current_note_id = null;
+        this.current_note_name = null;
     }
     
     /**
@@ -21,6 +25,8 @@ class NoteView {
         $.get(
         '/joplin/notes/' + note_id + "/",
         (data) => {
+                    this.current_note_id = note_id;
+                    this.current_note_name = note_name;
                     this.get_note_tags(note_id);
                     this.display_note(data, note_name);
                   }
@@ -83,7 +89,7 @@ class NoteView {
     display_note_tags(data) {
         $("#note_view").prepend(data);
         if (data.includes(">public<")) {
-            $("#note_tags").prepend('<span class="icon-link public_link">')
+            $("#note_tags").prepend('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>')
         }
     }
     
