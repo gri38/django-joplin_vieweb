@@ -82,6 +82,9 @@ class NoteView {
      */
     display_note_tags(data) {
         $("#note_view").prepend(data);
+        if (data.includes(">public<")) {
+            $("#note_tags").prepend('<span class="icon-link public_link">')
+        }
     }
     
     /**

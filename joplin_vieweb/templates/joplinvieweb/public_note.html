@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Joplin Vieweb</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/joplin.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/codehilite.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/style-icomoon.css' %}">
+<script src="{% static 'joplinvieweb/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/utils.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/NoteView.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/draggabilly.pkgd.min.js' %}"></script>
+<script>
+$(window).on("load" , get_note );
+function get_note() {
+$.getJSON(
+        '/joplin/notes/public/data/{{ note_id}}',
+        (data) => {
+            note_view = new NoteView();
+            note_view.display_note(data["body"], data["name"]);
+        }
+        ).fail(() => {alert("fail");})
+}
+
+</script>
+<body>
+
+    <div id="note_view_ctn">
+        <div class="note_view_header header"></div>
+        <div id="note_view"></div>
+    </div>
+
+</body>
+</html> 

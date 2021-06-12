@@ -1828,8 +1828,11 @@
         {
           "ligatures": "link, chain",
           "name": "link",
-          "order": 0,
-          "id": 204
+          "order": 40,
+          "id": 204,
+          "prevSize": 28,
+          "code": 59851,
+          "tempChar": ""
         },
         {
           "ligatures": "flag, report",
@@ -2540,7 +2543,7 @@
           "id": 322,
           "prevSize": 28,
           "code": 59969,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-right, right5",
@@ -2549,7 +2552,7 @@
           "id": 323,
           "prevSize": 28,
           "code": 59970,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-down, down3",
@@ -2558,7 +2561,7 @@
           "id": 324,
           "prevSize": 28,
           "code": 59971,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-left, left5",
@@ -2567,7 +2570,7 @@
           "id": 325,
           "prevSize": 28,
           "code": 59972,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "tab, arrows",
@@ -3506,7 +3509,7 @@
           "id": 480,
           "prevSize": 28,
           "code": 60127,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-openoffice, file11",
@@ -3515,7 +3518,7 @@
           "id": 481,
           "prevSize": 28,
           "code": 60128,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-word, file12",
@@ -3524,7 +3527,7 @@
           "id": 482,
           "prevSize": 28,
           "code": 60129,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-excel, file13",
@@ -3533,7 +3536,7 @@
           "id": 483,
           "prevSize": 28,
           "code": 60130,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "libreoffice, file14",
@@ -3542,7 +3545,7 @@
           "id": 484,
           "prevSize": 28,
           "code": 60131,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "html-five, w3c",

@@ -17,9 +17,9 @@ html, body {
     padding-top: 10px;
     padding-bottom: 3px;
     flex-grow: 0;
-    cursor: pointer;
 }
 .accordion_header {
+    cursor: pointer;
     color: white;
     border-bottom: 1px dotted white;
     margin-bottom: 2px;
@@ -68,6 +68,10 @@ html, body {
 } */
 .tag_item.selected>a{
     color: #ff4411;
+}
+.public_link {
+    float: left;
+    font-size: 1.5em;
 }
 #notebooks_tree_inner {
     padding-left: 10px;
