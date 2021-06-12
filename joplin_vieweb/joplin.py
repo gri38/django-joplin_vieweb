@@ -138,17 +138,18 @@ class Joplin:
         return tags       
     
         
-    def get_tags(self):
-        logging.debug("==== Tags ====")
+    def get_tags_with_note(self):
         tags = []
         all_tags = json.loads(self.joplin.get_tags().text)
         all_tags = all_tags["items"]
         for one_tag in all_tags:
-            new_tag_metadata = NoteMetadata()
-            new_tag_metadata.id = one_tag["id"]
-            new_tag_metadata.name = one_tag["title"]
-            tags.append(new_tag_metadata)
-        logging.debug(tags)
+            notes_preview = json.loads(self.joplin.get_tags_notes_preview(one_tag["id"]).text)
+            notes_preview = notes_preview["items"]
+            if notes_preview: # if one_tag has no note, we don't add it.
+                new_tag_metadata = NoteMetadata()
+                new_tag_metadata.id = one_tag["id"]
+                new_tag_metadata.name = one_tag["title"]
+                tags.append(new_tag_metadata)
         return tags       
 
 

@@ -138,7 +138,7 @@ def tags_error(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tags(request):
     joplin = Joplin()
-    tags = joplin.get_tags()
+    tags = joplin.get_tags_with_note()
     return render(request, 'joplinvieweb/tags_list.html', {"tags": tags})
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
