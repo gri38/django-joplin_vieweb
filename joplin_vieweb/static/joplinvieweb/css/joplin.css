@@ -237,6 +237,12 @@ animation-name: rotate_sync;
     top: 0px;
     right: 0px;
     cursor: pointer;
+    width: 100%
+    text-align: right;
+}
+#number_btn {
+    margin-right: 20px;
+    font-size: 1.2em;
 }
 #toc_drag {
     position: absolute;
