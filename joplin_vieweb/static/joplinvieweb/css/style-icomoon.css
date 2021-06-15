@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?u994uv');
-  src:  url('fonts/icomoon.eot?u994uv#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?u994uv') format('truetype'),
-    url('fonts/icomoon.woff?u994uv') format('woff'),
-    url('fonts/icomoon.svg?u994uv#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?p40eo5');
+  src:  url('fonts/icomoon.eot?p40eo5#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?p40eo5') format('truetype'),
+    url('fonts/icomoon.woff?p40eo5') format('woff'),
+    url('fonts/icomoon.svg?p40eo5#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,50 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-document-file-html:before {
-  content: "\e90d";
-}
-.icon-times-circle:before {
-  content: "\e90a";
-}
-.icon-chevron-circle-down:before {
-  content: "\e901";
-}
-.icon-chevron-circle-up:before {
-  content: "\e902";
-}
-.icon-r-tag:before {
-  content: "\e900";
-}
-.icon-file-powerpoint-o:before {
-  content: "\e909";
-}
-.icon-refresh:before {
-  content: "\e90c";
-}
-.icon-repeat:before {
-  content: "\e90b";
-}
-.icon-rotate-right:before {
-  content: "\e90b";
-}
-.icon-chevron-circle-right:before {
-  content: "\e903";
-}
-.icon-chevron-circle-left:before {
-  content: "\e904";
-}
-.icon-arrow-circle-down:before {
-  content: "\e905";
-}
-.icon-arrow-circle-up:before {
-  content: "\e906";
-}
-.icon-arrow-circle-right:before {
-  content: "\e907";
-}
-.icon-arrow-circle-left:before {
-  content: "\e908";
+.icon-hash:before {
+  content: "\e90e";
 }
 .icon-s-book:before {
   content: "\e91f";
@@ -129,4 +87,76 @@
 }
 .icon-libreoffice:before {
   content: "\eae3";
+}
+.icon-document-file-html:before {
+  content: "\e90d";
+}
+.icon-times-circle-o:before {
+  content: "\e90f";
+}
+.icon-times-circle:before {
+  content: "\e90a";
+}
+.icon-chevron-circle-down:before {
+  content: "\e901";
+}
+.icon-chevron-circle-up:before {
+  content: "\e902";
+}
+.icon-r-tag:before {
+  content: "\e900";
+}
+.icon-times-rectangle-o:before {
+  content: "\e915";
+}
+.icon-times-rectangle:before {
+  content: "\e916";
+}
+.icon-close:before {
+  content: "\e917";
+}
+.icon-check-circle-o:before {
+  content: "\e910";
+}
+.icon-check-square-o:before {
+  content: "\e911";
+}
+.icon-check-circle:before {
+  content: "\e912";
+}
+.icon-check-square:before {
+  content: "\e913";
+}
+.icon-check:before {
+  content: "\e914";
+}
+.icon-file-powerpoint-o:before {
+  content: "\e909";
+}
+.icon-refresh:before {
+  content: "\e90c";
+}
+.icon-repeat:before {
+  content: "\e90b";
+}
+.icon-rotate-right:before {
+  content: "\e90b";
+}
+.icon-chevron-circle-right:before {
+  content: "\e903";
+}
+.icon-chevron-circle-left:before {
+  content: "\e904";
+}
+.icon-arrow-circle-down:before {
+  content: "\e905";
+}
+.icon-arrow-circle-up:before {
+  content: "\e906";
+}
+.icon-arrow-circle-right:before {
+  content: "\e907";
+}
+.icon-arrow-circle-left:before {
+  content: "\e908";
 }
