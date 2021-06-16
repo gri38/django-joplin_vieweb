@@ -140,6 +140,12 @@ def tags(request):
     joplin = Joplin()
     tags = joplin.get_tags_with_note()
     return render(request, 'joplinvieweb/tags_list.html', {"tags": tags})
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def all_tags(request):
+    joplin = Joplin()
+    tags = joplin.get_tags()
+    return HttpResponse(json.dumps(tags))
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tag_notes(request, tag_id):

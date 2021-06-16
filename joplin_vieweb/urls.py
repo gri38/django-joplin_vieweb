@@ -20,6 +20,7 @@ urlpatterns = [
     path('tags_error/', views.tags_error, name='tags error'),
     path('tag_error/<tag_id>', views.tag_notes_error, name='tag notes error'),
     path('tags/', views.tags, name='list tags'),
+    path('tags/all', views.all_tags, name='list tags'),
     path('tags/<tag_id>/notes', views.tag_notes, name='tag notes'),
     path('sync/', views.sync_data, name='get synch data'),
     path('sync/do', views.do_sync, name='joplin synchro'),

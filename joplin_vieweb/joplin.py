@@ -135,13 +135,19 @@ class Joplin:
             new_tag_metadata.id = one_tag["id"]
             new_tag_metadata.name = one_tag["title"]
             tags.append(new_tag_metadata)
-        return tags       
-    
-        
-    def get_tags_with_note(self):
-        tags = []
+        return tags 
+
+    def get_tags(self):
+        """
+        Get all tags
+        """
         all_tags = json.loads(self.joplin.get_tags().text)
         all_tags = all_tags["items"]
+        return all_tags
+    
+    def get_tags_with_note(self):
+        tags = []
+        all_tags = self.get_tags()
         for one_tag in all_tags:
             notes_preview = json.loads(self.joplin.get_tags_notes_preview(one_tag["id"]).text)
             notes_preview = notes_preview["items"]

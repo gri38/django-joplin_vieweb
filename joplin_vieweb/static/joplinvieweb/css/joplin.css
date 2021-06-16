@@ -268,8 +268,30 @@ animation-name: rotate_sync;
 #note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
 .border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
 
+.edit>.note_tag:after { }
+.delete_tag { 
+    margin-left: 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: -3px;
+    cursor: pointer;
+    color: #ff6c6c;
+}
+.delete_tag:hover {
+    padding-right: 4px;
+    background-color: #FF6C6C;
+    border-right:  1px solid #ff2a2a;
+    border-top:  1px solid #ff2a2a;
+    border-bottom:  1px solid #ff2a2a;
+    color: white;
+    background-color: #ff6c6c;
+}
 .note_tag { border: 1px solid #979797; border-radius: 5px; padding-right: 2px; padding-left: 2px;}
 #note_tags { font-size: 0.8em; color: #868686; text-align: right; }
+#note_tags:not(.edit) .icon-s-tags { cursor: pointer; }
+#note_tags.edit { font-size: 1em; color: #464444; }
 
 .toc a, .toc a:hover, .toc a:active, .toc a:focus {
     color: #0A84FF;
