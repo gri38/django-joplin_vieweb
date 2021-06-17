@@ -64,7 +64,7 @@ class NoteView {
             $("#note_view").find(".toc").append('<div class="toc_ctrl"><span id="number_btn">#</span><span id="toggle_toc_btn"  class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
             $("#note_view").find(".toc").prepend('<center style="display: none;" id="toc_title">Content</center>');
             let note_view_position = $('#note_view').position();
-            $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 20px)");
+            $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 25px)");
             $(".toc").css("right", "20px");
             this.number_displayed = false;
             $("#number_btn").on("click", (ev) => this.toggle_number());
