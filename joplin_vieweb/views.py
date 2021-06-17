@@ -91,7 +91,8 @@ def public_note_data(request, note_id):
 def note_tags(request, note_id):
     joplin = Joplin()
     note_tags = joplin.get_note_tags(note_id)
-    return render(request, 'joplinvieweb/note_tags.html', {"note_tags": note_tags})
+    return HttpResponse(json.dumps([one_tag.name for one_tag in note_tags]))
+    # return render(request, 'joplinvieweb/note_tags.html', {"note_tags": note_tags})
     
     
 

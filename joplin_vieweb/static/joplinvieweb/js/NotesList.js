@@ -25,6 +25,9 @@ class NotesList extends EventEmitter {
         });
     }
     
+    /**
+     * 
+     */
     display_notes(data) {
         clear_progress($("#notes_list"));
         $("#notes_list").html(data);
@@ -33,6 +36,9 @@ class NotesList extends EventEmitter {
         $("#notes_list").find('li').on("click", (ev) => this.note_selected(ev));
     }
     
+    /**
+     * 
+     */
     note_selected(ev) {
         let note_id = $(ev.currentTarget).data('note-id');
         let note_name = $(ev.currentTarget).data('note-name');
@@ -41,6 +47,9 @@ class NotesList extends EventEmitter {
         super.emit("note_selected", [note_id, note_name]);
     }
     
+    /**
+     * 
+     */
     get_from_tag(tag_id) {
         display_progress($("#notes_list"));
         $.get(

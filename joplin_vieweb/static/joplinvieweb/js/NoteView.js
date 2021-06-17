@@ -1,10 +1,9 @@
 class NoteView {
     constructor() {
-        this.tags = new NoteTags("#note_view");
         this.set_current_note_id(null);
         this.current_note_name = null;
     }
-  
+    
     /**
      *
      */
@@ -15,16 +14,17 @@ class NoteView {
         this.set_current_note_id(null);
         this.current_note_name = null;
     }
-
+    
     set_current_note_id(note_id) {
         this.current_note_id = note_id;
-        this.tags.set_note_id(note_id);
     }
     
     /**
      *
      */
     get_note(note_id, note_name) {
+        this.tags = new NoteTags("#note_view");
+        this.tags.set_note_id(note_id);
         this.clear();
         display_progress($("#note_view"));
         

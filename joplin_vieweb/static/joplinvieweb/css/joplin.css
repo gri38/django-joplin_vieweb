@@ -288,10 +288,11 @@ animation-name: rotate_sync;
     color: white;
     background-color: #ff6c6c;
 }
-.note_tag { border: 1px solid #979797; border-radius: 5px; padding-right: 2px; padding-left: 2px;}
+.note_tag { border: 1px solid #979797; border-radius: 5px; padding-right: 2px; padding-left: 2px; margin: 0 2px 0 2px;}
 #note_tags { font-size: 0.8em; color: #868686; text-align: right; }
 #note_tags:not(.edit) .icon-s-tags { cursor: pointer; }
 #note_tags.edit { font-size: 1em; color: #464444; }
+#add_tag_edit { margin-left: 2px;}
 
 .toc a, .toc a:hover, .toc a:active, .toc a:focus {
     color: #0A84FF;
