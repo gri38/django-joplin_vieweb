@@ -90,8 +90,16 @@ def public_note_data(request, note_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):
     joplin = Joplin()
-    note_tags = joplin.get_note_tags(note_id)
-    return render(request, 'joplinvieweb/note_tags.html', {"note_tags": note_tags})
+    if request.method == "GET":
+        note_tags = joplin.get_note_tags(note_id)
+        return HttpResponse(json.dumps([one_tag.name for one_tag in note_tags]))
+        # return render(request, 'joplinvieweb/note_tags.html', {"note_tags": note_tags})
+    if request.method == "POST":
+        tags = json.loads(request.body)
+        tags = tags["tags"]
+        joplin.update_note_tags(note_id, tags)
+        return HttpResponse("")
+
     
     
 
@@ -138,8 +146,14 @@ def tags_error(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tags(request):
     joplin = Joplin()
-    tags = joplin.get_tags_with_note()
+    tags = joplin.get_tags(with_notes=True)
     return render(request, 'joplinvieweb/tags_list.html', {"tags": tags})
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def all_tags(request):
+    joplin = Joplin()
+    tags = joplin._get_tags()
+    return HttpResponse(json.dumps(tags))
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def tag_notes(request, tag_id):

@@ -1,7 +1,5 @@
-{% if note_tags %}
-    <div id="note_tags"><span class="icon-s-tags"></span>
-    {% for one_tag in note_tags %}
-        <span class="note_tag">{{ one_tag.name }}</span>
-    {% endfor %}
-    </div>
-{% endif %}
+<div id="note_tags"><span class="icon-s-tags"></span>
+{% for one_tag in note_tags %}
+    <span class="note_tag"><span class="tag_label">{{ one_tag.name }}</span></span>
+{% endfor %}
+</div>

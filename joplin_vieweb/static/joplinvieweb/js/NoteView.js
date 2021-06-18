@@ -1,9 +1,13 @@
-class NoteView {
+/**
+ * Emit "tags_changed"
+ */
+class NoteView extends EventEmitter {
     constructor() {
-        this.current_note_id = null;
+        super();
+        this.set_current_note_id(null);
         this.current_note_name = null;
     }
-  
+    
     /**
      *
      */
@@ -11,8 +15,25 @@ class NoteView {
         $("#note_view").removeClass("border_note");
         $("#note_view").html("");
         $(".note_view_header").html("...");
-        this.current_note_id = null;
+        this.set_current_note_id(null);
         this.current_note_name = null;
+    }
+    
+    set_current_note_id(note_id) {
+        this.current_note_id = note_id;
+    }
+
+    /**
+     * 
+     */
+    reload_note_tags(note_id) {
+        this.tags = new NoteTags("#note_view");
+        this.tags.on("tags_changed", () => super.emit("tags_changed"));
+        this.tags.on("tags_edited", () => {
+            this.reload_note_tags(note_id)
+            this.tags.get_note_tags(note_id);
+        });
+        this.tags.set_note_id(note_id);
     }
     
     /**
@@ -20,14 +41,15 @@ class NoteView {
      */
     get_note(note_id, note_name) {
         this.clear();
+        this.reload_note_tags(note_id);
         display_progress($("#note_view"));
         
         $.get(
         '/joplin/notes/' + note_id + "/",
         (data) => {
-                    this.current_note_id = note_id;
+                    this.set_current_note_id(note_id);
                     this.current_note_name = note_name;
-                    this.get_note_tags(note_id);
+                    this.tags.get_note_tags(note_id);
                     this.display_note(data, note_name);
                   }
         )  .fail(() => {
@@ -58,7 +80,7 @@ class NoteView {
             $("#note_view").find(".toc").append('<div class="toc_ctrl"><span id="number_btn">#</span><span id="toggle_toc_btn"  class="icon-chevron-circle-down"></span> <span onclick="$(\'.toc\').remove();" class="icon-times-circle"></span>&nbsp;</div>');
             $("#note_view").find(".toc").prepend('<center style="display: none;" id="toc_title">Content</center>');
             let note_view_position = $('#note_view').position();
-            $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 17px)");
+            $(".toc").css("top", "calc(" + note_view_position.top.toString() + "px + 0.8em + 25px)");
             $(".toc").css("right", "20px");
             this.number_displayed = false;
             $("#number_btn").on("click", (ev) => this.toggle_number());
@@ -91,26 +113,7 @@ class NoteView {
         $("#note_view").addClass("border_note");
     }
     
-    /**
-     *
-     */
-    get_note_tags(note_id) {
-        $.get(
-            '/joplin/notes/' + note_id + "/tags",
-            (data) => { this.display_note_tags(data); }
-        ) ;
-    }
-    
-    /**
-     *
-     */
-    display_note_tags(data) {
-        $("#note_view").prepend(data);
-        if (data.includes(">public<")) {
-            $("#note_tags").prepend('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>')
-        }
-    }
-    
+
     /**
      *
      */

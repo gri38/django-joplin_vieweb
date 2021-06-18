@@ -24,7 +24,7 @@ class SideBar extends EventEmitter{
     }
     
     /**
-     * (re)Load bookmarks and tags from server and display them.
+     * (re)Load notebooks and tags from server and display them.
      */
     reload() {
         this.get_notebooks_from_server();
@@ -172,6 +172,7 @@ class SideBar extends EventEmitter{
      */
     reload_after_sync() {
         console.log("reload after sync");
+        this.reset_sync_dirty();
         this.not_sync_header_back();
         if (this.sync_polling != null) {
             this.sync_polling.removeListener("sync_over", this.reload_side_bar_after_sync_handler);
@@ -341,6 +342,23 @@ class SideBar extends EventEmitter{
             this.accordion_close("#tags_ctn", "#tags");
             this.accordion_open("#sync_ctn", "#sync");
         }
+    }
+
+    /**
+     * 
+     */
+    set_sync_dirty() {
+        let sync_header = $("#sync_ctn > .header");
+        if (sync_header.find('.dirty').length == 0) {
+            sync_header.append('<span class="dirty" />');
+        }
+    }
+
+    /**
+     * 
+     */
+    reset_sync_dirty () {
+        $(".dirty").remove();
     }
 }
 

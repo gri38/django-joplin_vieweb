@@ -135,17 +135,59 @@ class Joplin:
             new_tag_metadata.id = one_tag["id"]
             new_tag_metadata.name = one_tag["title"]
             tags.append(new_tag_metadata)
-        return tags       
-    
-        
-    def get_tags_with_note(self):
-        tags = []
+        return tags 
+
+    def update_note_tags(self, note_id, tags):
+        current_tags = self.get_note_tags(note_id)
+        current_tags_dict = {tag.name : tag.id for tag in current_tags}
+        current_tags_names = current_tags_dict.keys()
+
+        all_tags = self.get_tags()
+        all_tags_dict = {tag.name : tag.id for tag in all_tags}
+        all_tags_names = all_tags_dict.keys()
+
+        existing_tags_to_add = []
+        new_tags_to_add = []
+        existing_tags_to_delete = list(set(current_tags_names) - set(tags))
+
+        for one in tags:
+            if one not in current_tags_names:
+                if one in all_tags_names:
+                    existing_tags_to_add.append(one)
+                else:
+                    new_tags_to_add.append(one)
+
+        for tag_to_delete in existing_tags_to_delete:
+            self.joplin.delete_tags_notes(all_tags_dict[tag_to_delete], note_id)
+
+        for tag_to_add in existing_tags_to_add:
+            self.joplin.create_tags_notes(note_id, all_tags_dict[tag_to_add])
+
+        for tag_to_add in new_tags_to_add:
+            result = self.joplin.create_tag(tag_to_add)
+            if result.status_code == 200:
+                self.joplin.create_tags_notes(note_id, json.loads(result.text)["id"])
+
+    def _get_tags(self):
+        """
+        Get all tags
+        """
         all_tags = json.loads(self.joplin.get_tags().text)
         all_tags = all_tags["items"]
+        return all_tags
+    
+    def get_tags(self, with_notes=False):
+        tags = []
+        all_tags = self._get_tags()
         for one_tag in all_tags:
-            notes_preview = json.loads(self.joplin.get_tags_notes_preview(one_tag["id"]).text)
-            notes_preview = notes_preview["items"]
-            if notes_preview: # if one_tag has no note, we don't add it.
+            add_one_tag = True
+            if with_notes:
+                notes_preview = json.loads(self.joplin.get_tags_notes_preview(one_tag["id"]).text)
+                notes_preview = notes_preview["items"]
+                if not notes_preview:
+                    # if one_tag has no note, we don't add it.
+                    add_one_tag = False
+            if add_one_tag: 
                 new_tag_metadata = NoteMetadata()
                 new_tag_metadata.id = one_tag["id"]
                 new_tag_metadata.name = one_tag["title"]
