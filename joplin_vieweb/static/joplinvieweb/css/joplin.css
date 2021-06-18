@@ -26,7 +26,9 @@ html, body {
     background-image: linear-gradient(to bottom, #646060, #313640, #313640, #313640);
 }
 .accordion-inner {
-    /* height: 100% */
+    min-height: 50%;
+    scrollbar-width: thin;
+    scrollbar-color: #5a6377 #F4F5F6;
 }
 /* .readonly {
     color: grey;

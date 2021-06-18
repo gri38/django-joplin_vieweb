@@ -4,3 +4,4 @@ dev_server/
 build/
 dist/
 django_joplin_vieweb.egg-info/
+.vscode/launch.json
