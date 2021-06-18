@@ -1,6 +1,11 @@
-
-class NoteTags  {
+/**
+ * Emits:
+ * - 'tags_edited'
+ * - 'tags_changed'
+ */
+class NoteTags extends EventEmitter {
     constructor(note_view_elmt) {
+        super();
         this.note_view_elmt = note_view_elmt;
         this.current_note_id = null;
         this.all_tags = [];
@@ -89,10 +94,10 @@ class NoteTags  {
         $("#note_tags").addClass("edit");
 
         // Add "publish" and "cancel" buttons.
-        $("#note_tags").append('<span style="line-height: 100%; vertical-align: middle; cursor: pointer; color: #00ae00; margin-left: 5px; font-size:1.2em;" class="icon-check-square"></span>');
-        $("#note_tags").append('<span style="line-height: 100%; vertical-align: middle; cursor: pointer; color: #FF6C6C; margin-left: 5px; font-size:1.2em;" class="icon-times-rectangle"></span>');
+        $("#note_tags").append('<span style="line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-check-square"></span>');
+        $("#note_tags").append('<span style="line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-times-rectangle"></span>');
         $("#note_tags .icon-check-square").on("click", () => this.validate_tag_edition());
-        $("#note_tags .icon-times-rectangle").on("click", () => this.cancel_tag_edition());
+        $("#note_tags .icon-times-rectangle").on("click", () => this.finish_tag_edition());
         
         // Let's add a remove button to each tag
         this.add_delete_button_to_tags();
@@ -194,30 +199,27 @@ class NoteTags  {
     /**
      * 
      */
-    end_tag_edition() {
-        $("#note_tags").removeClass("edit");
-        $("#note_tags .icon-check-square").remove();
-        $("#note_tags .icon-times-rectangle").remove();
-        $("#note_tags .icon-s-tags").on("click", () => this.start_tag_edition());
-        // Let's remove the remove button to each tag
-        $(".delete_tag").remove();
-        // let's remove the add tag edit:
-        $("#add_tag_edit").autocomplete("dispose");
-        $("#add_tag_edit").remove();
-        this.edition = false;
-    }
-
-    /**
-     * 
-     */
     validate_tag_edition() {
-        this.end_tag_edition();
+        $("#note_tags").remove();
+
+        $.ajax({
+            url: '/joplin/notes/' + this.current_note_id + "/tags",
+            type: 'post',
+            data: JSON.stringify({ "tags": this.note_tags }),
+            //data: { "tags": this.note_tags },
+            headers: {"X-CSRFToken": csrftoken},
+            complete: () => { 
+                super.emit("tags_changed");
+                this.finish_tag_edition();
+            }
+        });
     }
 
     /**
      * 
      */
-    cancel_tag_edition() {
-        this.end_tag_edition();
+    finish_tag_edition() {
+        $("#note_tags").remove();
+        super.emit("tags_edited");
     }
 }

@@ -13,6 +13,10 @@ class JoplinVieweb {
         this.side_bar.on("tag_selected", () => { this.note_view.clear(); });
         this.side_bar.on("tag_selected", (tag_id) => { this.notes_list.get_from_tag(tag_id); });
         this.notes_list.on("note_selected", (note_data) => { this.note_view.get_note(note_data[0], note_data[1]) });
+        this.note_view.on("tags_changed", () => {
+            this.side_bar.set_sync_dirty();
+            this.side_bar.get_tags_from_server()}
+            );
     }
     
     init() {

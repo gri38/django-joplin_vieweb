@@ -1,5 +1,9 @@
-class NoteView {
+/**
+ * Emit "tags_changed"
+ */
+class NoteView extends EventEmitter {
     constructor() {
+        super();
         this.set_current_note_id(null);
         this.current_note_name = null;
     }
@@ -18,14 +22,26 @@ class NoteView {
     set_current_note_id(note_id) {
         this.current_note_id = note_id;
     }
+
+    /**
+     * 
+     */
+    reload_note_tags(note_id) {
+        this.tags = new NoteTags("#note_view");
+        this.tags.on("tags_changed", () => super.emit("tags_changed"));
+        this.tags.on("tags_edited", () => {
+            this.reload_note_tags(note_id)
+            this.tags.get_note_tags(note_id);
+        });
+        this.tags.set_note_id(note_id);
+    }
     
     /**
      *
      */
     get_note(note_id, note_name) {
-        this.tags = new NoteTags("#note_view");
-        this.tags.set_note_id(note_id);
         this.clear();
+        this.reload_note_tags(note_id);
         display_progress($("#note_view"));
         
         $.get(
