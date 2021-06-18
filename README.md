@@ -30,11 +30,16 @@ It's running on a "Django server", running beside a configured & running [Joplin
 ![image](https://user-images.githubusercontent.com/26554495/121775399-ac7f9d00-cb87-11eb-9f4a-2790af8b5f77.png)
 - Option to number (or not) header in notes:  
 ![image](https://user-images.githubusercontent.com/26554495/121775425-e6e93a00-cb87-11eb-9018-80f24ac505a4.png)
+- Tag edition: add / remove / create tags in notes:
+![image](https://user-images.githubusercontent.com/26554495/122593861-89ad2700-d066-11eb-9cc0-bf82a0efef8e.png)
+Once tags edited, a little reminder not to forget to synchronize Joplin:  
+![image](https://user-images.githubusercontent.com/26554495/122594366-37203a80-d067-11eb-96c5-c3324fee376b.png)
+
 
 
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
-- Create / edit / delete notes or tags
+- Create / edit / delete notes
 - No specific handling for todos.
 - Search for notes or tags
 
