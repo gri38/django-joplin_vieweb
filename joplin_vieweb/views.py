@@ -69,6 +69,12 @@ def note_body_name(note_id, public=False):
             link.insert(0, img)
             link['class'] = link.get('class', []) + ['attachment_link']
     html = str(soup)
+
+
+    # Transform [ ] and [x] to checkboxes.
+    html = html.replace("<li>[ ] ", '<li><input type="checkbox">');
+    html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>');
+
     return (html, note_name)
  
 def public_note(request, note_id):
