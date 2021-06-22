@@ -14,6 +14,7 @@ urlpatterns = [
     path('notes/public/<note_id>/', views.public_note, name='public note'),
     path('notes/public/data/<note_id>/', views.public_note_data, name='public note data'),
     path('notes/<note_id>/tags', views.note_tags, name='note'),
+    path('notes/<note_id>/checkboxes', views.note_checkboxes, name='update note checkboxes'),
     path('note_error/', views.note_error, name='note error'),
     path('joplin_ressources/<ressource_path>', views.joplin_ressource, name='joplin_ressource'),
     path('joplin_ressources/public/<ressource_path>', views.joplin_public_ressource, name='joplin_public_ressource'),

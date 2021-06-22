@@ -168,6 +168,22 @@ class Joplin:
             if result.status_code == 200:
                 self.joplin.create_tags_notes(note_id, json.loads(result.text)["id"])
 
+    def update_note_checkboxes(self, note_id, cb):
+        note = json.loads(self.joplin.get_note(note_id).text)
+        note_body = note["body"]
+        note_title = note["title"]
+        note_parent_id = note["parent_id"]
+        cb_indexes = [m.start() for m in re.finditer("- \[[ x]\] ", note_body)]
+        for checked, cb_index in zip(cb, cb_indexes):
+            cb_string = "- [ ] "
+            if checked == 1:
+                cb_string = "- [x] "
+            note_body = note_body[0:cb_index] + cb_string + \
+                note_body[cb_index + len(cb_string):]
+        self.joplin.update_note(note_id, note_title, note_body, note_parent_id)
+
+
+
     def _get_tags(self):
         """
         Get all tags

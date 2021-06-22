@@ -1,5 +1,7 @@
 /**
- * Emit "tags_changed"
+ * Emit: 
+ *  - "tags_changed"
+ *  - "note_checkboxes_changed"
  */
 class NoteView extends EventEmitter {
     constructor() {
@@ -88,7 +90,81 @@ class NoteView extends EventEmitter {
         }
         
         $('.toc').draggabilly({});
+
+        $('#note_view input[type=checkbox]').on("click", () => {
+            this.handle_checkboxes();
+        })
     }
+
+    /**
+     * 
+     */
+    handle_checkboxes() {
+        var dirty = false;
+        $('#note_view input[type=checkbox]').each((index, el) => {
+            let current_cb = $(el);
+            let initiallyChecked = (current_cb.attr("checked") !== undefined);
+            let currentlyChecked = current_cb.is(":checked");
+            if (initiallyChecked != currentlyChecked) {
+                dirty = true;
+            }
+        });
+        
+        $(".note_view_header .icon-check-square").remove();
+        $(".note_view_header .icon-times-rectangle").remove();
+        if (dirty) {
+            // Add "publish" and "cancel" buttons.
+            let cb_ctrl_html = '<div style="display: inline; position: absolute; right: 10px;">';
+            cb_ctrl_html += '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-times-rectangle"></span>';
+            cb_ctrl_html += '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-check-square"></span>';
+            cb_ctrl_html += '</div>';
+            $(".note_view_header").append(cb_ctrl_html);
+            $(".note_view_header .icon-check-square").on("click", () => this.validate_cb_edition());
+            $(".note_view_header .icon-times-rectangle").on("click", () => this.cancel_cb_edition());
+        }
+    }
+
+    /**
+     * 
+     */
+    validate_cb_edition() {
+        let checkboxes = [];
+        $('#note_view input[type=checkbox]').each((index, el) => {
+            if ($(el).is(":checked")) {
+                checkboxes.push(1);
+            }
+            else {
+                checkboxes.push(0);
+            }
+        });
+        let note_id = this.current_note_id;
+        let note_name = this.current_note_name;
+        this.clear();
+        display_progress($("#note_view"));
+        $.ajax({
+            url: '/joplin/notes/' + note_id + "/checkboxes",
+            type: 'post',
+            data: JSON.stringify({ "cb": checkboxes }),
+            headers: { "X-CSRFToken": csrftoken },
+            complete: () => {
+                this.get_note(note_id, note_name);
+                super.emit("note_checkboxes_changed");
+            }
+        });
+    }
+
+    /**
+     * 
+     */
+    cancel_cb_edition() {
+        $('#note_view input[type=checkbox]').each((index, el) => {
+            let current_cb = $(el);
+            let initiallyChecked = (current_cb.attr("checked") !== undefined);
+            current_cb.prop("checked", initiallyChecked);
+        });
+        this.handle_checkboxes();
+    }
+
     
     /**
      *

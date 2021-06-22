@@ -91,7 +91,12 @@ def public_note_data(request, note_id):
         body, name = note_body_name(note_id, public=True)
     return HttpResponse(json.dumps({"name": name, "body": body}))
 
-    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def note_checkboxes(request, note_id):
+    cb = json.loads(request.body)
+    cb = cb["cb"]
+    Joplin().update_note_checkboxes(note_id, cb)
+    return HttpResponse("")
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):

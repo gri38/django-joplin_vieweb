@@ -17,6 +17,7 @@ class JoplinVieweb {
             this.side_bar.set_sync_dirty();
             this.side_bar.get_tags_from_server()}
             );
+        this.note_view.on("note_checkboxes_changed", () => {this.side_bar.set_sync_dirty();});
     }
     
     init() {
