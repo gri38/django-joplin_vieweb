@@ -34,6 +34,7 @@ It's running on a "Django server", running beside a configured & running [Joplin
 ![image](https://user-images.githubusercontent.com/26554495/122593861-89ad2700-d066-11eb-9cc0-bf82a0efef8e.png)
 Once tags edited, a little reminder not to forget to synchronize Joplin:  
 ![image](https://user-images.githubusercontent.com/26554495/122594366-37203a80-d067-11eb-96c5-c3324fee376b.png)
+- Checkbox list changes can be saved to notes. See [this release note](https://github.com/gri38/django-joplin_vieweb/releases/tag/v1.9). 
 
 
 
