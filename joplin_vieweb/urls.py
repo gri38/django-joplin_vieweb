@@ -25,6 +25,8 @@ urlpatterns = [
     path('tags/<tag_id>/notes', views.tag_notes, name='tag notes'),
     path('sync/', views.sync_data, name='get synch data'),
     path('sync/do', views.do_sync, name='joplin synchro'),
+    path('note_edit', views.note_edit, name="note_edit"),
+    path('note_edit/upload', views.upload_note_attachment, name='upload note attachment')
 ]
 
 

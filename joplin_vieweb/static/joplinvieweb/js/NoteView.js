@@ -72,7 +72,8 @@ class NoteView extends EventEmitter {
      */
     display_note(data, note_name) {
         clear_progress($("#note_view"));
-        $(".note_view_header").html(note_name);
+        $(".note_view_header").html(note_name + '<span id="note_edit_icon" class="icon-pencil"></span>');
+        $("#note_edit_icon").on("click", () => { this.note_edit(this.current_note_id); });
         $("#note_view").html(data);
         $("#note_view").addClass("border_note");
         if ($("#note_view").find(".toc").html().includes("li") == false) {
@@ -204,6 +205,13 @@ class NoteView extends EventEmitter {
         else {
             $("#toc_title").fadeToggle(function() {$(".toc>ul").fadeToggle();});
         }
+    }
+
+    /**
+     *
+     */
+    note_edit(current_note_id) {
+        console.log("edit " + current_note_id);
     }
 
 }

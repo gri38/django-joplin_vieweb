@@ -190,4 +190,12 @@ def do_sync(request):
     task.start()
     return HttpResponse("coucou")
 
-    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def note_edit(request):
+    return render(request, 'joplinvieweb/note_editor.html', {})
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def upload_note_attachment(request):
+    if request.method == 'POST':
+        print(request.FILES)
+    return HttpResponse("""{"data": {"filePath": "https://webmail.zaclys.net/roundcubemail/skins/elastic/images/logo.zip"}}""")

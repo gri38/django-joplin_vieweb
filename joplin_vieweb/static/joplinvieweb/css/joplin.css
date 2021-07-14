@@ -270,6 +270,11 @@ animation-name: rotate_sync;
 #note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
 .border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
 
+#note_edit_icon {
+    float:right;
+    cursor: pointer;
+}
+
 .edit>.note_tag:after { }
 .delete_tag { 
     margin-left: 2px;

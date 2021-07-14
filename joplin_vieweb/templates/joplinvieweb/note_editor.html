@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Joplin Vieweb note editor</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/note_editor.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/easymde.min.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/style-icomoon.css' %}">
+
+<script src="{% static 'joplinvieweb/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/easymde.min.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/utils.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/note_editor.js' %}"></script>
+<body>
+    <textarea id="note_editor" name="note_editor"></textarea>
+</body>
+</html> 
