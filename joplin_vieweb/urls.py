@@ -11,6 +11,7 @@ urlpatterns = [
     path('notebooks_error/', views.notebooks_error, name='notebooks error'),
     path('notebooks/<notebook_id>/error/', views.notebook_error, name='notebook error'),
     path('notes/<note_id>/', views.note, name='note'),
+    path('notes/<note_id>/format-<str:format>', views.note, name='note'),
     path('notes/public/<note_id>/', views.public_note, name='public note'),
     path('notes/public/data/<note_id>/', views.public_note_data, name='public note data'),
     path('notes/<note_id>/tags', views.note_tags, name='note'),

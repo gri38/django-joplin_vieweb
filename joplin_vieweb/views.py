@@ -39,10 +39,10 @@ def notes(request, notebook_id):
     return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
-def note(request, note_id):
-    return HttpResponse(note_body_name(note_id)[0])
+def note(request, note_id, format="html"):
+    return HttpResponse(note_body_name(note_id, format)[0])
 
-def note_body_name(note_id, public=False):
+def note_body_name(note_id, format, public=False):
     note_body, note_name = Joplin().get_note_body_name(note_id)
     
     # add the path to the joplin ressources in the img and attachments:
@@ -53,6 +53,9 @@ def note_body_name(note_id, public=False):
 
     note_body = note_body.replace("](:/", "](" + path_to_ressources)
     note_body = note_body.replace('src=":/', 'src="' + path_to_ressources)
+
+    if format == "md":
+        return (note_body, note_name)
     
     note_body = '[TOC]\n\n' + note_body
     html = markdown.markdown(note_body, extensions=['fenced_code', 'codehilite', 'toc'])

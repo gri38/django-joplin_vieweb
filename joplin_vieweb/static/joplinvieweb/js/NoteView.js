@@ -73,7 +73,7 @@ class NoteView extends EventEmitter {
     display_note(data, note_name) {
         clear_progress($("#note_view"));
         $(".note_view_header").html(note_name + '<span id="note_edit_icon" class="icon-pencil"></span>');
-        $("#note_edit_icon").on("click", () => { this.note_edit(this.current_note_id); });
+        $("#note_edit_icon").on("click", () => { this.note_edit(this.current_note_id, note_name); });
         $("#note_view").html(data);
         $("#note_view").addClass("border_note");
         if ($("#note_view").find(".toc").html().includes("li") == false) {
@@ -210,8 +210,31 @@ class NoteView extends EventEmitter {
     /**
      *
      */
-    note_edit(current_note_id) {
-        console.log("edit " + current_note_id);
+    note_edit(note_id, note_name) {
+        console.log("edit " + note_id); this.clear();
+        display_progress($("#note_view"));
+
+        $.get(
+            '/joplin/notes/' + note_id + "/format-md",
+            (data) => {
+                let note_editor = new NoteEditor(note_id, note_name);
+                note_editor.init(data);
+                // this.set_current_note_id(note_id);
+                // this.current_note_name = note_name;
+                // this.tags.get_note_tags(note_id);
+                // this.display_note(data, note_name);
+            }
+        ).fail(() => {
+            clear_progress($("#note_view"));
+            console.log("error while getting note " + note_id);
+            // $.get(
+            //     '/joplin/note_error/',
+            //     (data) => {
+            //         this.display_note_error(data, note_name);
+            //         $("#note_view").find(".icon-refresh").on("click", () => this.get_note(note_id, note_name));
+            //     }
+            // )
+        });
     }
 
 }

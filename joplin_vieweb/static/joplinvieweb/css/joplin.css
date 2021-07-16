@@ -257,14 +257,18 @@ animation-name: rotate_sync;
     border: 0;
 } */
 
-#note_view { padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;scrollbar-width: thin; scrollbar-color: #313640 #F4F5F6;}
+#note_view {
+    padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;
+    scrollbar-width: thin; scrollbar-color: #313640 #F4F5F6;
+    color: #333;
+}
 #note_view h1 { color: #ff4411; font-size: 1.5em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h2 { color: #ff4411; font-size: 1.4em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h3 { color: #ff4411; font-size: 1.3em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h4 { color: #ff4411; font-size: 1.2em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h5 { color: #ff4411; font-size: 1em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h6 { color: #ff4411; font-size: 0.9em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
-#note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; color: #666; }
+#note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; }
 #note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s;}
 #note_view a:not(.toc a):hover { color: #a03c21 }
 #note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
