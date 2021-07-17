@@ -98,10 +98,20 @@ Thanks for joplin-api that helped me !
 ## For dev: how to setup a dev server around this "package"
 Execute script setup_dev_env.sh  
 Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.  
+If you choose `JOPLIN_LOGIN_REQUIRED=True`, then: :add 
+```python
+urlpatterns = [
+    ...
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+```
+
 Then:  
 ```
 . venv/bin/activate
 cd dev_server
+python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver 0:8000
 ```
 
