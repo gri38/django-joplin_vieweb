@@ -107,22 +107,6 @@ class Joplin:
         note = json.loads(self.joplin.get_note(note_id).text)
         note_body = note["body"]
         note_name = note["title"]
-        
-        # change links to images so they contain the name with the extension (markdown format)
-        found = re.findall("\[([^]]+)\]\(:/([^)]+)\)", note_body)
-
-        for ext, name in found:
-            file_extension = pathlib.Path(ext).suffix
-            note_body = note_body.replace(name, name + file_extension)
-            
-        
-        
-        # change links to image so they contain the name with the extension (html format)
-        found = re.findall('<img src=":/([^"]+)" +alt="([^"]+)"', note_body)
-        for name, ext in found:
-            file_extension = pathlib.Path(ext).suffix
-            note_body = note_body.replace(name, name + file_extension)
-        
 
         return (note_body, note_name)
         
@@ -208,7 +192,19 @@ class Joplin:
                 new_tag_metadata.id = one_tag["id"]
                 new_tag_metadata.name = one_tag["title"]
                 tags.append(new_tag_metadata)
-        return tags       
+        return tags
+
+    def create_resource(self, file_path, title):
+        res = self.joplin.create_resource(file_path, **{"title": title})
+        logging.debug("create ressource for [{}]".format(file_path))
+        logging.debug("    code = [{}]".format(res.status_code))
+        logging.debug("    text = [{}]".format(res.text))
+        res = json.loads(res.text)
+        return (res["id"], res["title"])
+
+    def update_note(self, note_id, title, md):
+        parent_id = json.loads(self.joplin.get_note(note_id).text)["parent_id"]
+        res = self.joplin.update_note(note_id, title, md, parent_id)
 
 
 if __name__ == "__main__":

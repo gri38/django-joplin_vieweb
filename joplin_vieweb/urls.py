@@ -18,6 +18,7 @@ urlpatterns = [
     path('notes/<note_id>/checkboxes', views.note_checkboxes, name='update note checkboxes'),
     path('note_error/', views.note_error, name='note error'),
     path('joplin_ressources/<ressource_path>', views.joplin_ressource, name='joplin_ressource'),
+    path(':/<ressource_path>', views.joplin_ressource, name='joplin_ressource'),
     path('joplin_ressources/public/<ressource_path>', views.joplin_public_ressource, name='joplin_public_ressource'),
     path('tags_error/', views.tags_error, name='tags error'),
     path('tag_error/<tag_id>', views.tag_notes_error, name='tag notes error'),
@@ -26,8 +27,10 @@ urlpatterns = [
     path('tags/<tag_id>/notes', views.tag_notes, name='tag notes'),
     path('sync/', views.sync_data, name='get synch data'),
     path('sync/do', views.do_sync, name='joplin synchro'),
-    path('note_edit', views.note_edit, name="note_edit"),
-    path('note_edit/upload', views.upload_note_attachment, name='upload note attachment')
+    path('note_edit/upload/<str:session_id>', views.upload_note_attachment, name='upload note attachment'),
+    path('edit_session/', views.edit_session, name='edit_session'),
+    path('edit_session/<str:session_id>/update/<str:note_id>', views.edit_session_update_note, name='edit session update note'),
+    path('edit_session_ressource/<str:session_id>/<str:file>', views.edit_session_ressource, name='get session ressource'),
 ]
 
 

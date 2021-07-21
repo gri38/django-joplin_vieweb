@@ -2,10 +2,12 @@
  * Emit: 
  *  - "tags_changed"
  *  - "note_checkboxes_changed"
+ *  - "note_edit_finished"
  */
 class NoteView extends EventEmitter {
-    constructor() {
+    constructor(is_public=false) {
         super();
+        this.is_public = is_public;
         this.set_current_note_id(null);
         this.current_note_name = null;
     }
@@ -16,7 +18,9 @@ class NoteView extends EventEmitter {
     clear() {
         $("#note_view").removeClass("border_note");
         $("#note_view").html("");
-        $(".note_view_header").html("...");
+        $("#note_view_header_left").html("");
+        $("#note_view_header_right").html("");
+        $("#note_header_title").html("...");
         this.set_current_note_id(null);
         this.current_note_name = null;
     }
@@ -72,8 +76,14 @@ class NoteView extends EventEmitter {
      */
     display_note(data, note_name) {
         clear_progress($("#note_view"));
-        $(".note_view_header").html(note_name + '<span id="note_edit_icon" class="icon-pencil"></span>');
-        $("#note_edit_icon").on("click", () => { this.note_edit(this.current_note_id, note_name); });
+        if (this.is_public == true) {
+            $("#note_header_title").html(note_name);
+        }
+        else {
+            $("#note_header_title").html(note_name);
+            $("#note_view_header_right").append('<span id="note_edit_edit" class="note_edit_icon icon-pencil"></span>');
+            $("#note_edit_edit").on("click", () => { this.note_edit(this.current_note_id, note_name); });
+        }
         $("#note_view").html(data);
         $("#note_view").addClass("border_note");
         if ($("#note_view").find(".toc").html().includes("li") == false) {
@@ -92,9 +102,12 @@ class NoteView extends EventEmitter {
         
         $('.toc').draggabilly({});
 
-        $('#note_view input[type=checkbox]').on("click", () => {
-            this.handle_checkboxes();
-        })
+        if (this.is_public == false) {
+
+            $('#note_view input[type=checkbox]').on("click", () => {
+                this.handle_checkboxes();
+            });
+        }
     }
 
     /**
@@ -111,17 +124,17 @@ class NoteView extends EventEmitter {
             }
         });
         
-        $(".note_view_header .icon-check-square").remove();
-        $(".note_view_header .icon-times-rectangle").remove();
+        $("#note_view_header_right .icon-check-square").remove();
+        $("#note_view_header_right .icon-times-rectangle").remove();
         if (dirty) {
             // Add "publish" and "cancel" buttons.
-            let cb_ctrl_html = '<div style="display: inline; position: absolute; right: 10px;">';
-            cb_ctrl_html += '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-times-rectangle"></span>';
-            cb_ctrl_html += '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; font-size:1.2em;" class="icon-check-square"></span>';
-            cb_ctrl_html += '</div>';
-            $(".note_view_header").append(cb_ctrl_html);
-            $(".note_view_header .icon-check-square").on("click", () => this.validate_cb_edition());
-            $(".note_view_header .icon-times-rectangle").on("click", () => this.cancel_cb_edition());
+            // let cb_ctrl_html = '<div style="display: inline; position: absolute; right: 10px;">';
+            let cb_ctrl_html = '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; margin-right: 5px; /*font-size:1.2em;*/" class="icon-times-rectangle"></span>';
+            cb_ctrl_html += '<span style="float:right; line-height: 100%; vertical-align: middle; cursor: pointer; color: #0052CC; margin-left: 5px; /*font-size:1.2em;*/" class="icon-check-square"></span>';
+            // cb_ctrl_html += '</div>';
+            $("#note_view_header_right").append(cb_ctrl_html);
+            $("#note_view_header_right .icon-check-square").on("click", () => this.validate_cb_edition());
+            $("#note_view_header_right .icon-times-rectangle").on("click", () => this.cancel_cb_edition());
         }
     }
 
@@ -185,7 +198,7 @@ class NoteView extends EventEmitter {
      */
     display_note_error(data, note_name) {
         clear_progress($("#note_view"));
-        $(".note_view_header").html(note_name);
+        $("#note_header_title").html(note_name);
         $("#note_view").html(data);
         $("#note_view").addClass("border_note");
     }
@@ -211,30 +224,36 @@ class NoteView extends EventEmitter {
      *
      */
     note_edit(note_id, note_name) {
-        console.log("edit " + note_id); this.clear();
+        this.clear();
         display_progress($("#note_view"));
 
-        $.get(
-            '/joplin/notes/' + note_id + "/format-md",
-            (data) => {
-                let note_editor = new NoteEditor(note_id, note_name);
-                note_editor.init(data);
-                // this.set_current_note_id(note_id);
-                // this.current_note_name = note_name;
-                // this.tags.get_note_tags(note_id);
-                // this.display_note(data, note_name);
+        let md = "";
+        var session_id = "";
+
+        $.when(
+            // get the note markdown
+            $.get("/joplin/notes/" + note_id + "/format-md", (data) => { md = data; }),
+            
+            // create an edit session and get the id
+            $.ajax({
+                url: '/joplin/edit_session/',
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                complete: (data) => { session_id = data.responseText; }
+            })
+        ).then(() => {
+            let note_editor = new NoteEditor(note_id, note_name, session_id);
+            note_editor.init(md);
+            note_editor.on("cancel", () => {
+                super.emit("note_edit_finished");
+                //this.get_note(note_id, note_name);
+            });
+            note_editor.on("commit", () => {
+                super.emit("note_edit_finished");
+                //this.get_note(note_id, note_name);
+            });
             }
-        ).fail(() => {
-            clear_progress($("#note_view"));
-            console.log("error while getting note " + note_id);
-            // $.get(
-            //     '/joplin/note_error/',
-            //     (data) => {
-            //         this.display_note_error(data, note_name);
-            //         $("#note_view").find(".icon-refresh").on("click", () => this.get_note(note_id, note_name));
-            //     }
-            // )
-        });
+        );
     }
 
 }

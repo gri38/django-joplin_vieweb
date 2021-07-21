@@ -22,7 +22,7 @@ function get_note() {
 $.getJSON(
         '/joplin/notes/public/data/{{ note_id}}',
         (data) => {
-            note_view = new NoteView();
+            note_view = new NoteView(true);
             note_view.display_note(data["body"], data["name"]);
         }
         ).fail(() => {alert("fail");})

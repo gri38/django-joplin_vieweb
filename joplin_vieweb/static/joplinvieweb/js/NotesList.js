@@ -5,13 +5,23 @@
 class NotesList extends EventEmitter {
     constructor() {
         super();
+        this.last_get_source = null; // will be "notebook" or "tag"
+        this.last_get_source_id = 0; // will be the notebook id or the tag id.
+        this.last_selected_note_id = null;
     }
     
-    get_from_notebook(notebook_id) {
+    get_from_notebook(notebook_id, last_selected_note_id=null) {
         display_progress($("#notes_list"));
         $.get(
             '/joplin/notebooks/' + notebook_id + "/",
-            (data) => { this.display_notes(data); }
+            (data) => {
+                this.last_get_source = "notebook";
+                this.last_get_source_id = notebook_id;
+                this.display_notes(data);
+                if (last_selected_note_id != null) {
+                    this.select(last_selected_note_id);
+                }
+            }
         ).fail(() => {
             clear_progress($("#notes_list"));
             console.log("error while getting notes of notebook " + notebook_id );
@@ -44,17 +54,25 @@ class NotesList extends EventEmitter {
         let note_name = $(ev.currentTarget).data('note-name');
         $(".note_item").removeClass("selected");
         $(ev.currentTarget).addClass("selected");
+        this.last_selected_note_id = note_id;
         super.emit("note_selected", [note_id, note_name]);
     }
     
     /**
      * 
      */
-    get_from_tag(tag_id) {
+    get_from_tag(tag_id, last_selected_note_id) {
         display_progress($("#notes_list"));
         $.get(
         '/joplin/tags/' + tag_id + "/notes",
-        (data) => { this.display_notes(data); }
+        (data) => {
+            this.last_get_source = "tag";
+            this.last_get_source_id = tag_id;
+            this.display_notes(data);
+            if (last_selected_note_id != null) {
+                this.select(last_selected_note_id);
+            }
+        }
         )  .fail(() => {
             clear_progress($("#notes_list"));
             console.log("error while getting notes of tag " + tag_id);
@@ -66,5 +84,28 @@ class NotesList extends EventEmitter {
                 }
             )
         });   
+    }
+
+    /**
+     * Refresh the notes list, and select again the last selected note (based on its id)
+     */
+    refresh_and_select() {
+        if (this.last_get_source == "notebook") {
+            this.get_from_notebook(this.last_get_source_id, this.last_selected_note_id);
+        }
+        else {
+            this.get_from_tag(this.last_get_source_id, this.last_selected_note_id);
+        }
+    }
+
+    /**
+     * 
+     */
+    select(note_id) {
+        console.log("auto select " + note_id);
+        $(".note_item").removeClass("selected");
+        let selected_li_target = $('#notes_list li[data-note-id="' + note_id + '"]');
+        selected_li_target.addClass("selected");
+        super.emit("note_selected", [selected_li_target.data("note-id"), selected_li_target.data("note-name")]);
     }
 }
