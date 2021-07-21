@@ -13,6 +13,10 @@
 class SideBar extends EventEmitter{
     constructor() {
         super();
+        this.last_notes_source = null; // will be "notebook" or "tag"
+        this.last_tag_id = null;
+        this.last_notebook_id = null;
+        this.reselect_after_reload = 0;
     }
 
     
@@ -43,7 +47,12 @@ class SideBar extends EventEmitter{
         display_progress($("#notebooks_tree_inner"));
         $.getJSON(
         '/joplin/notebooks/',
-        (data) => { this.display_notebooks_tree(data); }
+        (data) => { 
+            this.display_notebooks_tree(data);
+            if (this.reselect_after_reload-- == 1) {
+                this.reselect();
+            }
+        }
         )  .fail(() => {
             clear_progress($("#notebooks_tree_inner"));
             console.log("error while getting notebooks ");
@@ -56,7 +65,26 @@ class SideBar extends EventEmitter{
             )
         });
     }
-     
+
+    /**
+     * select again the last selection
+     */
+    reselect() {
+        let elmt = null;
+        if (this.last_notes_source == "notebook") {
+            elmt = $('.jqtree-element[data-node-id="' + this.last_notebook_id + '"]');
+        }
+        else { //tag
+            elmt = $('.tag_item[data-tag-id="' + this.last_tag_id + '"]');
+        }
+        this.set_selected(this.last_notes_source, elmt);
+
+        if (this.last_notes_source == "notebook") {
+            const node = $('#notebooks_tree_inner').tree('getNodeById', this.last_notebook_id);
+            $('#notebooks_tree_inner').tree('selectNode', node);
+        }
+    }
+
     /**
      *
      */
@@ -82,6 +110,8 @@ class SideBar extends EventEmitter{
                 // Get the id from the 'node-id' data property
                 let node_id = $(e.currentTarget).data('node-id');
                 this.set_selected("notebook", node_id);
+                this.last_notes_source = "notebook";
+                this.last_notebook_id = node_id;
                 super.emit("notebook_selected", node_id);
             }
         });
@@ -104,7 +134,13 @@ class SideBar extends EventEmitter{
         display_progress($("#tags"));
         $.get(
         '/joplin/tags/',
-        (data) => { this.display_tags(data); }
+        (data) => {
+            this.display_tags(data);
+            $("#tags").find(".icon-refresh").on("click", () => this.get_tags_from_server());
+            if (this.reselect_after_reload-- == 1) {
+                this.reselect();
+            }
+        }
         )  .fail(() => {
             clear_progress($("#tags"));
             console.log("error while getting tags ");
@@ -112,7 +148,6 @@ class SideBar extends EventEmitter{
             '/joplin/tags_error/',
             (data) => {
                         $("#tags").html(data);
-                        $("#tags").find(".icon-refresh").on("click", () => this.get_tags_from_server() );
                       }
             )
         });
@@ -129,6 +164,8 @@ class SideBar extends EventEmitter{
         $("#tags").find('li').on("click", (ev) => {
             this.set_selected("tag", $(ev.currentTarget));
             let tag_id = $(ev.currentTarget).data('tag-id');
+            this.last_notes_source = "tag";
+            this.last_tag_id = tag_id;
             super.emit("tag_selected", tag_id);
         });
     }
@@ -183,6 +220,7 @@ class SideBar extends EventEmitter{
             this.sync_polling.removeListener("sync_over", this.reload_side_bar_after_sync_handler);
         }
         
+        this.reselect_after_reload = 2; 
         this.reload();
         super.emit("sync_over");
     }
