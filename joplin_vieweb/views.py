@@ -44,6 +44,13 @@ def notes(request, notebook_id):
 def note(request, note_id, format="html"):
     return HttpResponse(note_body_name(note_id, format)[0])
 
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def delete_note(request, note_id):
+    joplin = Joplin()
+    joplin.delete_note(note_id)
+    return HttpResponse("")
+
+
 def note_body_name(note_id, format, public=False):
     note_body, note_name = Joplin().get_note_body_name(note_id)
     

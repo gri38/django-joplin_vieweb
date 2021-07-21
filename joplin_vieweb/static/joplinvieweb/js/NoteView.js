@@ -76,11 +76,10 @@ class NoteView extends EventEmitter {
      */
     display_note(data, note_name) {
         clear_progress($("#note_view"));
-        if (this.is_public == true) {
-            $("#note_header_title").html(note_name);
-        }
-        else {
-            $("#note_header_title").html(note_name);
+        $("#note_header_title").html(note_name);
+        if (this.is_public == false) {
+            $("#note_view_header_right").append('<span id="note_edit_delete" class="note_edit_icon icon-trash-o"></span>');
+            $("#note_edit_delete").on("click", () => { this.note_delete(this.current_note_id, note_name); });
             $("#note_view_header_right").append('<span id="note_edit_edit" class="note_edit_icon icon-pencil"></span>');
             $("#note_edit_edit").on("click", () => { this.note_edit(this.current_note_id, note_name); });
         }
@@ -254,6 +253,20 @@ class NoteView extends EventEmitter {
             });
             }
         );
+    }
+
+    /**
+     * 
+     */
+    note_delete(note_id, note_name) {
+        if (confirm("Delete note [" + note_name + "] ?")) {
+            $.ajax({
+                url: '/joplin/notes/' + note_id + "/delete",
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                complete: () => { super.emit("note_edit_finished"); }
+            })
+        }
     }
 
 }

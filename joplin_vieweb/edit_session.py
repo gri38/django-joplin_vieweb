@@ -9,8 +9,10 @@ import json
 from datetime import datetime
 from datetime import timedelta
 import glob
+import threading
 
 class EditSession:
+    __lock = threading.Lock()
 
     @staticmethod
     def get_path(id):
@@ -82,7 +84,6 @@ class EditSession:
 
     @staticmethod
     def save_file(session_id, fileObj):
-        id_name = EditSession.get_id_name_dict(session_id)
 
         file_ext = Path(fileObj.name).suffix
         session_path = EditSession.get_path(session_id)
@@ -95,9 +96,11 @@ class EditSession:
                 destination.write(chunk)
 
         logging.debug("file saved: [{}]".format(dest_path))
-        id_name[attachment_id] = fileObj.name
 
-        EditSession.set_id_name_dict(session_id, id_name)
+        with EditSession.__lock:
+            id_name = EditSession.get_id_name_dict(session_id)
+            id_name[attachment_id] = fileObj.name
+            EditSession.set_id_name_dict(session_id, id_name)
 
         return attachment_id
 

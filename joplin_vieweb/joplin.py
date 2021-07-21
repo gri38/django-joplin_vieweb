@@ -206,6 +206,9 @@ class Joplin:
         parent_id = json.loads(self.joplin.get_note(note_id).text)["parent_id"]
         res = self.joplin.update_note(note_id, title, md, parent_id)
 
+    def delete_note(self, note_id):
+        self.joplin.delete_note(note_id)
+
 
 if __name__ == "__main__":
     nb1 = Notebook()

@@ -105,7 +105,9 @@ class NotesList extends EventEmitter {
         console.log("auto select " + note_id);
         $(".note_item").removeClass("selected");
         let selected_li_target = $('#notes_list li[data-note-id="' + note_id + '"]');
-        selected_li_target.addClass("selected");
-        super.emit("note_selected", [selected_li_target.data("note-id"), selected_li_target.data("note-name")]);
+        if (selected_li_target.length) { // else is not an error: when note is deleted.
+            selected_li_target.addClass("selected");
+            super.emit("note_selected", [selected_li_target.data("note-id"), selected_li_target.data("note-name")]);
+        }
     }
 }
