@@ -7,7 +7,8 @@
  * - 'tag_selected', param: tag_id
  * - 'tag_selected_and_note', param: tag_id, note_id
  * 
- * - 'sync_over' when a joplin synch has finished.
+ * - 'sync_over' when a joplin synch has finished and notes list should be refreshed.
+ * - "sync_started" when joplin sync starts and notes list and note view shoudl be cleared
  */
 class SideBar extends EventEmitter{
     constructor() {
@@ -183,6 +184,7 @@ class SideBar extends EventEmitter{
         }
         
         this.reload();
+        super.emit("sync_over");
     }
          
     /**
@@ -197,6 +199,7 @@ class SideBar extends EventEmitter{
             this.not_sync_header_readonly();
         }
         this.udpate_sync_started();
+        super.emit("sync_started");
         $.get(
         '/joplin/sync/do',
         () => {

@@ -34,6 +34,10 @@ class NotesList extends EventEmitter {
             )
         });
     }
+
+    clear() {
+        $("#notes_list").html("");
+    }
     
     /**
      * 
