@@ -20,7 +20,10 @@ class JoplinVieweb {
             this.side_bar.get_tags_from_server()}
             );
         this.note_view.on("note_checkboxes_changed", () => {this.side_bar.set_sync_dirty();});
-        this.note_view.on("note_edit_finished", () => {
+        this.note_view.on("note_edit_finished", (dirty) => {
+            if (dirty) {
+                this.side_bar.set_sync_dirty();
+            }
             this.note_view.clear();
             this.notes_list.refresh_and_select();
         });
