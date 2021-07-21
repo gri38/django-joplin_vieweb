@@ -3,13 +3,17 @@
 /**
  * Emits: 
  * - 'notebook_selected', param: notebook_id
+ * - 'notebook_selected_and_note', param: notebook_id, note_id
  * - 'tag_selected', param: tag_id
+ * - 'tag_selected_and_note', param: tag_id, note_id
+ * 
  * - 'sync_over' when a joplin synch has finished.
  */
 class SideBar extends EventEmitter{
     constructor() {
         super();
     }
+
     
     /**
      * Retrieve the notebooks and tags from server.

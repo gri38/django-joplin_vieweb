@@ -1,17 +1,19 @@
+from joplin_vieweb.edit_session import EditSession
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .joplin import Joplin, ReprJsonEncoder
 import logging
-from django.urls import reverse
 import markdown
 import json
 from bs4 import BeautifulSoup 
 from pathlib import Path
 import mimetypes
-from .utils import mimetype_to_icon, sync_enable, joplin_sync
+from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource
 import threading
+from .edit_session import EditSession
+import glob
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -39,30 +41,34 @@ def notes(request, notebook_id):
     return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
-def note(request, note_id):
-    return HttpResponse(note_body_name(note_id)[0])
+def note(request, note_id, format="html"):
+    return HttpResponse(note_body_name(note_id, format)[0])
 
-def note_body_name(note_id, public=False):
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def delete_note(request, note_id):
+    joplin = Joplin()
+    joplin.delete_note(note_id)
+    return HttpResponse("")
+
+
+def note_body_name(note_id, format, public=False):
     note_body, note_name = Joplin().get_note_body_name(note_id)
     
-    # add the path to the joplin ressources in the img and attachments:
-    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={'ressource_path':'dontcare'}) # => /joplin/joplin_ressources/dontcare
-    path_to_ressources = path_to_ressources[:-len("dontcare")]
     if public:
-        path_to_ressources = path_to_ressources + "public/"
+        note_body = markdown_public_ressource(note_body)
 
-    note_body = note_body.replace("](:/", "](" + path_to_ressources)
-    note_body = note_body.replace('src=":/', 'src="' + path_to_ressources)
+    if format == "md":
+        return (note_body, note_name)
     
     note_body = '[TOC]\n\n' + note_body
     html = markdown.markdown(note_body, extensions=['fenced_code', 'codehilite', 'toc'])
     
     # Finally we set an attachment image to the attachments.
-    # We search for <a href="/joplin/joplin_ressources">
+    # We search for <a href="/joplin/joplin_ressources"> or <a href=":/">
     soup = BeautifulSoup(html)
     for link in soup.findAll('a'):
-        if path_to_ressources in link.get('href'):
-            mime_type_guess = mimetypes.guess_type(link.get('href'))
+        if "joplin_ressources" in link.get('href') or ":/" in link.get('href'):
+            mime_type_guess = mimetypes.guess_type(link.get_text())
             img = soup.new_tag("span", **{'class':mimetype_to_icon(mime_type_guess)})
             br = soup.new_tag("br")
             link.insert(0, br)
@@ -88,7 +94,7 @@ def public_note_data(request, note_id):
     joplin = Joplin()
     tags = joplin.get_note_tags(note_id)
     if "public" in [tag.name for tag in tags] :
-        body, name = note_body_name(note_id, public=True)
+        body, name = note_body_name(note_id, format="html", public=True)
     return HttpResponse(json.dumps({"name": name, "body": body}))
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
@@ -138,6 +144,8 @@ def joplin_public_ressource(request, ressource_path):
     try: 
         ressources_path = settings.JOPLIN_RESSOURCES_PATH
         file_path = Path(ressources_path) / Path(ressource_path)
+        file_path = glob.glob("{}*".format(file_path))[0]
+        file_path = Path(file_path)
         mime_type_guess = mimetypes.guess_type(file_path.name)
         ressource_file = open(file_path, 'rb')
         if mime_type_guess is not None:
@@ -190,4 +198,47 @@ def do_sync(request):
     task.start()
     return HttpResponse("coucou")
 
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def upload_note_attachment(request, session_id):
+    if request.method == 'POST':
+        methods = dir(request.FILES)
+        for key, value in request.FILES.items():
+            attachment_id = EditSession.save_file(session_id, value)
+            return HttpResponse(json.dumps({"data": {"filePath": "/joplin/edit_session_ressource/{}/{}".format(session_id, attachment_id)}}))
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def edit_session(request):
+    if request.method == 'POST':
+        session_id = EditSession.create_session()
+        return HttpResponse(session_id)
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def edit_session_ressource(request, session_id, file):
+    try:
+        ressources_path = EditSession.get_path(session_id)
+        file_path = ressources_path / file
+        mime_type_guess = mimetypes.guess_type(file_path.name)
+        ressource_file = open(file_path, 'rb')
+        if mime_type_guess is not None:
+            response = HttpResponse(
+                content=ressource_file, content_type=mime_type_guess[0])
+        else:
+            response = HttpResponse(content=ressource_file)
+    except IOError:
+        response = HttpResponseNotFound()
+
+    return response
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def edit_session_update_note(request, session_id, note_id):
+    if request.method == 'POST':
+        note_data = json.loads(request.body)
+        # md = str(request.body.decode('utf-8'))
+        md = note_data["markdown"]
+        title = note_data["title"]
+        md = EditSession.create_ressources_and_replace_md(session_id, md)
+        joplin = Joplin()
+        joplin.update_note(note_id, title, md)
+
+    return HttpResponse()
     

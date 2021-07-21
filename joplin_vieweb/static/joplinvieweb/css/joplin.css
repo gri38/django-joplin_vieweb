@@ -73,8 +73,8 @@ html, body {
 }
 .public_link {
     float: left;
-    font-size: 1.5em;
     text-decoration: none;
+    color:#ff4411;
 }
 #notebooks_tree_inner {
     padding-left: 10px;
@@ -176,6 +176,19 @@ animation-name: rotate_sync;
 .note_view_header {
     color: #ff4411;
     border-bottom: 1px dotted #ff4411;
+    position: relative;
+}
+#note_view_header_left {
+    position: absolute;
+    left: 10px;
+    height: 100%;
+    float: left;
+}
+#note_view_header_right {
+    position: absolute;
+    right: 10px;
+    height: 100%;
+    float: right;
 }
 .note_item.selected {
     background-color: #E5E5E5;
@@ -257,18 +270,36 @@ animation-name: rotate_sync;
     border: 0;
 } */
 
-#note_view { padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;scrollbar-width: thin; scrollbar-color: #313640 #F4F5F6;}
+#note_view {
+    padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;
+    scrollbar-width: thin; scrollbar-color: #313640 #F4F5F6;
+    color: #333;
+}
 #note_view h1 { color: #ff4411; font-size: 1.5em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h2 { color: #ff4411; font-size: 1.4em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h3 { color: #ff4411; font-size: 1.3em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h4 { color: #ff4411; font-size: 1.2em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h5 { color: #ff4411; font-size: 1em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h6 { color: #ff4411; font-size: 0.9em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
-#note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; color: #666; }
+#note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; }
 #note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s;}
 #note_view a:not(.toc a):hover { color: #a03c21 }
 #note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
 .border_note {border-right: 1px solid #ff4411; border-left: 1px solid #ff4411;}
+
+.note_edit_icon {
+    float:right;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+#note_edit_title {
+    width: 75%;
+    text-align: center;
+    color: #f41;
+    font-weight: bold;
+    border: none;
+}
 
 .edit>.note_tag:after { }
 .delete_tag { 

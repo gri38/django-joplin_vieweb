@@ -1,0 +1,6 @@
+{
+    "files.watcherExclude": {
+        "**/.github/**": true,
+        "**/venv/**": true,
+    }
+}

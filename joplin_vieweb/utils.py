@@ -5,6 +5,8 @@ import datetime
 import logging
 import time
 import threading
+import re
+from django.urls import reverse
 
 def mimetype_to_icon(mimetype):
     type2icon = {
@@ -26,6 +28,7 @@ def mimetype_to_icon(mimetype):
         'text/html': 'document-file-html',
         'application/json': 'file-text2',
         'application/gzip': 'file-zip',
+        'application/x-zip-compressed': 'file-zip',
         'application/zip': 'file-zip',
         'application/x-gtar': 'file-zip',
         'application/x-tar': 'file-zip',
@@ -70,4 +73,50 @@ def joplin_sync(info_file):
     with open(sync_info, "w") as content:
         content.write(last_synchro)
     logging.debug("------------------> Joplin synchro done")
+
+def markdown_public_ressource(md):
+    path_to_ressources = reverse('joplin:joplin_public_ressource', kwargs={
+                                 'ressource_path': 'dontcare'})  # => /joplin_ressources/public/dontcare
+    path_to_ressources = path_to_ressources[:-len("dontcare")]
+
+    md = md.replace("](:/", "](" + path_to_ressources)
+    md = md.replace('src=":/', 'src="' + path_to_ressources)
+
+    return md
    
+def markdown_joplin_to_vieweb(md, public):
+    """
+    Adapt the given md from joplin api so that joplin-vieweb access the images and attachments.
+    Roughly: transform ![image.png](:/id) to ![image.png](/joplin/joplin_ressources/id)
+    """
+    return md
+    # change links to image so they contain the name with the extension (html format)
+    found = re.findall('<img src=":/([^"]+)" +alt="([^"]+)"', md)
+    for name, ext in found:
+        file_extension = Path(ext).suffix
+        md = md.replace(name, name + file_extension)
+
+    # add the path to the joplin ressources in the img and attachments:
+    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={
+                                 'ressource_path': 'dontcare'})  # => /joplin/joplin_ressources/dontcare
+    path_to_ressources = path_to_ressources[:-len("dontcare")]
+    if public:
+        path_to_ressources = path_to_ressources + "public/"
+
+    md = md.replace("](:/", "](" + path_to_ressources)
+    md = md.replace('src=":/', 'src="' + path_to_ressources)
+
+    return md
+
+
+def markdown_vieweb_to_joplin(md):
+    """
+    The opposite
+    """
+    path_to_ressources = reverse('joplin:joplin_ressource', kwargs={
+                                 'ressource_path': 'dontcare'})  # => /joplin/joplin_ressources/dontcare
+    path_to_ressources = path_to_ressources[:-len("dontcare")]
+    md = md.replace('src="' + path_to_ressources, 'src=":/')
+    md = md.replace("](" + path_to_ressources, "](:/")
+
+    return md

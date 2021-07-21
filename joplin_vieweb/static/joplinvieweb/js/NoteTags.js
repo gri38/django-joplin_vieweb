@@ -41,7 +41,8 @@ class NoteTags extends EventEmitter {
         }
 
         if ($("#note_tags").html().includes(">public<")) {
-            $("#note_tags").prepend('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>')
+            $("#note_view_header_left").append('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>');
+            // $("#note_tags").prepend('<a class="public_link" href="/joplin/notes/public/' + this.current_note_id + '" target="_blank"><span class="icon-link"></a>')
         }
         $("#note_tags .icon-s-tags").on("click", () => this.start_tag_edition());
     }

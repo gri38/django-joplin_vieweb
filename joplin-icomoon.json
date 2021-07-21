@@ -1,8 +1,8 @@
 {
   "metadata": {
     "name": "joplin",
-    "lastOpened": 1418773394855,
-    "created": 1622704482426
+    "lastOpened": 0,
+    "created": 1626274225832
   },
   "iconSets": [
     {
@@ -105,11 +105,27 @@
       "selection": [
         {
           "order": 1,
+          "id": 22,
+          "prevSize": 28,
+          "code": 59673,
+          "name": "trash-o",
+          "tempChar": ""
+        },
+        {
+          "order": 1,
+          "id": 21,
+          "name": "pencil",
+          "prevSize": 28,
+          "code": 59672,
+          "tempChar": ""
+        },
+        {
+          "order": 1,
           "id": 20,
           "prevSize": 28,
           "code": 59669,
           "name": "times-rectangle-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -117,7 +133,7 @@
           "prevSize": 28,
           "code": 59670,
           "name": "times-rectangle",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
@@ -125,7 +141,7 @@
           "prevSize": 28,
           "code": 59671,
           "name": "close",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 43,
@@ -133,7 +149,7 @@
           "name": "check-circle-o",
           "prevSize": 28,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 42,
@@ -141,7 +157,7 @@
           "name": "check-square-o",
           "prevSize": 28,
           "code": 59665,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 41,
@@ -149,7 +165,7 @@
           "name": "check-circle",
           "prevSize": 28,
           "code": 59666,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
@@ -157,7 +173,7 @@
           "name": "check-square",
           "prevSize": 28,
           "code": 59667,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
@@ -165,7 +181,7 @@
           "name": "check",
           "prevSize": 28,
           "code": 59668,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -173,7 +189,7 @@
           "prevSize": 28,
           "code": 59657,
           "name": "file-powerpoint-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -181,7 +197,7 @@
           "name": "refresh",
           "prevSize": 28,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 26,
@@ -189,7 +205,7 @@
           "name": "repeat, rotate-right",
           "prevSize": 28,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 44,
@@ -229,7 +245,7 @@
           "prevSize": 28,
           "code": 59651,
           "name": "chevron-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
@@ -237,7 +253,7 @@
           "prevSize": 28,
           "code": 59652,
           "name": "chevron-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
@@ -245,7 +261,7 @@
           "prevSize": 28,
           "code": 59653,
           "name": "arrow-circle-down",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 6,
@@ -253,7 +269,7 @@
           "prevSize": 28,
           "code": 59654,
           "name": "arrow-circle-up",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 7,
@@ -261,7 +277,7 @@
           "prevSize": 28,
           "code": 59655,
           "name": "arrow-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 8,
@@ -269,7 +285,7 @@
           "prevSize": 28,
           "code": 59656,
           "name": "arrow-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 4,
@@ -282,13 +298,45 @@
         "licenseURL": "https://github.com/FortAwesome/Font-Awesome#license",
         "iconsHash": 309851062,
         "importSize": {
-          "width": 28,
+          "width": 22,
           "height": 28
         }
       },
       "height": 1024,
       "prevSize": 28,
       "icons": [
+        {
+          "id": 22,
+          "paths": [
+            "M292.571 420.571v329.143c0 10.286-8 18.286-18.286 18.286h-36.571c-10.286 0-18.286-8-18.286-18.286v-329.143c0-10.286 8-18.286 18.286-18.286h36.571c10.286 0 18.286 8 18.286 18.286zM438.857 420.571v329.143c0 10.286-8 18.286-18.286 18.286h-36.571c-10.286 0-18.286-8-18.286-18.286v-329.143c0-10.286 8-18.286 18.286-18.286h36.571c10.286 0 18.286 8 18.286 18.286zM585.143 420.571v329.143c0 10.286-8 18.286-18.286 18.286h-36.571c-10.286 0-18.286-8-18.286-18.286v-329.143c0-10.286 8-18.286 18.286-18.286h36.571c10.286 0 18.286 8 18.286 18.286zM658.286 834.286v-541.714h-512v541.714c0 27.429 15.429 43.429 18.286 43.429h475.429c2.857 0 18.286-16 18.286-43.429zM274.286 219.429h256l-27.429-66.857c-1.714-2.286-6.857-5.714-9.714-6.286h-181.143c-3.429 0.571-8 4-9.714 6.286zM804.571 237.714v36.571c0 10.286-8 18.286-18.286 18.286h-54.857v541.714c0 62.857-41.143 116.571-91.429 116.571h-475.429c-50.286 0-91.429-51.429-91.429-114.286v-544h-54.857c-10.286 0-18.286-8-18.286-18.286v-36.571c0-10.286 8-18.286 18.286-18.286h176.571l40-95.429c11.429-28 45.714-50.857 76-50.857h182.857c30.286 0 64.571 22.857 76 50.857l40 95.429h176.571c10.286 0 18.286 8 18.286 18.286z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 805,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "trash-o"
+          ],
+          "grid": 14
+        },
+        {
+          "id": 21,
+          "paths": [
+            "M207.429 877.714l52-52-134.286-134.286-52 52v61.143h73.143v73.143h61.143zM506.286 347.429c0-7.429-5.143-12.571-12.571-12.571-3.429 0-6.857 1.143-9.714 4l-309.714 309.714c-2.857 2.857-4 6.286-4 9.714 0 7.429 5.143 12.571 12.571 12.571 3.429 0 6.857-1.143 9.714-4l309.714-309.714c2.857-2.857 4-6.286 4-9.714zM475.429 237.714l237.714 237.714-475.429 475.429h-237.714v-237.714zM865.714 292.571c0 19.429-8 38.286-21.143 51.429l-94.857 94.857-237.714-237.714 94.857-94.286c13.143-13.714 32-21.714 51.429-21.714s38.286 8 52 21.714l134.286 133.714c13.143 13.714 21.143 32.571 21.143 52z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 866,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "pencil"
+          ],
+          "grid": 14
+        },
         {
           "id": 20,
           "paths": [

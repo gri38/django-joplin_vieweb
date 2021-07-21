@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/codehilite.css' %}">
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/style-icomoon.css' %}">
 <link rel="stylesheet" href="{% static 'joplinvieweb/css/autosuggest.css' %}">
+<link rel="stylesheet" href="{% static 'joplinvieweb/css/easymde.min.css' %}">
 <script>
     var number_header_css_path = "{% static "joplinvieweb/css/number.css" %}"
 </script>
@@ -23,6 +24,8 @@
 <script src="{% static 'joplinvieweb/js/NoteTags.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/NotesList.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/SideBar.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/easymde.min.js' %}"></script>
+<script src="{% static 'joplinvieweb/js/NoteEditor.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/NoteView.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/joplinvieweb.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/draggabilly.pkgd.min.js' %}"></script>
@@ -59,7 +62,11 @@
         <div id="notes_list"></div>
     </div>
     <div id="note_view_ctn">
-        <div class="note_view_header header"></div>
+        <div class="note_view_header header">
+            <div id="note_view_header_left"></div>
+            <div id="note_view_header_right"></div>
+            <span id="note_header_title"></span>
+        </div>
         <div id="note_view"></div>
     </div>
 </div>
