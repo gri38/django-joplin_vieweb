@@ -202,6 +202,13 @@ class Joplin:
         res = json.loads(res.text)
         return (res["id"], res["title"])
 
+    def get_ressource_name(self, resource_id):
+        res = json.loads(self.joplin.get_resource(resource_id).text)
+        try:
+            return res["title"]
+        except:
+            return None
+
     def update_note(self, note_id, title, md):
         parent_id = json.loads(self.joplin.get_note(note_id).text)["parent_id"]
         res = self.joplin.update_note(note_id, title, md, parent_id)

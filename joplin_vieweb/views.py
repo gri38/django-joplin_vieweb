@@ -141,17 +141,23 @@ def joplin_ressource(request, ressource_path):
     return joplin_public_ressource(request, ressource_path)
 
 def joplin_public_ressource(request, ressource_path):
-    try: 
+    try:
+        joplin = Joplin()
+        name = joplin.get_ressource_name(ressource_path)
         ressources_path = settings.JOPLIN_RESSOURCES_PATH
         file_path = Path(ressources_path) / Path(ressource_path)
         file_path = glob.glob("{}*".format(file_path))[0]
         file_path = Path(file_path)
         mime_type_guess = mimetypes.guess_type(file_path.name)
         ressource_file = open(file_path, 'rb')
+        if not name:
+            name = file_path.name
+        headers = {}
+        headers["Content-Disposition"] = 'inline; filename="' + name + '"'
         if mime_type_guess is not None:
-            response = HttpResponse(content=ressource_file, content_type=mime_type_guess[0])
+            response = HttpResponse(content=ressource_file, content_type=mime_type_guess[0], headers=headers)
         else:
-            response = HttpResponse(content=ressource_file)
+            response = HttpResponse(content=ressource_file, headers=headers)
     except IOError:
         response = HttpResponseNotFound()
 
