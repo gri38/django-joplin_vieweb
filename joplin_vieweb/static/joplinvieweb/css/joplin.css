@@ -293,6 +293,14 @@ animation-name: rotate_sync;
     margin-right: 5px;
 }
 
+#note_edit_title {
+    width: 75%;
+    text-align: center;
+    color: #f41;
+    font-weight: bold;
+    border: none;
+}
+
 .edit>.note_tag:after { }
 .delete_tag { 
     margin-left: 2px;

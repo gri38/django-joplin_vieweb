@@ -34,12 +34,12 @@ It's running on a "Django server", running beside a configured & running [Joplin
 ![image](https://user-images.githubusercontent.com/26554495/122593861-89ad2700-d066-11eb-9cc0-bf82a0efef8e.png)
 Once tags edited, a little reminder not to forget to synchronize Joplin:  
 ![image](https://user-images.githubusercontent.com/26554495/122594366-37203a80-d067-11eb-96c5-c3324fee376b.png)
-
-
+- Note edition / deletion, with support of image paste, and image / attachment drag&drop.
+![image](https://user-images.githubusercontent.com/26554495/126487101-3d6fdae0-d1ed-4929-b000-5981928a2eb6.png)
 
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
-- Create / edit / delete notes
+- Create note / notebook, not move note from one notebook to another.
 - No specific handling for todos.
 - Search for notes or tags
 
