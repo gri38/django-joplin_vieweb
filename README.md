@@ -34,6 +34,7 @@ It's running on a "Django server", running beside a configured & running [Joplin
 ![image](https://user-images.githubusercontent.com/26554495/122593861-89ad2700-d066-11eb-9cc0-bf82a0efef8e.png)
 Once tags edited, a little reminder not to forget to synchronize Joplin:  
 ![image](https://user-images.githubusercontent.com/26554495/122594366-37203a80-d067-11eb-96c5-c3324fee376b.png)
+- Checkbox list changes can be saved to notes. See [this release note](https://github.com/gri38/django-joplin_vieweb/releases/tag/v1.9).
 - Note edition / deletion, with support of image paste, and image / attachment drag&drop.
 ![image](https://user-images.githubusercontent.com/26554495/126487101-3d6fdae0-d1ed-4929-b000-5981928a2eb6.png)
 
@@ -97,10 +98,20 @@ Thanks for joplin-api that helped me !
 ## For dev: how to setup a dev server around this "package"
 Execute script setup_dev_env.sh  
 Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.  
+If you choose `JOPLIN_LOGIN_REQUIRED=True`, then: :add 
+```python
+urlpatterns = [
+    ...
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+```
+
 Then:  
 ```
 . venv/bin/activate
 cd dev_server
+python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver 0:8000
 ```
 

@@ -29,7 +29,6 @@ keyring==23.0.1
 Markdown==3.3.4
 packaging==20.9
 pep517==0.10.0
-pkg-resources==0.0.0
 pkginfo==1.7.0
 priority==1.3.0
 pyasn1==0.4.8
