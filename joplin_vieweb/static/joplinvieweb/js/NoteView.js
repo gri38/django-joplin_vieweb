@@ -2,7 +2,7 @@
  * Emit: 
  *  - "tags_changed"
  *  - "note_checkboxes_changed"
- *  - "note_edit_finished"
+ *  - "note_edit_finished", param: dirty=true ou false (true: commit, false: cancel.)
  */
 class NoteView extends EventEmitter {
     constructor(is_public=false) {
@@ -244,11 +244,11 @@ class NoteView extends EventEmitter {
             let note_editor = new NoteEditor(note_id, note_name, session_id);
             note_editor.init(md);
             note_editor.on("cancel", () => {
-                super.emit("note_edit_finished");
+                super.emit("note_edit_finished", false);
                 //this.get_note(note_id, note_name);
             });
             note_editor.on("commit", () => {
-                super.emit("note_edit_finished");
+                super.emit("note_edit_finished", true);
                 //this.get_note(note_id, note_name);
             });
             }
@@ -264,7 +264,7 @@ class NoteView extends EventEmitter {
                 url: '/joplin/notes/' + note_id + "/delete",
                 type: 'post',
                 headers: { "X-CSRFToken": csrftoken },
-                complete: () => { super.emit("note_edit_finished"); }
+                complete: () => { super.emit("note_edit_finished", true); }
             })
         }
     }
