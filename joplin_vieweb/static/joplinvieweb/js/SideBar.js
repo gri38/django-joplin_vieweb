@@ -83,6 +83,14 @@ class SideBar extends EventEmitter{
             const node = $('#notebooks_tree_inner').tree('getNodeById', this.last_notebook_id);
             $('#notebooks_tree_inner').tree('selectNode', node);
         }
+
+        // open the notebook or tag section
+        if ((this.last_notes_source == "notebook") || (this.last_notes_source == null)) {
+            this.toggle_accordion("notebooks_tree_ctn");
+        }
+        else {
+            this.toggle_accordion("tags_ctn");
+        }
     }
 
     /**
@@ -277,7 +285,7 @@ class SideBar extends EventEmitter{
      *
      */
     enable_header_click() {
-        $(".accordion_header").on("click", (ev) => { this.toggle_accordion(ev); });
+        $(".accordion_header").on("click", (ev) => { this.toggle_accordion_event(ev); });
     }
     
     
@@ -370,8 +378,16 @@ class SideBar extends EventEmitter{
     /**
      * Toggle parts of accordion
      */
-    toggle_accordion(ev) {
+    toggle_accordion_event(ev) {
         let parent_id = $(ev.currentTarget).parent().attr('id');
+        this.toggle_accordion(parent_id);
+    }
+
+    /**
+     * Toggle accordion according to id of clicked header
+     * @param {string} parent_id Expected values: "notebooks_tree_ctn", "tags_ctn", "sync_ctn"
+     */
+    toggle_accordion(parent_id) {
         if (parent_id == "notebooks_tree_ctn") {
             this.accordion_open("#notebooks_tree_ctn", "#notebooks_tree");
             this.accordion_close("#tags_ctn", "#tags");
