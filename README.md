@@ -37,6 +37,8 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 - Checkbox list changes can be saved to notes. See [this release note](https://github.com/gri38/django-joplin_vieweb/releases/tag/v1.9).
 - Note edition / deletion, with support of image paste, and image / attachment drag&drop.
 ![image](https://user-images.githubusercontent.com/26554495/126487101-3d6fdae0-d1ed-4929-b000-5981928a2eb6.png)
+![image](https://user-images.githubusercontent.com/26554495/126596832-a15895b6-90fb-416e-849a-192dfe8b08fd.png)
+
 
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
