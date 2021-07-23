@@ -40,11 +40,14 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 
 
 ![image](https://user-images.githubusercontent.com/26554495/126596832-a15895b6-90fb-416e-849a-192dfe8b08fd.png)
+- Note creation
+![joplin_create_note](https://user-images.githubusercontent.com/26554495/126747600-a59e43df-5565-4a55-81ac-69c6eec1b392.gif)
+
 
 
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
-- Create note / notebook, not move note from one notebook to another.
+- Create notebook, not move note or notebook from one notebook to another.
 - No specific handling for todos.
 - Search for notes or tags
 
