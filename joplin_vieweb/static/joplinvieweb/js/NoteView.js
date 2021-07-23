@@ -2,7 +2,9 @@
  * Emit: 
  *  - "tags_changed"
  *  - "note_checkboxes_changed"
+ *  - "note_edit_started": when note edition or creation started.
  *  - "note_edit_finished", param: dirty=true ou false (true: commit, false: cancel.)
+ *  - "cleared"
  *  - "note_created", param: new_note_id
  */
 class NoteView extends EventEmitter {
@@ -17,6 +19,7 @@ class NoteView extends EventEmitter {
      *
      */
     clear() {
+        super.emit("cleared");
         $("#note_view").removeClass("border_note");
         $("#note_view").html("");
         $("#note_view_header_left").html("");
@@ -242,6 +245,7 @@ class NoteView extends EventEmitter {
                 complete: (data) => { session_id = data.responseText; }
             })
         ).then(() => {
+            super.emit("note_edit_started");
             let note_editor = new NoteEditor(note_id, note_name, session_id);
             note_editor.init(md);
             note_editor.on("cancel", () => {
@@ -271,6 +275,7 @@ class NoteView extends EventEmitter {
             headers: { "X-CSRFToken": csrftoken },
             complete: (data) => {
                 session_id = data.responseText;
+                super.emit("note_edit_started");
                 let note_editor = new NoteEditor(null, null, session_id);
                 note_editor.init("");
                 note_editor.set_notebook_id(notebook_id);

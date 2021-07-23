@@ -5,6 +5,9 @@ class JoplinVieweb {
         this.notes_list = new NotesList();
         
         this.route_the_events();
+
+        this.add_icons_visible = true;
+        this.note_edition_ongoing = false; // true when editing or creating. 
     }
     
     route_the_events() {
@@ -22,8 +25,7 @@ class JoplinVieweb {
             this.notes_list.clear();
          });
         this.side_bar.on("notebooks_visibility", (visible) => {
-            this.side_bar.notebook_addition(visible);
-            this.notes_list.note_addition(visible);
+            this.add_icons_set_visible(visible);
         });
         this.notes_list.on("note_selected", (note_data) => { this.note_view.get_note(note_data[0], note_data[1]) });
         this.notes_list.on("note_creation_request", () => { this.create_note(); } );
@@ -32,7 +34,10 @@ class JoplinVieweb {
             this.side_bar.get_tags_from_server()}
             );
         this.note_view.on("note_checkboxes_changed", () => {this.side_bar.set_sync_dirty();});
+        this.note_view.on("note_edit_started", () => { this.note_edition_set_ongoing(true); });
+        this.note_view.on("cleared", () => { this.note_edition_set_ongoing(false); });
         this.note_view.on("note_edit_finished", (dirty) => {
+            this.note_edition_set_ongoing(false);
             if (dirty) {
                 this.side_bar.set_sync_dirty();
             }
@@ -60,6 +65,28 @@ class JoplinVieweb {
             alert("Please select a notebook.")
         }
     }
+
+    add_icons_set_visible(visible) {
+        this.add_icons_visible = visible;
+        this.update_add_icons();
+    }
+    
+    note_edition_set_ongoing(ongoing) {
+        this.note_edition_ongoing = ongoing;
+        this.update_add_icons();
+    }
+
+    update_add_icons() {
+        if ((this.add_icons_visible == false) || (this.note_edition_ongoing == true)) {
+            this.side_bar.notebook_addition(false);
+            this.notes_list.note_addition(false);
+        }
+        else {
+            this.side_bar.notebook_addition(true);
+            this.notes_list.note_addition(true);
+        }
+    }
+
 }
 
 $(window).on("load" , () => {
