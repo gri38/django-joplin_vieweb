@@ -2,7 +2,7 @@
   "metadata": {
     "name": "joplin",
     "lastOpened": 0,
-    "created": 1626946319546
+    "created": 1626868565449
   },
   "iconSets": [
     {
@@ -62,7 +62,7 @@
           "prevSize": 32,
           "code": 59661,
           "name": "document-file-html",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 5,
@@ -103,6 +103,14 @@
     },
     {
       "selection": [
+        {
+          "order": 1,
+          "id": 23,
+          "prevSize": 28,
+          "code": 59674,
+          "name": "sticky-note-o",
+          "tempChar": ""
+        },
         {
           "order": 1,
           "id": 22,
@@ -213,7 +221,7 @@
           "prevSize": 32,
           "code": 59663,
           "name": "times-circle-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -221,7 +229,7 @@
           "prevSize": 32,
           "code": 59658,
           "name": "times-circle",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -229,7 +237,7 @@
           "prevSize": 32,
           "code": 59649,
           "name": "chevron-circle-down",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -237,7 +245,7 @@
           "prevSize": 32,
           "code": 59650,
           "name": "chevron-circle-up",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
@@ -298,13 +306,29 @@
         "licenseURL": "https://github.com/FortAwesome/Font-Awesome#license",
         "iconsHash": 309851062,
         "importSize": {
-          "width": 22,
+          "width": 24,
           "height": 28
         }
       },
       "height": 1024,
       "prevSize": 28,
       "icons": [
+        {
+          "id": 23,
+          "paths": [
+            "M800 731.429h-141.714v141.714c9.714-3.429 19.429-8.571 23.429-12.571l105.714-105.714c4-4 9.143-13.714 12.571-23.429zM640 658.286h164.571v-512h-731.429v731.429h512v-164.571c0-30.286 24.571-54.857 54.857-54.857zM877.714 128v585.143c0 30.286-17.714 72.571-38.857 93.714l-105.143 105.143c-21.143 21.143-63.429 38.857-93.714 38.857h-585.143c-30.286 0-54.857-24.571-54.857-54.857v-768c0-30.286 24.571-54.857 54.857-54.857h768c30.286 0 54.857 24.571 54.857 54.857z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 878,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "sticky-note-o"
+          ],
+          "grid": 14
+        },
         {
           "id": 22,
           "paths": [
@@ -687,7 +711,7 @@
           "prevSize": 32,
           "code": 59648,
           "name": "r-tag",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 3,
@@ -2499,11 +2523,8 @@
         {
           "ligatures": "plus, add",
           "name": "plus",
-          "order": 45,
-          "id": 267,
-          "prevSize": 32,
-          "code": 59914,
-          "tempChar": ""
+          "order": 0,
+          "id": 267
         },
         {
           "ligatures": "minus, subtract",
@@ -2836,7 +2857,7 @@
           "id": 322,
           "prevSize": 32,
           "code": 59969,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-right, right5",
@@ -2845,7 +2866,7 @@
           "id": 323,
           "prevSize": 32,
           "code": 59970,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-down, down3",
@@ -2854,7 +2875,7 @@
           "id": 324,
           "prevSize": 32,
           "code": 59971,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-left, left5",
@@ -2863,7 +2884,7 @@
           "id": 325,
           "prevSize": 32,
           "code": 59972,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "tab, arrows",
@@ -3802,7 +3823,7 @@
           "id": 480,
           "prevSize": 32,
           "code": 60127,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-openoffice, file11",
@@ -3811,7 +3832,7 @@
           "id": 481,
           "prevSize": 32,
           "code": 60128,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-word, file12",
@@ -3820,7 +3841,7 @@
           "id": 482,
           "prevSize": 32,
           "code": 60129,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-excel, file13",
@@ -3829,7 +3850,7 @@
           "id": 483,
           "prevSize": 32,
           "code": 60130,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "libreoffice, file14",
@@ -3838,7 +3859,7 @@
           "id": 484,
           "prevSize": 32,
           "code": 60131,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "html-five, w3c",
