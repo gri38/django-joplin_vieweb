@@ -3,6 +3,7 @@
  *  - "tags_changed"
  *  - "note_checkboxes_changed"
  *  - "note_edit_finished", param: dirty=true ou false (true: commit, false: cancel.)
+ *  - "note_created", param: new_note_id
  */
 class NoteView extends EventEmitter {
     constructor(is_public=false) {
@@ -227,7 +228,7 @@ class NoteView extends EventEmitter {
         display_progress($("#note_view"));
 
         let md = "";
-        var session_id = "";
+        let session_id = "";
 
         $.when(
             // get the note markdown
@@ -245,16 +246,45 @@ class NoteView extends EventEmitter {
             note_editor.init(md);
             note_editor.on("cancel", () => {
                 super.emit("note_edit_finished", false);
-                //this.get_note(note_id, note_name);
             });
             note_editor.on("commit", () => {
                 super.emit("note_edit_finished", true);
-                //this.get_note(note_id, note_name);
             });
-            }
+        }
         );
     }
-
+    
+    /**
+     * 
+     * @param {*} notebook_id 
+     */
+    note_create(notebook_id) {
+        this.clear();
+        display_progress($("#note_view"));
+        let md = "";
+        let session_id = "";
+        
+        // create an edit session and get the id
+        $.ajax({
+            url: '/joplin/edit_session/',
+            type: 'post',
+            headers: { "X-CSRFToken": csrftoken },
+            complete: (data) => {
+                session_id = data.responseText;
+                let note_editor = new NoteEditor(null, null, session_id);
+                note_editor.init("");
+                note_editor.set_notebook_id(notebook_id);
+                note_editor.on("cancel", () => {
+                    super.emit("note_edit_finished", false);
+                });
+                note_editor.on("commit", () => {
+                    let new_note_id = note_editor.note_id;
+                    super.emit("note_created", new_note_id);
+                });
+            }
+        });
+    }
+    
     /**
      * 
      */

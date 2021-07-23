@@ -249,3 +249,15 @@ def edit_session_update_note(request, session_id, note_id):
 
     return HttpResponse()
     
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def edit_session_create_note(request, session_id, notebook_id):
+    if request.method == 'POST':
+        note_data = json.loads(request.body)
+        # md = str(request.body.decode('utf-8'))
+        md = note_data["markdown"]
+        title = note_data["title"]
+        md = EditSession.create_ressources_and_replace_md(session_id, md)
+        joplin = Joplin()
+        note_id = joplin.create_note(notebook_id, title, md)
+
+    return HttpResponse(note_id)

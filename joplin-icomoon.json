@@ -2,7 +2,7 @@
   "metadata": {
     "name": "joplin",
     "lastOpened": 0,
-    "created": 1626274225832
+    "created": 1626946319546
   },
   "iconSets": [
     {
@@ -62,7 +62,7 @@
           "prevSize": 32,
           "code": 59661,
           "name": "document-file-html",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 5,
@@ -109,7 +109,7 @@
           "prevSize": 28,
           "code": 59673,
           "name": "trash-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -117,7 +117,7 @@
           "name": "pencil",
           "prevSize": 28,
           "code": 59672,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -125,7 +125,7 @@
           "prevSize": 28,
           "code": 59669,
           "name": "times-rectangle-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -133,7 +133,7 @@
           "prevSize": 28,
           "code": 59670,
           "name": "times-rectangle",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
@@ -141,7 +141,7 @@
           "prevSize": 28,
           "code": 59671,
           "name": "close",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 43,
@@ -149,7 +149,7 @@
           "name": "check-circle-o",
           "prevSize": 28,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 42,
@@ -157,7 +157,7 @@
           "name": "check-square-o",
           "prevSize": 28,
           "code": 59665,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 41,
@@ -165,7 +165,7 @@
           "name": "check-circle",
           "prevSize": 28,
           "code": 59666,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
@@ -173,7 +173,7 @@
           "name": "check-square",
           "prevSize": 28,
           "code": 59667,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
@@ -181,7 +181,7 @@
           "name": "check",
           "prevSize": 28,
           "code": 59668,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -189,7 +189,7 @@
           "prevSize": 28,
           "code": 59657,
           "name": "file-powerpoint-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -197,7 +197,7 @@
           "name": "refresh",
           "prevSize": 28,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 26,
@@ -205,7 +205,7 @@
           "name": "repeat, rotate-right",
           "prevSize": 28,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 44,
@@ -213,7 +213,7 @@
           "prevSize": 32,
           "code": 59663,
           "name": "times-circle-o",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -221,7 +221,7 @@
           "prevSize": 32,
           "code": 59658,
           "name": "times-circle",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1,
@@ -229,7 +229,7 @@
           "prevSize": 32,
           "code": 59649,
           "name": "chevron-circle-down",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 2,
@@ -237,7 +237,7 @@
           "prevSize": 32,
           "code": 59650,
           "name": "chevron-circle-up",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
@@ -245,7 +245,7 @@
           "prevSize": 28,
           "code": 59651,
           "name": "chevron-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
@@ -253,7 +253,7 @@
           "prevSize": 28,
           "code": 59652,
           "name": "chevron-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
@@ -261,7 +261,7 @@
           "prevSize": 28,
           "code": 59653,
           "name": "arrow-circle-down",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 6,
@@ -269,7 +269,7 @@
           "prevSize": 28,
           "code": 59654,
           "name": "arrow-circle-up",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 7,
@@ -277,7 +277,7 @@
           "prevSize": 28,
           "code": 59655,
           "name": "arrow-circle-right",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 8,
@@ -285,7 +285,7 @@
           "prevSize": 28,
           "code": 59656,
           "name": "arrow-circle-left",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 4,
@@ -687,7 +687,7 @@
           "prevSize": 32,
           "code": 59648,
           "name": "r-tag",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 3,
@@ -2499,8 +2499,11 @@
         {
           "ligatures": "plus, add",
           "name": "plus",
-          "order": 0,
-          "id": 267
+          "order": 45,
+          "id": 267,
+          "prevSize": 32,
+          "code": 59914,
+          "tempChar": ""
         },
         {
           "ligatures": "minus, subtract",
@@ -2833,7 +2836,7 @@
           "id": 322,
           "prevSize": 32,
           "code": 59969,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-right, right5",
@@ -2842,7 +2845,7 @@
           "id": 323,
           "prevSize": 32,
           "code": 59970,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-down, down3",
@@ -2851,7 +2854,7 @@
           "id": 324,
           "prevSize": 32,
           "code": 59971,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "circle-left, left5",
@@ -2860,7 +2863,7 @@
           "id": 325,
           "prevSize": 32,
           "code": 59972,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "tab, arrows",
@@ -3799,7 +3802,7 @@
           "id": 480,
           "prevSize": 32,
           "code": 60127,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-openoffice, file11",
@@ -3808,7 +3811,7 @@
           "id": 481,
           "prevSize": 32,
           "code": 60128,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-word, file12",
@@ -3817,7 +3820,7 @@
           "id": 482,
           "prevSize": 32,
           "code": 60129,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "file-excel, file13",
@@ -3826,7 +3829,7 @@
           "id": 483,
           "prevSize": 32,
           "code": 60130,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "libreoffice, file14",
@@ -3835,7 +3838,7 @@
           "id": 484,
           "prevSize": 32,
           "code": 60131,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "html-five, w3c",

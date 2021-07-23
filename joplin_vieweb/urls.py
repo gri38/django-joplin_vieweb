@@ -31,6 +31,7 @@ urlpatterns = [
     path('note_edit/upload/<str:session_id>', views.upload_note_attachment, name='upload note attachment'),
     path('edit_session/', views.edit_session, name='edit_session'),
     path('edit_session/<str:session_id>/update/<str:note_id>', views.edit_session_update_note, name='edit session update note'),
+    path('edit_session/<str:session_id>/create/<str:notebook_id>', views.edit_session_create_note, name='edit session create note'),
     path('edit_session_ressource/<str:session_id>/<str:file>', views.edit_session_ressource, name='get session ressource'),
 ]
 

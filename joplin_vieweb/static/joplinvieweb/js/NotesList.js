@@ -1,6 +1,7 @@
 /**
  * Emits: 
  * - 'note_selected', param: [note_id, note_name]
+ * - 'note_creation_request'
  */
 class NotesList extends EventEmitter {
     constructor() {
@@ -8,6 +9,8 @@ class NotesList extends EventEmitter {
         this.last_get_source = null; // will be "notebook" or "tag"
         this.last_get_source_id = 0; // will be the notebook id or the tag id.
         this.last_selected_note_id = null;
+
+        $("#notes_list_ctn .notes_list_header  .icon-plus").on("click", () => { super.emit("note_creation_request") });
     }
     
     get_from_notebook(notebook_id, last_selected_note_id=null) {
@@ -102,6 +105,11 @@ class NotesList extends EventEmitter {
         }
     }
 
+    refresh_and_select_note(note_id) {
+        this.last_selected_note_id = note_id;
+        this.refresh_and_select();
+    }
+
     /**
      * 
      */
@@ -111,6 +119,19 @@ class NotesList extends EventEmitter {
         if (selected_li_target.length) { // else is not an error: when note is deleted.
             selected_li_target.addClass("selected");
             super.emit("note_selected", [selected_li_target.data("note-id"), selected_li_target.data("note-name")]);
+        }
+    }
+
+    /**
+     * show or hide the + button to add a note.
+     * @param {boolean} visible 
+     */
+    note_addition(visible) {
+        if (visible) {
+            $("#notes_list_toolbox").show(400);
+        }
+        else {
+            $("#notes_list_toolbox").hide(400);
         }
     }
 }

@@ -17,6 +17,7 @@ html, body {
     padding-top: 10px;
     padding-bottom: 3px;
     flex-grow: 0;
+    position: relative;
 }
 .accordion_header {
     cursor: pointer;
@@ -176,19 +177,21 @@ animation-name: rotate_sync;
 .note_view_header {
     color: #ff4411;
     border-bottom: 1px dotted #ff4411;
-    position: relative;
 }
-#note_view_header_left {
+.toolbox_float_left {
     position: absolute;
     left: 10px;
     height: 100%;
     float: left;
 }
-#note_view_header_right {
+.toolbox_float_right {
     position: absolute;
     right: 10px;
     height: 100%;
     float: right;
+}
+.icon-plus {
+    cursor: pointer;
 }
 .note_item.selected {
     background-color: #E5E5E5;

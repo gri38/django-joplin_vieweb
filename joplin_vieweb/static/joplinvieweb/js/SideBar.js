@@ -6,6 +6,7 @@
  * - 'notebook_selected_and_note', param: notebook_id, note_id
  * - 'tag_selected', param: tag_id
  * - 'tag_selected_and_note', param: tag_id, note_id
+ * - 'notebooks_visibility', param: boolean
  * 
  * - 'sync_over' when a joplin synch has finished and notes list should be refreshed.
  * - "sync_started" when joplin sync starts and notes list and note view shoudl be cleared
@@ -17,6 +18,8 @@ class SideBar extends EventEmitter{
         this.last_tag_id = null;
         this.last_notebook_id = null;
         this.reselect_after_reload = 0;
+
+        $("#notebook_toolbox .icon-plus").on("click", () => { console.log("cliccccc") });
     }
 
     
@@ -38,6 +41,17 @@ class SideBar extends EventEmitter{
     reload() {
         this.get_notebooks_from_server();
         this.get_tags_from_server();
+    }
+
+    /**
+     * @return null if no note selected, otherwise the id as string
+     */
+    get_selected_notebook_id() {
+        let selected = $('#notebooks_tree_inner').tree('getSelectedNode', this.last_notebook_id);
+        if (selected) {
+            return selected.id;
+        }
+        return null;
     }
     
     /**
@@ -384,10 +398,29 @@ class SideBar extends EventEmitter{
     }
 
     /**
+     * show or hide the + button to add a notebook.
+     * @param {boolean} visible 
+     */
+    notebook_addition(visible) {
+        if (visible) {
+            $("#notebook_toolbox").show(400);
+        }
+        else {
+            $("#notebook_toolbox").hide(400);
+        }
+    }
+
+    /**
      * Toggle accordion according to id of clicked header
      * @param {string} parent_id Expected values: "notebooks_tree_ctn", "tags_ctn", "sync_ctn"
      */
     toggle_accordion(parent_id) {
+        if (parent_id == "notebooks_tree_ctn") {
+            super.emit("notebooks_visibility", true)
+        }
+        else {
+            super.emit("notebooks_visibility", false)
+        }
         if (parent_id == "notebooks_tree_ctn") {
             this.accordion_open("#notebooks_tree_ctn", "#notebooks_tree");
             this.accordion_close("#tags_ctn", "#tags");

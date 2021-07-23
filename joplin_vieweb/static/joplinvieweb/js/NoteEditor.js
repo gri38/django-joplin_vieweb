@@ -7,9 +7,21 @@ class NoteEditor extends EventEmitter {
     constructor(note_id, note_name, session_id) {
         super();
         this.note_id = note_id;
+        if (note_name == null) {
+            note_name = "Untitled"
+        }
         this.note_name = note_name;
         this.session_id = session_id;
+        this.notebook_id = null;
         // console.log("Note editor created for note_id: [" + note_id + "] note name: [" + note_name + "] and session id: [" + session_id + "].");
+    }
+
+    /**
+     * 
+     * @param {} notebook_id Save the notebook id for note creation.
+     */
+    set_notebook_id(notebook_id) {
+        this.notebook_id = notebook_id;
     }
 
     init(md) {
@@ -34,7 +46,14 @@ class NoteEditor extends EventEmitter {
 
         // attach to cancel and commit buttons.
         $("#note_edit_cancel").on("click", () => { super.emit("cancel"); });
-        $("#note_edit_commit").on("click", () => { this.update_note(this.note_id, this.easyMDE.value()); });
+        $("#note_edit_commit").on("click", () => {
+            if (this.note_id != null){
+                this.update_note(this.note_id, this.easyMDE.value());
+            }
+            else {
+                this.create_note(this.easyMDE.value());
+            }
+        });
     }
 
     update_note(note_id, md) {
@@ -45,6 +64,20 @@ class NoteEditor extends EventEmitter {
             headers: { "X-CSRFToken": csrftoken },
             data: JSON.stringify({ "markdown": md, "title": $("#note_edit_title").val() }),
             complete: () => { super.emit("commit"); }
+        })
+    }
+
+    create_note(md) {
+        md = md.replace(/\(\/joplin\/:\//g, "(:/");
+        $.ajax({
+            url: '/joplin/edit_session/' + this.session_id + '/create/' + this.notebook_id,
+            type: 'post',
+            headers: { "X-CSRFToken": csrftoken },
+            data: JSON.stringify({ "markdown": md, "title": $("#note_edit_title").val() }),
+            complete: (data) => {
+                this.note_id = data.responseText;
+                super.emit("commit");
+            }
         })
     }
 }
