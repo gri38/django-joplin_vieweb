@@ -41,7 +41,8 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 
 ![image](https://user-images.githubusercontent.com/26554495/126596832-a15895b6-90fb-416e-849a-192dfe8b08fd.png)
 - Note creation
-![joplin_create_note](https://user-images.githubusercontent.com/26554495/126747600-a59e43df-5565-4a55-81ac-69c6eec1b392.gif)
+![joplin_create_note](https://user-images.githubusercontent.com/26554495/126760127-de455fb1-76ab-4d05-9ace-44f8fe719284.gif)
+
 
 
 
