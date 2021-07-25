@@ -19,7 +19,7 @@ class SideBar extends EventEmitter{
         this.last_notebook_id = null;
         this.reselect_after_reload = 0;
 
-        $("#notebook_toolbox .icon-plus").on("click", () => { console.log("cliccccc") });
+        $("#notebook_toolbox .icon-plus1").on("click", () => { console.log("cliccccc") });
     }
 
     
