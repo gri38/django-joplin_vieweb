@@ -183,14 +183,16 @@ animation-name: rotate_sync;
     left: 10px;
     height: 100%;
     float: left;
+    white-space: nowrap;
 }
 .toolbox_float_right {
     position: absolute;
     right: 10px;
     height: 100%;
     float: right;
+    white-space: nowrap;
 }
-.icon-plus1 {
+#notebook_toolbox span {
     cursor: pointer;
 }
 .note_item.selected {

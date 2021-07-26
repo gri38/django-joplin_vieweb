@@ -37,8 +37,21 @@ def notebooks(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notes(request, notebook_id):
     joplin = Joplin()
-    notes_metadata = joplin.get_notes_metadata(notebook_id)
-    return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
+    if request.method == "GET": # list the notyes of this notebook
+        notes_metadata = joplin.get_notes_metadata(notebook_id)
+        return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
+    if request.method == "POST": # create a notebook
+        data = json.loads(request.body)
+        title = data["title"]
+        parent_id = data["parent_id"]
+        if parent_id == "0":
+            parent_id = ""
+        new_notebook_id = joplin.create_notebook(parent_id, title)
+        return HttpResponse(new_notebook_id)
+
+
+
+
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id, format="html"):

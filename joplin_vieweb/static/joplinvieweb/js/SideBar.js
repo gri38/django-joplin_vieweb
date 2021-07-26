@@ -18,8 +18,11 @@ class SideBar extends EventEmitter{
         this.last_tag_id = null;
         this.last_notebook_id = null;
         this.reselect_after_reload = 0;
+        this.reselect_after_reload_also_notes = false;
 
-        $("#notebook_toolbox .icon-plus1").on("click", () => { console.log("cliccccc") });
+        this.notebook_addition(true);
+        $("#notebook_toolbox .icon-plus1").on("click", () => { this.create_notebook() });
+        $("#notebook_toolbox .icon-trash-o").on("click", () => { this.delete_notebook() });
     }
 
     
@@ -44,12 +47,23 @@ class SideBar extends EventEmitter{
     }
 
     /**
-     * @return null if no note selected, otherwise the id as string
+     * @return null if no notebook selected, otherwise the id as string
      */
     get_selected_notebook_id() {
-        let selected = $('#notebooks_tree_inner').tree('getSelectedNode', this.last_notebook_id);
+        let selected = $('#notebooks_tree_inner').tree('getSelectedNode');
         if (selected) {
             return selected.id;
+        }
+        return null;
+    }
+    
+    /**
+     * @return null if no notebook selected, otherwise the name as string
+     */
+    get_selected_notebook_name() {
+        let selected = $('#notebooks_tree_inner').tree('getSelectedNode');
+        if (selected) {
+            return selected.name;
         }
         return null;
     }
@@ -105,6 +119,12 @@ class SideBar extends EventEmitter{
         else {
             this.toggle_accordion("tags_ctn");
         }
+
+        // also reload notes ?
+        if (this.reselect_after_reload_also_notes == true) {
+            this.reselect_after_reload_also_notes = false;
+            super.emit("notebook_selected", this.last_notebook_id); // for now, only last_notebook_id is involved when reselect_after_reload_also_notes == true
+        }
     }
 
     /**
@@ -137,6 +157,14 @@ class SideBar extends EventEmitter{
                 super.emit("notebook_selected", node_id);
             }
         });
+
+        tree.on('tree.select', (event) => {
+                if (event.node) {
+                    // node was selected
+                    this.notebook_addition(true);
+                }
+            }
+        );
         
         // prevent unselection of notebook:
         $('#notebooks_tree_inner').bind(
@@ -399,14 +427,31 @@ class SideBar extends EventEmitter{
 
     /**
      * show or hide the + button to add a notebook.
+     * Also show / add trash icon according to notebook selected or not.
      * @param {boolean} visible 
      */
     notebook_addition(visible) {
+        let notebook_selected = this.get_selected_notebook_id();
+
         if (visible) {
-            $("#notebook_toolbox").show(400);
+            if (notebook_selected != null) {
+                $("#notebook_toolbox .icon-trash-o").show(400);
+                $("#notebook_toolbox").show(400);
+            }
+            else {
+                $("#notebook_toolbox .icon-trash-o").hide(0, () => { $("#notebook_toolbox").show(400); });
+            }
+            
         }
         else {
-            $("#notebook_toolbox").hide(400);
+            $("#notebook_toolbox").hide(400, () => {
+                if (notebook_selected != null) {
+                    $("#notebook_toolbox .icon-trash-o").show(0);
+                }
+                else {
+                    $("#notebook_toolbox .icon-trash-o").hide(0);
+                }
+            });
         }
     }
 
@@ -453,6 +498,92 @@ class SideBar extends EventEmitter{
      */
     reset_sync_dirty () {
         $(".dirty").remove();
+    }
+
+    /**
+     * 
+     */
+    create_notebook() {
+        let selected_notebook_id = this.get_selected_notebook_id();
+        let parent_id = null;
+        if (selected_notebook_id) {
+            parent_id = selected_notebook_id;
+        }
+
+        //
+        // Popup
+        //
+        if (parent_id == null) {
+            $("#new_nb_with_parent_radio").hide();
+            $('label[for="new_nb_with_parent_radio"]').hide();
+            $("#new_nb_root_radio").prop('checked', true);
+        }
+        else {
+            $("#new_nb_with_parent_radio").show();
+            $('label[for="new_nb_with_parent_radio"]').show();
+            $("#new_nb_with_parent_name").html(this.get_selected_notebook_name());
+            $("#new_nb_root_radio").prop('checked', false);
+            $("#new_nb_with_parent_radio").prop('checked', true);
+        }
+        
+        $("#notebook_create_popup").on($.modal.OPEN, function (event, modal) {
+            $("#nb_title").focus();
+            $("#nb_title").val('');
+            $("#notebook_create_popup").off($.modal.OPEN);
+        });
+        $("#notebook_create_popup").modal({fadeDuration: 100 });
+        $("#notebook_create_popup .button_OK").on("click", () => { 
+            $("#notebook_create_popup .button_OK").off("click");
+            if ($("#new_nb_root_radio").prop('checked')) {
+                parent_id = "0";
+            }
+            let title = $("#nb_title").val();
+            if (title == "") {
+                $("#notebook_create_popup_error_no_title").modal({ fadeDuration: 100 });
+            }
+            else {
+                $.ajax({
+                    url: '/joplin/notebooks/' + parent_id + "/",
+                    type: 'post',
+                    headers: { "X-CSRFToken": csrftoken },
+                    data: JSON.stringify({ "parent_id": parent_id, "title": title }),
+                    complete: (new_id) => {
+                        this.last_notes_source = "notebook";
+                        this.last_notebook_id = new_id.responseText;
+                        this.reselect_after_reload = 2;
+                        this.reselect_after_reload_also_notes = true;
+                        this.reload();
+                    }
+                });
+                $.modal.close();
+            }
+        });
+        $("#notebook_create_popup .button_Cancel").on("click", () => { 
+            $("#notebook_create_popup .button_Cancel").off("click");
+            $.modal.close();
+        });
+    }
+
+    delete_notebook() {
+        //
+        // display confirm popup
+        //
+        let name = this.get_selected_notebook_name();
+        $("#notebook_delete_popup_nb_name").html(name);
+        $("#notebook_delete_popup").modal({ fadeDuration: 100 });
+
+        // cancel button close modal:
+        $("#notebook_delete_popup .button_Cancel").on("click", () => {
+            $("#notebook_delete_popup .button_Cancel").off("click");
+            $.modal.close();
+        });
+
+        // Delete button deletes:
+        $("#notebook_delete_popup .button_OK").on("click", () => {
+            $("#notebook_delete_popup .button_OK").off("click");
+            console.log("Todo: delete notebook " + this.get_selected_notebook_id());
+            $.modal.close();
+        });
     }
 }
 
