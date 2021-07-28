@@ -105,12 +105,30 @@
     <p>Creation abort: no title.</p>
 </span>
 
-<!-- delete notebook-->
+<!-- delete notebook confirm -->
 <span id="notebook_delete_popup" class="modal">
     <div class="popup_title popup_title_error">Delete notebook [ <span id="notebook_delete_popup_nb_name"></span> ]?</div>
     <p>Are you sure?</p>
     <p>All contained notebooks and notes will be deleted also.</p>
     <br/>
+    <div class="popup_button_bar_2">
+        <div class="popup_button button_OK">Delete</div>
+        <div class="popup_button button_Cancel last_popup_button">Cancel</div>
+    </div>
+</span>
+
+<!-- Please select a notebook (while note create asked without notebook selected.) -->
+<span id="note_create_please_select_notebook_popup" class="modal">
+    <div class="popup_title popup_title_error">Note creation</div>
+    <p>Please select a notebook</p>
+</span>
+
+<!-- Note deletion confirm -->
+<span id="note_delete_popup" class="modal">
+    <div class="popup_title popup_title_error">Delete note [ <span id="note_delete_popup_note_name"></span> ]?
+    </div>
+    <p>Are you sure?</p>
+    
     <div class="popup_button_bar_2">
         <div class="popup_button button_OK">Delete</div>
         <div class="popup_button button_Cancel last_popup_button">Cancel</div>

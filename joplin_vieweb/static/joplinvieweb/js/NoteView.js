@@ -294,14 +294,26 @@ class NoteView extends EventEmitter {
      * 
      */
     note_delete(note_id, note_name) {
-        if (confirm("Delete note [" + note_name + "] ?")) {
+        $("#note_delete_popup_note_name").html(note_name);
+        $("#note_delete_popup").modal({ fadeDuration: 100 });
+
+        // cancel button close modal:
+        $("#note_delete_popup .button_Cancel").on("click", () => {
+            $("#note_delete_popup .button_Cancel").off("click");
+            $.modal.close();
+        });
+        
+        // Delete button deletes:
+        $("#note_delete_popup .button_OK").on("click", () => {
+            $("#note_delete_popup .button_OK").off("click");
+            $.modal.close();
             $.ajax({
                 url: '/joplin/notes/' + note_id + "/delete",
                 type: 'post',
                 headers: { "X-CSRFToken": csrftoken },
                 complete: () => { super.emit("note_edit_finished", true); }
-            })
-        }
+            });
+        });
     }
 
 }

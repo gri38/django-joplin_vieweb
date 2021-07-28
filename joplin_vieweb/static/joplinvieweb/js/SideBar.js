@@ -578,9 +578,10 @@ class SideBar extends EventEmitter{
             $("#notebook_delete_popup .button_Cancel").off("click");
             $.modal.close();
         });
-
+        
         // Delete button deletes:
         $("#notebook_delete_popup .button_OK").on("click", () => {
+            $("#notebook_delete_popup .button_OK").off("click");
             let notebook_id = this.get_selected_notebook_id();
             $("#notebook_delete_popup .button_OK").off("click");
             $.ajax({
