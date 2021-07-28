@@ -72,6 +72,17 @@ class Joplin:
                 new_notebook.name = one_folder["title"]
                 notebook.children.append(new_notebook)
                 self.append_notebook(new_notebook, folders_by_parent_id)
+
+    def create_notebook(self, parent_id, title):
+        new_notebook_details = json.loads(
+            self.joplin.create_folder(title, **{"parent_id": parent_id}).text)
+        new_notebook_id = new_notebook_details["id"]
+        return new_notebook_id
+
+    def delete_notebook(self, notebook_id):
+        res = self.joplin.delete_folder(notebook_id)
+        logging.debug(
+            "delete_notebook [{}] result: [{}]".format(notebook_id, res))
                 
     def get_notes_metadata(self, notebook_id):
         notes_metadata = []

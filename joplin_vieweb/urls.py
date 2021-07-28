@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('notebooks/', views.notebooks, name='notebooks'),
     path('notebooks/<notebook_id>/', views.notes, name='notebook notes'),
+    path('notebooks/<notebook_id>/delete/', views.notebook_delete, name='delete notebook'),
     path('notebooks_error/', views.notebooks_error, name='notebooks error'),
     path('notebooks/<notebook_id>/error/', views.notebook_error, name='notebook error'),
     path('notes/<note_id>/', views.note, name='note'),

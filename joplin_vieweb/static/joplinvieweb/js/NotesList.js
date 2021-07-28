@@ -10,7 +10,7 @@ class NotesList extends EventEmitter {
         this.last_get_source_id = 0; // will be the notebook id or the tag id.
         this.last_selected_note_id = null;
 
-        $("#notes_list_ctn .notes_list_header  .icon-plus").on("click", () => { super.emit("note_creation_request") });
+        $("#notes_list_ctn .notes_list_header  .icon-plus1").on("click", () => { super.emit("note_creation_request") });
     }
     
     get_from_notebook(notebook_id, last_selected_note_id=null) {

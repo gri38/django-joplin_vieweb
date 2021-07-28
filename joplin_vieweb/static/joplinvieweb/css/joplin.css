@@ -29,7 +29,7 @@ html, body {
 .accordion-inner {
     min-height: 50%;
     scrollbar-width: thin;
-    scrollbar-color: #5a6377 #F4F5F6;
+    scrollbar-color: #5a6377 #313640;
 }
 /* .readonly {
     color: grey;
@@ -183,14 +183,16 @@ animation-name: rotate_sync;
     left: 10px;
     height: 100%;
     float: left;
+    white-space: nowrap;
 }
 .toolbox_float_right {
     position: absolute;
     right: 10px;
     height: 100%;
     float: right;
+    white-space: nowrap;
 }
-.icon-plus {
+#notebook_toolbox span {
     cursor: pointer;
 }
 .note_item.selected {
@@ -275,7 +277,7 @@ animation-name: rotate_sync;
 
 #note_view {
     padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;
-    scrollbar-width: thin; scrollbar-color: #313640 #F4F5F6;
+    scrollbar-width: thin; scrollbar-color: #cecece #FFF;
     color: #333;
 }
 #note_view h1 { color: #ff4411; font-size: 1.5em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }

@@ -41,7 +41,9 @@ class NoteEditor extends EventEmitter {
             tabSize: 4,
             previewImagesInEditor: true,
             imagePathAbsolute: true,
-            imageMaxSize: 1024*1024*1024*8 // 1GB
+            imageMaxSize: 1024*1024*1024*8, // 1GB
+            showIcons: ["code", "table", ],
+            sideBySideFullscreen: false
         });
 
         // attach to cancel and commit buttons.
