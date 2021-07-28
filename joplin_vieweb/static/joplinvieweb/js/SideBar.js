@@ -529,11 +529,20 @@ class SideBar extends EventEmitter{
         $("#notebook_create_popup").on($.modal.OPEN, function (event, modal) {
             $("#nb_title").focus();
             $("#nb_title").val('');
-            $("#notebook_create_popup").off($.modal.OPEN);
         });
+
+        // unregister events after modal is closed.
+        $("#notebook_create_popup").on($.modal.CLOSE , function (event, modal) {
+            $("#notebook_create_popup").find("*").off();
+            $("#notebook_create_popup").off();
+        });
+        
+        $("#notebook_create_popup .button_Cancel").on("click", () => { 
+            $.modal.close();
+        });
+
         $("#notebook_create_popup").modal({fadeDuration: 100 });
         $("#notebook_create_popup .button_OK").on("click", () => { 
-            $("#notebook_create_popup .button_OK").off("click");
             if ($("#new_nb_root_radio").prop('checked')) {
                 parent_id = "0";
             }
@@ -559,10 +568,6 @@ class SideBar extends EventEmitter{
                 $.modal.close();
             }
         });
-        $("#notebook_create_popup .button_Cancel").on("click", () => { 
-            $("#notebook_create_popup .button_Cancel").off("click");
-            $.modal.close();
-        });
     }
 
     delete_notebook() {
@@ -575,15 +580,19 @@ class SideBar extends EventEmitter{
 
         // cancel button close modal:
         $("#notebook_delete_popup .button_Cancel").on("click", () => {
-            $("#notebook_delete_popup .button_Cancel").off("click");
             $.modal.close();
+        });
+
+
+        // unregister events after modal is closed.
+        $("#notebook_delete_popup").on($.modal.CLOSE, function (event, modal) {
+            $("#notebook_delete_popup").find("*").off();
+            $("#notebook_delete_popup").off();
         });
         
         // Delete button deletes:
         $("#notebook_delete_popup .button_OK").on("click", () => {
-            $("#notebook_delete_popup .button_OK").off("click");
             let notebook_id = this.get_selected_notebook_id();
-            $("#notebook_delete_popup .button_OK").off("click");
             $.ajax({
                 url: '/joplin/notebooks/' + notebook_id + "/delete/",
                 type: 'post',

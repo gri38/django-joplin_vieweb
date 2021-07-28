@@ -297,6 +297,12 @@ class NoteView extends EventEmitter {
         $("#note_delete_popup_note_name").html(note_name);
         $("#note_delete_popup").modal({ fadeDuration: 100 });
 
+        // unregister events after modal is closed.
+        $("#note_delete_popup").on($.modal.CLOSE, function (event, modal) {
+            $("#note_delete_popup").find("*").off();
+            $("#note_delete_popup").off();
+        });
+
         // cancel button close modal:
         $("#note_delete_popup .button_Cancel").on("click", () => {
             $("#note_delete_popup .button_Cancel").off("click");
