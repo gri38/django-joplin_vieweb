@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseNotFound
 from joplin_vieweb.edit_session import EditSession
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -37,7 +38,7 @@ def notebooks(request):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def notes(request, notebook_id):
     joplin = Joplin()
-    if request.method == "GET": # list the notyes of this notebook
+    if request.method == "GET": # list the notes of this notebook
         notes_metadata = joplin.get_notes_metadata(notebook_id)
         return render(request, 'joplinvieweb/notes_list.html', {"notes_metadata": notes_metadata})
     if request.method == "POST": # create a notebook
@@ -48,6 +49,15 @@ def notes(request, notebook_id):
             parent_id = ""
         new_notebook_id = joplin.create_notebook(parent_id, title)
         return HttpResponse(new_notebook_id)
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def notebook_delete(request, notebook_id):
+    if request.method == "POST":  # delete the notebook
+        joplin = Joplin()
+        if notebook_id:
+            joplin.delete_notebook(notebook_id)
+        return HttpResponse("")
+    return HttpResponseNotFound("")
 
 
 
@@ -173,7 +183,7 @@ def joplin_public_ressource(request, ressource_path):
         else:
             response = HttpResponse(content=ressource_file, headers=headers)
     except IOError:
-        response = HttpResponseNotFound()
+        response = HttpResponseNotFound("")
 
     return response
     
@@ -245,7 +255,7 @@ def edit_session_ressource(request, session_id, file):
         else:
             response = HttpResponse(content=ressource_file)
     except IOError:
-        response = HttpResponseNotFound()
+        response = HttpResponseNotFound("")
 
     return response
 

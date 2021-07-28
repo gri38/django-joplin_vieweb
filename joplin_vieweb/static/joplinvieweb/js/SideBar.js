@@ -548,6 +548,7 @@ class SideBar extends EventEmitter{
                     headers: { "X-CSRFToken": csrftoken },
                     data: JSON.stringify({ "parent_id": parent_id, "title": title }),
                     complete: (new_id) => {
+                        this.set_sync_dirty();
                         this.last_notes_source = "notebook";
                         this.last_notebook_id = new_id.responseText;
                         this.reselect_after_reload = 2;
@@ -580,8 +581,21 @@ class SideBar extends EventEmitter{
 
         // Delete button deletes:
         $("#notebook_delete_popup .button_OK").on("click", () => {
+            let notebook_id = this.get_selected_notebook_id();
             $("#notebook_delete_popup .button_OK").off("click");
-            console.log("Todo: delete notebook " + this.get_selected_notebook_id());
+            $.ajax({
+                url: '/joplin/notebooks/' + notebook_id + "/delete/",
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                complete: () => {
+                    this.set_sync_dirty();
+                    this.last_notes_source = "notebook";
+                    this.last_notebook_id = null;
+                    this.reselect_after_reload = 2;
+                    this.reselect_after_reload_also_notes = true;
+                    this.reload();
+                }
+            });
             $.modal.close();
         });
     }
