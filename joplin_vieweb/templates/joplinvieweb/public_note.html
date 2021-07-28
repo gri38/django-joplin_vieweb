@@ -25,7 +25,7 @@ $.getJSON(
             note_view = new NoteView(true);
             note_view.display_note(data["body"], data["name"]);
         }
-        ).fail(() => {alert("fail");})
+        ).fail(() => {console.error("fail");})
 }
 
 </script>

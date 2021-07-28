@@ -62,7 +62,7 @@ class JoplinVieweb {
             this.note_view.note_create(current_nb_id);
         }
         else {
-            alert("Please select a notebook.")
+            $("#note_create_please_select_notebook_popup").modal({ fadeDuration: 100 });
         }
     }
 
