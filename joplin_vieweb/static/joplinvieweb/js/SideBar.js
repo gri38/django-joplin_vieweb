@@ -22,7 +22,7 @@ class SideBar extends EventEmitter{
 
         this.notebook_addition(true);
         $("#notebook_toolbox .icon-plus1").on("click", () => { this.create_notebook() });
-        $("#notebook_toolbox .icon-trash-o").on("click", () => { this.delete_notebook() });
+        $("#notebook_toolbox .icon-pencil").on("click", () => { this.edit_or_delete_notebook() });
     }
 
     
@@ -435,21 +435,21 @@ class SideBar extends EventEmitter{
 
         if (visible) {
             if (notebook_selected != null) {
-                $("#notebook_toolbox .icon-trash-o").show(400);
+                $("#notebook_toolbox .icon-pencil").show(400);
                 $("#notebook_toolbox").show(400);
             }
             else {
-                $("#notebook_toolbox .icon-trash-o").hide(0, () => { $("#notebook_toolbox").show(400); });
+                $("#notebook_toolbox .icon-pencil").hide(0, () => { $("#notebook_toolbox").show(400); });
             }
             
         }
         else {
             $("#notebook_toolbox").hide(400, () => {
                 if (notebook_selected != null) {
-                    $("#notebook_toolbox .icon-trash-o").show(0);
+                    $("#notebook_toolbox .icon-pencil").show(0);
                 }
                 else {
-                    $("#notebook_toolbox .icon-trash-o").hide(0);
+                    $("#notebook_toolbox .icon-pencil").hide(0);
                 }
             });
         }
@@ -525,11 +525,7 @@ class SideBar extends EventEmitter{
             $("#new_nb_root_radio").prop('checked', false);
             $("#new_nb_with_parent_radio").prop('checked', true);
         }
-        
-        $("#notebook_create_popup").on($.modal.OPEN, function (event, modal) {
-            $("#nb_title").focus();
-            $("#nb_title").val('');
-        });
+        $("#notebook_create_popup").modal({fadeDuration: 100 });
 
         // unregister events after modal is closed.
         $("#notebook_create_popup").on($.modal.CLOSE , function (event, modal) {
@@ -540,8 +536,7 @@ class SideBar extends EventEmitter{
         $("#notebook_create_popup .button_Cancel").on("click", () => { 
             $.modal.close();
         });
-
-        $("#notebook_create_popup").modal({fadeDuration: 100 });
+        
         $("#notebook_create_popup .button_OK").on("click", () => { 
             if ($("#new_nb_root_radio").prop('checked')) {
                 parent_id = "0";
@@ -568,6 +563,37 @@ class SideBar extends EventEmitter{
                 $.modal.close();
             }
         });
+
+        $("#notebook_create_popup").on($.modal.OPEN, function (event, modal) {
+            $("#nb_title").val('');
+            $("#nb_title").focus();
+        });
+    }
+
+    edit_or_delete_notebook() {
+        // Display edit or delete popup
+        let name = this.get_selected_notebook_name();
+        $("#edit_or_delete_notebook_nb_name").html(name);
+        $("#edit_or_delete_notebook_popup").modal({ fadeDuration: 100 });
+
+        // unregister events after modal is closed.
+        $("#edit_or_delete_notebook_popup").on($.modal.CLOSE, function (event, modal) {
+            $("#edit_or_delete_notebook_popup").find("*").off();
+            $("#edit_or_delete_notebook_popup").off();
+        });
+
+        // on edit:
+        $("#edit_or_delete_notebook_popup .button_edit").on("click", () => {
+            $.modal.close();
+            this.rename_notebook();
+        });
+
+
+        // on delete:
+        $("#edit_or_delete_notebook_popup .button_delete").on("click", () => {
+            $.modal.close();
+            this.delete_notebook();
+        });
     }
 
     delete_notebook() {
@@ -589,7 +615,7 @@ class SideBar extends EventEmitter{
             $("#notebook_delete_popup").find("*").off();
             $("#notebook_delete_popup").off();
         });
-        
+
         // Delete button deletes:
         $("#notebook_delete_popup .button_OK").on("click", () => {
             let notebook_id = this.get_selected_notebook_id();
@@ -603,6 +629,50 @@ class SideBar extends EventEmitter{
                     this.last_notebook_id = null;
                     this.reselect_after_reload = 2;
                     this.reselect_after_reload_also_notes = true;
+                    this.reload();
+                }
+            });
+            $.modal.close();
+        });
+    }
+
+    rename_notebook() {
+        //
+        // display rename notebook popup
+        //
+        let name = this.get_selected_notebook_name();
+        $("#notebook_rename_popup .notebook_rename_popup_nb_name").html(name);
+        $("#notebook_rename_popup input").val(name);
+        $("#notebook_rename_popup").modal({ fadeDuration: 100 });
+
+        // cancel button close modal:
+        $("#notebook_rename_popup .button_Cancel").on("click", () => {
+            $.modal.close();
+        });
+
+        // Set focus
+        $("#notebook_rename_popup").on($.modal.OPEN, function (event, modal) {
+            $('#notebook_rename_popup input').focus();
+        });
+
+
+        // unregister events after modal is closed.
+        $("#notebook_rename_popup").on($.modal.CLOSE, function (event, modal) {
+            $("#notebook_rename_popup").find("*").off();
+            $("#notebook_rename_popup").off();
+        });
+
+        // Rename button renames:
+        $("#notebook_rename_popup .button_OK").on("click", () => {
+            let notebook_id = this.get_selected_notebook_id();
+            $.ajax({
+                url: '/joplin/notebooks/' + notebook_id + "/rename/",
+                type: 'post',
+                data: JSON.stringify({ "title": $('#notebook_rename_popup input').val() }),
+                headers: { "X-CSRFToken": csrftoken },
+                complete: () => {
+                    this.set_sync_dirty();
+                    this.reselect_after_reload = 2;
                     this.reload();
                 }
             });

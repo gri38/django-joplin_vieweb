@@ -83,6 +83,11 @@ class Joplin:
         res = self.joplin.delete_folder(notebook_id)
         logging.debug(
             "delete_notebook [{}] result: [{}]".format(notebook_id, res))
+
+    def rename_notebook(self, notebook_id, title):
+        res = self.joplin.rename_folder(notebook_id, title)
+        logging.debug(
+            "rename_notebook [{}] / [{}] result: [{}]".format(notebook_id, title, res))
                 
     def get_notes_metadata(self, notebook_id):
         notes_metadata = []

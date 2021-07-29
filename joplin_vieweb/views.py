@@ -59,6 +59,15 @@ def notebook_delete(request, notebook_id):
         return HttpResponse("")
     return HttpResponseNotFound("")
 
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def notebook_rename(request, notebook_id):
+    if request.method == "POST":  # rename the notebook
+        data = json.loads(request.body)
+        title = data["title"]
+        joplin = Joplin()
+        joplin.rename_notebook(notebook_id, title) 
+        return HttpResponse("")
+    return HttpResponseNotFound("")
 
 
 

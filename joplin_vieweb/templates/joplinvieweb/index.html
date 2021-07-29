@@ -40,7 +40,7 @@
             <div class="accordion_header header not_sync_header">
                 <div id="notebook_toolbox" class="toolbox_float_right">
                     <span class="icon-plus1"></span>
-                    <span class="icon-trash-o"></span>
+                    <span class="icon-pencil"></span>
                 </div>
                 <span class="icon-s-book"></span>
                 &nbsp;&nbsp;Notebooks
@@ -99,6 +99,17 @@
     </div>
 </span>
 
+<!-- rename notebook popup -->
+<span id="notebook_rename_popup" class="modal">
+    <div class="popup_title">Rename notebook [ <span class="notebook_rename_popup_nb_name"></span> ]</div>
+    <label for="notebook_rename_popup_nb_title">New notebook title: </label><input type="text" name="notebook_rename_popup_nb_title"><br><br>
+
+    <div class="popup_button_bar_2">
+        <div class="popup_button button_OK">Rename</div>
+        <div class="popup_button button_Cancel last_popup_button">Cancel</div>
+    </div>
+</span>
+
 <!-- Error: New notebook creation without title -->
 <span id="notebook_create_popup_error_no_title" class="modal">
     <div class="popup_title popup_title_error">Create new notebook</div>
@@ -121,6 +132,17 @@
 <span id="note_create_please_select_notebook_popup" class="modal">
     <div class="popup_title popup_title_error">Note creation</div>
     <p>Please select a notebook</p>
+</span>
+
+<!-- edit or delete a notebook -->
+<span id="edit_or_delete_notebook_popup" class="modal">
+    <div class="popup_title">Notebook [ <span id="edit_or_delete_notebook_nb_name"></span> ]</div>
+    <p>Please select the action to perform on the notebook</p>
+    <br/>
+    <div class="popup_button_bar_2">
+        <div class="popup_button button_edit"><span class="icon-pencil"></span>&nbsp;&nbsp;Edit</div>
+        <div class="popup_button button_delete last_popup_button"><span class="icon-trash-o"></span>&nbsp;&nbsp;Delete</div>
+    </div>
 </span>
 
 <!-- Note deletion confirm -->

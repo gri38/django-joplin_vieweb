@@ -349,7 +349,7 @@ class JoplinApiSync:
         path = f'/folders/{folder_id}'
         return self.query('delete', path)
 
-    def rename_folder(self, folder_id, folder) -> Response:
+    def rename_folder(self, folder_id, title) -> Response:
         """
         PUT /folders
 
@@ -358,8 +358,9 @@ class JoplinApiSync:
         :param folder: string name of the folder
         :return: res: json result of the put
         """
-        data = {'id': folder_id, 'folder': folder}
-        return self.query('put', '/folders/', **data)
+        path = f'/folders/{folder_id}'
+        data = {'title': title}
+        return self.query('put', path, **data)
 
     ##############
     # TAGS
