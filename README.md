@@ -42,16 +42,15 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 ![image](https://user-images.githubusercontent.com/26554495/126596832-a15895b6-90fb-416e-849a-192dfe8b08fd.png)
 - Note creation
 ![joplin_create_note](https://user-images.githubusercontent.com/26554495/126760127-de455fb1-76ab-4d05-9ace-44f8fe719284.gif)
-
-
+- Notebook edition: create / rename / delete
+![notebook_edition](https://user-images.githubusercontent.com/26554495/127444638-a059931a-32f6-4027-8921-2dc073bf7034.gif)
 
 
 ### No it doesn't (yet?) 💔
 - Sort notebooks nor notes
-- Create notebook, not move note or notebook from one notebook to another.
+- Move note or notebook from one notebook to another.
 - No specific handling for todos.
 - Search for notes or tags
-
 
 ## Installation, configuration
 1. Install [Joplin terminal](https://joplinapp.org/terminal/).  
