@@ -21,38 +21,38 @@
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: #F41;
   font-weight: 300;
 }
 body ::-webkit-input-placeholder {
   /* WebKit browsers */
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: F41;
   font-weight: 300;
 }
 body :-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: F41;
   opacity: 1;
   font-weight: 300;
 }
 body ::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: #F41;
   opacity: 1;
   font-weight: 300;
 }
 body :-ms-input-placeholder {
   /* Internet Explorer 10+ */
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: F41;
   font-weight: 300;
 }
 .wrapper {
-  background: #50a3a2;
-  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  background: #313640;
+  background: linear-gradient(to bottom right, #313640 0%, #313640 25%, #F4F5F6 100%);
   position: absolute;
   left: 0;
   width: 100%;
@@ -102,13 +102,16 @@ form input {
   transition-duration: 0.25s;
   font-weight: 300;
 }
+input::placeholder {
+  color: white;
+}
 form input:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
 form input:focus {
   background-color: white;
   width: 300px;
-  color: #53e3a6;
+  color: #313640;
 }
 form button {
   -webkit-appearance: none;
@@ -118,7 +121,7 @@ form button {
   background-color: white;
   border: 0;
   padding: 10px 15px;
-  color: #53e3a6;
+  color: #F41;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;
@@ -147,6 +150,7 @@ form button:hover {
   -webkit-animation: square 25s infinite;
   animation: square 25s infinite;
   transition-timing-function: linear;
+  border: 1px solid #F41;
 }
 .bg-bubbles li:nth-child(1) {
   left: 10%;
