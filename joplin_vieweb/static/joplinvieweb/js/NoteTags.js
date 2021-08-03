@@ -152,6 +152,8 @@ class NoteTags extends EventEmitter {
      * This function displays the tag in the note tags list, and remove the tag from the suggest for new tag.
      */
     add_tag(tag) {
+        if (tag == "")
+            return;
         let tag_html = '<span class="note_tag"><span class="tag_label">' + tag + '</span></span>';
         // get the last tag to append the new one.
         $("#note_tags_tags").append(tag_html);
