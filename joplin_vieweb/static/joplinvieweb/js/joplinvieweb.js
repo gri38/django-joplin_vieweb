@@ -93,3 +93,13 @@ $(window).on("load" , () => {
     var app = new JoplinVieweb();
     app.init(); 
 } );
+
+
+function scroll_to(title) {
+    let tinit = $('#note_view').scrollTop();
+    $('#note_view').scrollTop(0);
+    let t = $(title).position().top;
+    let h = $(title).height();
+    $('#note_view').scrollTop(tinit);
+    $('#note_view').animate({ scrollTop: t - h}, 'slow');
+}

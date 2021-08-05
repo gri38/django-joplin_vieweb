@@ -109,8 +109,15 @@ def note_body_name(note_id, format, public=False):
             link.insert(0, img)
             link['class'] = link.get('class', []) + ['attachment_link']
         link['target'] = '_blank'
-    html = str(soup)
 
+    toc_item = soup.find('div', {"class": "toc"})
+    if toc_item:
+        for one_link in toc_item.findAll('a'):
+            current_href = str(one_link['href'])
+            new_link = "javascript:scroll_to('" + current_href + "');"
+            one_link['href'] = new_link
+            one_link['target'] = ""
+    html = str(soup)
 
     # Transform [ ] and [x] to checkboxes.
     html = html.replace("<li>[ ] ", '<li><input type="checkbox">');
