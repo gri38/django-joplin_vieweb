@@ -143,8 +143,10 @@ class NotesList extends EventEmitter {
     /**
      * 
      */
-    get_lasts_notes() {
-        display_progress($("#lasts_notes .progress_placeholder"));
+    get_lasts_notes(at_init=false) {
+        if (at_init) {
+            display_progress($("#lasts_notes .progress_placeholder"));
+        }
         $.getJSON(
             '/joplin/notes/lasts',
             (data) => {
@@ -161,6 +163,7 @@ class NotesList extends EventEmitter {
      */
     display_lasts_notes(data) {
         clear_progress($("#lasts_notes .progress_placeholder"));
+        $("#lasts_notes ul").html("");
         for (let one_note of data) {
             $("#lasts_notes ul").append('<li><span class="icon-sticky-note-o"></span>&nbsp;&nbsp;' + one_note["title"] + '</li>');
         }

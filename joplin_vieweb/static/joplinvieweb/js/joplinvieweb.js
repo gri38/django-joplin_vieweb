@@ -49,12 +49,15 @@ class JoplinVieweb {
             this.note_view.clear();
             this.notes_list.refresh_and_select_note(new_note_id);
         });
+        this.note_view.on("note_displayed", () => {
+            this.notes_list.get_lasts_notes();
+        });
     }
     
     init() {
         this.note_view.clear();
         this.side_bar.init();
-        this.notes_list.get_lasts_notes();
+        this.notes_list.get_lasts_notes(true);
     }
 
     create_note() {

@@ -124,6 +124,8 @@ def note_body_name(note_id, format, public=False):
     html = html.replace("<li>[ ] ", '<li><input type="checkbox">');
     html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>');
 
+    LastsNotes.set_last(note_id, note_name)
+
     return (html, note_name)
  
 def public_note(request, note_id):

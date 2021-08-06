@@ -6,6 +6,7 @@
  *  - "note_edit_finished", param: dirty=true ou false (true: commit, false: cancel.)
  *  - "cleared"
  *  - "note_created", param: new_note_id
+ *  - "note_displayed"
  */
 class NoteView extends EventEmitter {
     constructor(is_public=false) {
@@ -60,6 +61,7 @@ class NoteView extends EventEmitter {
                     this.set_current_note_id(note_id);
                     this.current_note_name = note_name;
                     this.tags.get_note_tags(note_id);
+                    super.emit("note_displayed");
                     this.display_note(data, note_name);
                   }
         )  .fail(() => {
