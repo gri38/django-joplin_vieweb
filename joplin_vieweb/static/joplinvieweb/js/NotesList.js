@@ -134,4 +134,37 @@ class NotesList extends EventEmitter {
             $("#notes_list_toolbox").hide(400);
         }
     }
+
+
+    //
+    // Lasts notes stuff
+    //
+
+    /**
+     * 
+     */
+    get_lasts_notes() {
+        display_progress($("#lasts_notes .progress_placeholder"));
+        $.getJSON(
+            '/joplin/notes/lasts',
+            (data) => {
+                this.display_lasts_notes(data);
+            }
+        ).fail(() => {
+            clear_progress($("#lasts_notes .progress_placeholder"));
+            console.error("error while getting lasts notes");
+        });
+    }
+
+    /**
+     * 
+     */
+    display_lasts_notes(data) {
+        clear_progress($("#lasts_notes .progress_placeholder"));
+        for (let one_note of data) {
+            $("#lasts_notes ul").append('<li><span class="icon-sticky-note-o"></span>&nbsp;&nbsp;' + one_note["title"] + '</li>');
+        }
+
+        console.log(data);
+    }
 }

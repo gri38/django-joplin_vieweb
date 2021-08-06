@@ -148,7 +148,7 @@ class NoteTags extends EventEmitter {
     }
 
     /**
-     * A tag has just benn added locally.
+     * A tag has just been added locally.
      * This function displays the tag in the note tags list, and remove the tag from the suggest for new tag.
      */
     add_tag(tag) {

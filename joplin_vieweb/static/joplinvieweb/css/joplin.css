@@ -41,6 +41,7 @@ html, body {
     display:flex;
     flex-direction: column;
     align-items: stretch;
+    z-index: 10;
 }
 #notebooks_tree_ctn, #tags_ctn {
     min-height: 0; /* So that their children don't make the size heighter than the flex container (cf. https://css-tricks.com/flexbox-truncated-text/) */
@@ -169,8 +170,24 @@ animation-name: rotate_sync;
     height: 100%;
     margin-left: 5px;
     border-right: 1px solid #cecece;
+    display:flex;
+    flex-direction: column;
 }
-.notes_list_header {
+.notes_list_section {
+
+}
+.section_2 {
+    /* flex-grow: 2; */
+    height: 66%;
+}
+.section_1 {
+    /* flex-grow: 1; */
+    height: 34%;
+}
+.notes_list_header, .lasts_notes_header {
+    background-image: linear-gradient(to bottom, #e8e8e8, #F4F5F6, #F4F5F6, #F4F5F6);
+}
+.notes_list_header, .lasts_notes_header{
     color: #313640;
     border-bottom: 1px dotted #313640;
 }
@@ -201,7 +218,7 @@ animation-name: rotate_sync;
 .note_item:not(.selected):hover{
     background-color: #CBDAF1;
 }
-#notes_list li {
+#notes_list li, #lasts_notes li {
     cursor: pointer;
     list-style-type: none;
     padding-left: 1em;
@@ -209,7 +226,7 @@ animation-name: rotate_sync;
     padding-bottom: 3px;
     
 }
-#notes_list ul {
+#notes_list ul, #lasts_notes ul {
     padding-left: 0px;
 }
 #note_view_ctn {

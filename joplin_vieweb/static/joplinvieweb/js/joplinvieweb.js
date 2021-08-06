@@ -54,6 +54,7 @@ class JoplinVieweb {
     init() {
         this.note_view.clear();
         this.side_bar.init();
+        this.notes_list.get_lasts_notes();
     }
 
     create_note() {

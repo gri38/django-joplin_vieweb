@@ -14,6 +14,7 @@ import mimetypes
 from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource
 import threading
 from .edit_session import EditSession
+from .lasts_notes import LastsNotes
 import glob
 
 def conditional_decorator(dec, condition):
@@ -302,3 +303,7 @@ def edit_session_create_note(request, session_id, notebook_id):
         note_id = joplin.create_note(notebook_id, title, md)
 
     return HttpResponse(note_id)
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def get_lasts_notes(request):
+    return HttpResponse(LastsNotes.get_lasts_notes())
