@@ -95,7 +95,7 @@ def note_body_name(note_id, format, public=False):
     note_body = '[TOC]\n\n' + note_body
 
     html = markdown.markdown(note_body, extensions=[
-                             'fenced_code', 'codehilite', 'toc', 'markdown.extensions.tables', 'pymdownx.mark'])
+                             'fenced_code', 'codehilite', 'toc', 'markdown.extensions.tables', 'pymdownx.mark', 'pymdownx.tabbed'])
     
     # Finally we set an attachment image to the attachments.
     # We search for <a href="/joplin/joplin_ressources"> or <a href=":/">
