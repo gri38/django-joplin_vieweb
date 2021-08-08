@@ -35,6 +35,7 @@ urlpatterns = [
     path('edit_session/<str:session_id>/update/<str:note_id>', views.edit_session_update_note, name='edit session update note'),
     path('edit_session/<str:session_id>/create/<str:notebook_id>', views.edit_session_create_note, name='edit session create note'),
     path('edit_session_ressource/<str:session_id>/<str:file>', views.edit_session_ressource, name='get session ressource'),
+    path('markdown_render/', views.render_markdown, name='render_markdown'),
 ]
 
 

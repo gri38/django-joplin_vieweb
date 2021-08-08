@@ -6,12 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .joplin import Joplin, ReprJsonEncoder
 import logging
-import markdown
 import json
 from bs4 import BeautifulSoup 
 from pathlib import Path
 import mimetypes
-from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource
+from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource, md_to_html
 import threading
 from .edit_session import EditSession
 import glob
@@ -83,6 +82,19 @@ def delete_note(request, note_id):
     return HttpResponse("")
 
 
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def render_markdown(request):
+    try:
+        if request.method == "POST":
+            md = json.loads(request.body)
+            md = md["markdown"]
+            html = md_to_html(md, True)
+            return HttpResponse(html)
+    except:
+        pass
+    return HttpResponseNotFound('')
+
+
 def note_body_name(note_id, format, public=False):
     note_body, note_name = Joplin().get_note_body_name(note_id)
     
@@ -93,9 +105,7 @@ def note_body_name(note_id, format, public=False):
         return (note_body, note_name)
     
     note_body = '[TOC]\n\n' + note_body
-
-    html = markdown.markdown(note_body, extensions=[
-                             'fenced_code', 'codehilite', 'toc', 'markdown.extensions.tables', 'pymdownx.mark', 'pymdownx.tabbed'])
+    html = md_to_html(note_body, False)
     
     # Finally we set an attachment image to the attachments.
     # We search for <a href="/joplin/joplin_ressources"> or <a href=":/">
@@ -118,10 +128,6 @@ def note_body_name(note_id, format, public=False):
             one_link['href'] = new_link
             one_link['target'] = ""
     html = str(soup)
-
-    # Transform [ ] and [x] to checkboxes.
-    html = html.replace("<li>[ ] ", '<li><input type="checkbox">');
-    html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>');
 
     return (html, note_name)
  

@@ -43,7 +43,8 @@ class NoteEditor extends EventEmitter {
             imagePathAbsolute: true,
             imageMaxSize: 1024*1024*1024*8, // 1GB
             showIcons: ["code", "table", ],
-            sideBySideFullscreen: false
+            sideBySideFullscreen: false,
+            previewRender: this.preview_render
         });
 
         // attach to cancel and commit buttons.
@@ -57,6 +58,25 @@ class NoteEditor extends EventEmitter {
             }
         });
     }
+
+    /**
+     * 
+     * 
+     */
+    preview_render(md, preview) { // Async method
+        $.ajax({
+            url: '/joplin/markdown_render/',
+            type: 'post',
+            headers: { "X-CSRFToken": csrftoken },
+            data: JSON.stringify({ "markdown": md }),
+            success: (data) => { preview.innerHTML = data; },
+            error: () => {
+                preview.innerHTML = '<div><small style="color: darkred;">Error while rendering preview...<small></div>';
+            }
+        })
+        return "Rendering preview...";
+    }
+
 
     update_note(note_id, md) {
         md = md.replace(/\(\/joplin\/:\//g, "(:/");

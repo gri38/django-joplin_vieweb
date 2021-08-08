@@ -7,6 +7,7 @@ import time
 import threading
 import re
 from django.urls import reverse
+import markdown
 
 def mimetype_to_icon(mimetype):
     type2icon = {
@@ -120,3 +121,19 @@ def markdown_vieweb_to_joplin(md):
     md = md.replace("](" + path_to_ressources, "](:/")
 
     return md
+
+def md_to_html(md, for_preview):
+    html = markdown.markdown(md, extensions=[
+        'fenced_code', 'codehilite', 'toc', 'markdown.extensions.tables', 'pymdownx.mark', 'pymdownx.tabbed'])
+    
+    # Transform [ ] and [x] to checkboxes.
+    if for_preview:
+        html = html.replace(
+            "<li>[ ] ", '<li><input type="checkbox" onclick="return false;">')
+        html = html.replace(
+            "<li>[x] ", '<li><input type="checkbox" checked onclick="return false;">')
+    else:
+        html = html.replace("<li>[ ] ", '<li><input type="checkbox">')
+        html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>')
+
+    return html
