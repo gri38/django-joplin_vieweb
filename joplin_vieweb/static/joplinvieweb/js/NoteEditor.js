@@ -13,6 +13,8 @@ class NoteEditor extends EventEmitter {
         this.note_name = note_name;
         this.session_id = session_id;
         this.notebook_id = null;
+
+        this.render_timer = null;
         // console.log("Note editor created for note_id: [" + note_id + "] note name: [" + note_name + "] and session id: [" + session_id + "].");
     }
 
@@ -64,17 +66,23 @@ class NoteEditor extends EventEmitter {
      * 
      */
     preview_render(md, preview) { // Async method
-        $.ajax({
-            url: '/joplin/markdown_render/',
-            type: 'post',
-            headers: { "X-CSRFToken": csrftoken },
-            data: JSON.stringify({ "markdown": md }),
-            success: (data) => { preview.innerHTML = data; },
-            error: () => {
-                preview.innerHTML = '<div><small style="color: darkred;">Error while rendering preview...<small></div>';
-            }
-        })
-        return preview.innerHTML;
+        if (this.render_timer) {
+            window.clearTimeout(this.render_timer);
+        }
+        this.render_timer = window.setTimeout(() => {
+            this.render_timer = null;
+            $.ajax({
+                url: '/joplin/markdown_render/',
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                data: JSON.stringify({ "markdown": md }),
+                success: (data) => { preview.innerHTML = data; },
+                error: () => {
+                    preview.innerHTML = '<div><small style="color: darkred;">Error while rendering preview...<small></div>';
+                }
+            })
+            return preview.innerHTML;
+        }, 400); 
     }
 
 
