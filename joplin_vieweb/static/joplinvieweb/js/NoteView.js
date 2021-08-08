@@ -156,15 +156,24 @@ class NoteView extends EventEmitter {
         });
         let note_id = this.current_note_id;
         let note_name = this.current_note_name;
-        this.clear();
-        display_progress($("#note_view"));
+        
+        // Let's set checked attribute to true when the cb is checked:
+        $('#note_view input[type=checkbox]').each((index, el) => {
+            let current_cb = $(el);
+            if (current_cb.is(":checked")) {
+                current_cb.attr("checked", "checked");
+            }
+            else {
+                current_cb.removeAttr("checked");
+            }
+        });
+        this.handle_checkboxes();
         $.ajax({
             url: '/joplin/notes/' + note_id + "/checkboxes",
             type: 'post',
             data: JSON.stringify({ "cb": checkboxes }),
             headers: { "X-CSRFToken": csrftoken },
             complete: () => {
-                this.get_note(note_id, note_name);
                 super.emit("note_checkboxes_changed");
             }
         });
