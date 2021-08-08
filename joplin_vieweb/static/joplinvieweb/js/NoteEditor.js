@@ -74,7 +74,7 @@ class NoteEditor extends EventEmitter {
                 preview.innerHTML = '<div><small style="color: darkred;">Error while rendering preview...<small></div>';
             }
         })
-        return "Rendering preview...";
+        return preview.innerHTML;
     }
 
 
