@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?gqk6gk');
-  src:  url('fonts/icomoon.eot?gqk6gk#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?gqk6gk') format('truetype'),
-    url('fonts/icomoon.woff?gqk6gk') format('woff'),
-    url('fonts/icomoon.svg?gqk6gk#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?ntc24k');
+  src:  url('fonts/icomoon.eot?ntc24k#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ntc24k') format('truetype'),
+    url('fonts/icomoon.woff?ntc24k') format('woff'),
+    url('fonts/icomoon.svg?ntc24k#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-pin-outline:before {
+  content: "\e91c";
+}
+.icon-pin:before {
+  content: "\e91d";
+}
+.icon-push_pin:before {
+  content: "\e91b";
+}
 .icon-hash:before {
   content: "\e90e";
 }
@@ -57,6 +66,9 @@
 }
 .icon-file-zip:before {
   content: "\e92b";
+}
+.icon-stack:before {
+  content: "\e92e";
 }
 .icon-link:before {
   content: "\e9cb";

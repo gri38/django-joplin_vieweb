@@ -13,6 +13,7 @@ import mimetypes
 from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource, md_to_html
 import threading
 from .edit_session import EditSession
+from .lasts_notes import LastsNotes
 import glob
 
 def conditional_decorator(dec, condition):
@@ -54,6 +55,9 @@ def notebook_delete(request, notebook_id):
     if request.method == "POST":  # delete the notebook
         joplin = Joplin()
         if notebook_id:
+            # first get all the notes of that notebook to remove them from last notes:
+            notes_metadata = joplin.get_notes_metadata(notebook_id)
+            LastsNotes.delete_notes([one_note.id for one_note in notes_metadata])
             joplin.delete_notebook(notebook_id)
         return HttpResponse("")
     return HttpResponseNotFound("")
@@ -74,11 +78,16 @@ def notebook_rename(request, notebook_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id, format="html"):
     return HttpResponse(note_body_name(note_id, format)[0])
+    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def note_notebook(request, note_id):
+    return HttpResponse(Joplin().get_note_notebook(note_id))
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def delete_note(request, note_id):
     joplin = Joplin()
     joplin.delete_note(note_id)
+    LastsNotes.delete_note(note_id)
     return HttpResponse("")
 
 
@@ -129,6 +138,12 @@ def note_body_name(note_id, format, public=False):
             one_link['target'] = ""
     html = str(soup)
 
+    # Transform [ ] and [x] to checkboxes.
+    html = html.replace("<li>[ ] ", '<li><input type="checkbox">');
+    html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>');
+
+    LastsNotes.set_last(note_id, note_name)
+
     return (html, note_name)
  
 def public_note(request, note_id):
@@ -153,6 +168,18 @@ def note_checkboxes(request, note_id):
     return HttpResponse("")
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def pin_note(request, note_id):
+    if request.method == "POST":
+        LastsNotes.pin_note(note_id, True)
+        return HttpResponse("")
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def unpin_note(request, note_id):
+    if request.method == "POST":
+        LastsNotes.pin_note(note_id, False)
+        return HttpResponse("")
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):
     joplin = Joplin()
     if request.method == "GET":
@@ -164,6 +191,7 @@ def note_tags(request, note_id):
         tags = tags["tags"]
         joplin.update_note_tags(note_id, tags)
         return HttpResponse("")
+
 
     
     
@@ -308,3 +336,7 @@ def edit_session_create_note(request, session_id, notebook_id):
         note_id = joplin.create_note(notebook_id, title, md)
 
     return HttpResponse(note_id)
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
+def get_lasts_notes(request):
+    return HttpResponse(LastsNotes.read_lasts_notes())
