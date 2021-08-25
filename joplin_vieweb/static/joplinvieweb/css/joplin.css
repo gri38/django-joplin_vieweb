@@ -31,6 +31,13 @@ html, body {
     scrollbar-width: thin;
     scrollbar-color: #5a6377 #313640;
 }
+.accordion-inner::-webkit-scrollbar {
+  width: 7px;
+  background: #313640;
+}
+.accordion-inner::-webkit-scrollbar-thumb {
+    background: #5a6377;
+}
 /* .readonly {
     color: grey;
 } */
@@ -296,6 +303,13 @@ animation-name: rotate_sync;
     padding: 10px;  overflow-y: auto; overflow-x: auto; flex-grow: 1;
     scrollbar-width: thin; scrollbar-color: #cecece #FFF;
     color: #333;
+}
+#note_view::-webkit-scrollbar {
+  width: 7px;
+  background: #FFF;
+}
+#note_view::-webkit-scrollbar-thumb {
+    background: #cecece;
 }
 #note_view h1 { color: #ff4411; font-size: 1.5em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
 #note_view h2 { color: #ff4411; font-size: 1.4em; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
