@@ -55,8 +55,8 @@ def notebook_delete(request, notebook_id):
     if request.method == "POST":  # delete the notebook
         joplin = Joplin()
         if notebook_id:
-            # first get all the notes of that notebook to remove them from last notes:
-            notes_metadata = joplin.get_notes_metadata(notebook_id)
+            # first get all the notes of that notebook (recursively, pffff ;-) ) to remove them from last notes:
+            notes_metadata = joplin.get_notes_metadata_recursive(notebook_id)
             LastsNotes.delete_notes([one_note.id for one_note in notes_metadata])
             joplin.delete_notebook(notebook_id)
         return HttpResponse("")

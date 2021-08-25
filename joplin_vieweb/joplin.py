@@ -34,6 +34,10 @@ class NoteMetadata:
         return "Note metadata: {} [{}]".format(self.name, self.id)
 
 class Joplin:
+
+    folders_by_parent_id = dict()
+
+
     def __init__(self):
         joplin_api_conf = {
                               'JOPLIN_HOST': settings.JOPLIN_SERVER_URL,
@@ -50,28 +54,28 @@ class Joplin:
         folders = json.loads(self.joplin.get_folders().text)
         folders = folders["items"]
         folders_by_id = { folder["id"]: folder for folder in folders }
-        folders_by_parent_id = dict()
+        Joplin.folders_by_parent_id = dict()
         for one_folder in folders:
             parent_id = one_folder["parent_id" ]
-            if parent_id in folders_by_parent_id.keys():
-                folders_by_parent_id[parent_id].append(one_folder)
+            if parent_id in Joplin.folders_by_parent_id.keys():
+                Joplin.folders_by_parent_id[parent_id].append(one_folder)
             else:
-                folders_by_parent_id[parent_id] = [one_folder]
+                Joplin.folders_by_parent_id[parent_id] = [one_folder]
         logging.debug("folders_by_id = " + str(folders_by_id))
-        logging.debug("folders_by_parent_id = " + str(folders_by_parent_id))
-        self.append_notebook(self.rootNotebook, folders_by_parent_id)
+        logging.debug("folders_by_parent_id = " + str(Joplin.folders_by_parent_id))
+        self.append_notebook(self.rootNotebook)
         
-    def append_notebook(self, notebook, folders_by_parent_id):
+    def append_notebook(self, notebook):
         """
         append to notebook every notebook with parent_id
         """
-        if notebook.id in folders_by_parent_id.keys():
-            for one_folder in folders_by_parent_id[notebook.id]:
+        if notebook.id in Joplin.folders_by_parent_id.keys():
+            for one_folder in Joplin.folders_by_parent_id[notebook.id]:
                 new_notebook = Notebook()
                 new_notebook.id = one_folder["id"]
                 new_notebook.name = one_folder["title"]
                 notebook.children.append(new_notebook)
-                self.append_notebook(new_notebook, folders_by_parent_id)
+                self.append_notebook(new_notebook)
 
     def create_notebook(self, parent_id, title):
         new_notebook_details = json.loads(
@@ -88,8 +92,43 @@ class Joplin:
         res = self.joplin.rename_folder(notebook_id, title)
         logging.debug(
             "rename_notebook [{}] / [{}] result: [{}]".format(notebook_id, title, res))
+
+    def get_notebook_descendants(self, notebook_id):
+        # return a list of notebooks ids: all notebooks that are descendents of notebook_id
+        descendents = [notebook_id]
+        descendents = descendents + self.__get_descendents(notebook_id)
+        return descendents
+        
+    def __get_descendents(self, one_descendent):
+        try:
+            descendents = [one["id"] for one in Joplin.folders_by_parent_id[one_descendent]]
+        except:
+            descendents = []
+        for one_descendent in descendents:
+            descendents = descendents + self.__get_descendents(one_descendent)
+        return descendents
+
+    def get_notes_metadata_recursive(self, notebook_id):
+        """
+        Return a list of NoteMetadata for all notes which have given notebook_id as direct or indirect ancestor.
+        """
+        descendents = self.get_notebook_descendants(notebook_id)
+        
+        notes_metadata = []
+        notes_detail = json.loads(self.joplin.get_notes_preview().text)
+        notes_detail = notes_detail["items"]
+        for one_note in notes_detail:
+            if one_note["parent_id"] in descendents:
+                new_note_metadata = NoteMetadata()
+                new_note_metadata.id = one_note["id"]
+                new_note_metadata.name = one_note["title"]
+                notes_metadata.append(new_note_metadata)
+        return notes_metadata
                 
     def get_notes_metadata(self, notebook_id):
+        """
+        Return a list of NoteMetadata for all notes which have given notebook_id as direct ancestor.
+        """
         notes_metadata = []
         notes_detail = json.loads(self.joplin.get_notes_preview().text)
         notes_detail = notes_detail["items"]
