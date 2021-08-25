@@ -79,6 +79,7 @@ Configure it and start it.
    JOPLIN_LOGIN_REQUIRED=True # set to True only if you require a logged user for accessing the notes
    JOPLIN_SYNC_PERIOD_S=86400 # once a day
    JOPLIN_SYNC_INFO_FILE="/home/pi/.config/joplin/joplin_vieweb_sync_info"
+   JOPLIN_NOTES_HISTORY_DEPTH = 10
    ```
 6. If you set JOPLIN_LOGIN_REQUIRED=True
    1. ```python manage.py migrate```
