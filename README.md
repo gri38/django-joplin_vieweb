@@ -44,7 +44,10 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 ![joplin_create_note](https://user-images.githubusercontent.com/26554495/126760127-de455fb1-76ab-4d05-9ace-44f8fe719284.gif)
 - Notebook edition: create / rename / delete
 ![notebook_edition](https://user-images.githubusercontent.com/26554495/127444638-a059931a-32f6-4027-8921-2dc073bf7034.gif)
-- Notes history and pin, to quickly navigate among the last notes read:
+- Notes history: list of the latest notes consulted, to be able to open them quickly, or pin them:
+![demo_joplin_notes_history](https://user-images.githubusercontent.com/26554495/130871700-a78e54c1-81ff-4373-8b30-06bd826038d8.gif)
+- Tabs in notes (not displayed in joplin applications). Syntax here.
+![image](https://user-images.githubusercontent.com/26554495/130869166-4be37017-450b-4ee4-942a-3936963faaf8.png)
 
 
 ### No it doesn't (yet?) 💔
