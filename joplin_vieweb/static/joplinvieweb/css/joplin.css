@@ -180,8 +180,12 @@ animation-name: rotate_sync;
     display:flex;
     flex-direction: column;
 }
+.notes_list {
+    height: 100%;
+}
 .notes_list_section {
-
+    display: flex;
+    flex-direction: column;
 }
 .section_2 {
     /* flex-grow: 2; */
@@ -190,6 +194,18 @@ animation-name: rotate_sync;
 .section_1 {
     /* flex-grow: 1; */
     height: 34%;
+}
+#lasts_notes, #notes_list {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    /* height: 100% */
+}
+#lasts_notes::-webkit-scrollbar, #notes_list::-webkit-scrollbar {
+  width: 7px;
+  background: #F0F0F0;
+}
+#lasts_notes::-webkit-scrollbar-thumb, #notes_list::-webkit-scrollbar-thumb {
+    background: #A6A6A6;
 }
 .notes_list_header, .lasts_notes_header {
     background-image: linear-gradient(to bottom, #e8e8e8, #F4F5F6, #F4F5F6, #F4F5F6);
@@ -224,6 +240,13 @@ animation-name: rotate_sync;
 }
 .note_item:not(.selected):hover{
     background-color: #CBDAF1;
+}
+#lasts_notes li:hover{
+    background-color: #CBDAF1;
+}
+#lasts_notes .icon-pin, #lasts_notes .icon-pin-outline {
+    float: right;
+    margin-right: 10px;
 }
 #notes_list li, #lasts_notes li {
     cursor: pointer;

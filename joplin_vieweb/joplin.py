@@ -100,6 +100,12 @@ class Joplin:
                 new_note_metadata.name = one_note["title"]
                 notes_metadata.append(new_note_metadata)
         return notes_metadata
+
+    def get_note_notebook(self, note_id):
+        note = json.loads(self.joplin.get_note(note_id).text)
+        return note["parent_id"]
+        
+
     
     def get_notes_metadata_from_tag(self, tag_id):  
         notes_metadata = []

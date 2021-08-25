@@ -1,6 +1,7 @@
 /**
  * Emits: 
  * - 'note_selected', param: [note_id, note_name]
+ * - 'note_notebook_selected', param: [note_id, notebook_id]
  * - 'note_creation_request'
  */
 class NotesList extends EventEmitter {
@@ -110,6 +111,13 @@ class NotesList extends EventEmitter {
         this.refresh_and_select();
     }
 
+    refresh_and_select_note_from_notebook(note_id, notebook_id) {
+        this.last_get_source = "notebook";
+        this.last_selected_note_id = note_id;
+        this.last_get_source_id = notebook_id;
+        this.refresh_and_select();
+    }
+
     /**
      * 
      */
@@ -163,11 +171,73 @@ class NotesList extends EventEmitter {
      */
     display_lasts_notes(data) {
         clear_progress($("#lasts_notes .progress_placeholder"));
+        $("#lasts_notes").find("*").off();
+
         $("#lasts_notes ul").html("");
         for (let one_note of data) {
-            $("#lasts_notes ul").append('<li><span class="icon-sticky-note-o"></span>&nbsp;&nbsp;' + one_note["title"] + '</li>');
+            let icon = "icon-sticky-note-o";
+            if (one_note["pinned"]) {
+                icon = "icon-push_pin";
+            }
+            $("#lasts_notes ul").append('<li data-note-id="' + one_note["id"] + '" data-note-name="' + one_note["title"] + '"><span class="' + icon + ' lasts_notes_item_status"></span>&nbsp;&nbsp;' + one_note["title"] + '</li>');
         }
 
-        console.log(data);
+        // register to clicks
+        $("#lasts_notes li").on("click", (ev) => {
+            let note_id = $(ev.currentTarget).data('note-id');
+            let note_name = $(ev.currentTarget).data('note-name');
+            $(".note_item").removeClass("selected");
+            let item_to_select = $(".note_item[data-note-id='" + note_id + "']");
+            // if (item_to_select.length) {
+            //     item_to_select.addClass("selected");
+            // }
+            $.get(
+                '/joplin/notes/' + note_id + "/notebook_id",
+                (notebook_id) => {
+                    super.emit("note_notebook_selected", [note_id, notebook_id])
+                }
+            )
+        });
+
+        // register on hover (to pin)
+        $("#lasts_notes li").hover((ev) => {
+            let pin_icon = "icon-pin";
+            let icon_class = "pin_action";
+            if ($(ev.currentTarget).find(".lasts_notes_item_status").hasClass("icon-push_pin")) {
+                pin_icon = "icon-pin-outline";
+                icon_class = "unpin_action"
+            }
+            $(ev.currentTarget).prepend("<span data-note-id=\"" + $(ev.currentTarget).data('note-id') + "\" class=\"" + pin_icon + " " + icon_class + "\"></span>");
+            $(ev.currentTarget).find(".pin_action").on("click", (ev2) => { this.pin_note($(ev2.currentTarget).data("note-id"), true); });
+            $(ev.currentTarget).find(".unpin_action").on("click", (ev2) => { this.pin_note($(ev2.currentTarget).data("note-id"), false); });
+        }, 
+        (ev) => {
+            $(".pin_action[data-note-id='" + $(ev.currentTarget).data('note-id') + "']").remove();
+            $(".unpin_action[data-note-id='" + $(ev.currentTarget).data('note-id') + "']").remove();
+            $(ev.currentTarget).find("*").off();
+        })
     }
-}
+
+    /**
+     * Call back to pin a note and refresh the lasts notes
+     */
+    pin_note(note_id, pin) {
+        if (pin) {
+            $.ajax({
+                url: '/joplin/notes/' + note_id + '/pin',
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                complete: () => { /*this.get_lasts_notes();*/ }
+            });
+        }
+        else {
+            $.ajax({
+                url: '/joplin/notes/' + note_id + '/unpin',
+                type: 'post',
+                headers: { "X-CSRFToken": csrftoken },
+                complete: () => { /*this.get_lasts_notes();*/ }
+            });
+        }
+        
+    }
+} 

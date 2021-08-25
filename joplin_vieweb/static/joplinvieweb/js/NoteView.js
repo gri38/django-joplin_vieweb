@@ -7,6 +7,7 @@
  *  - "cleared"
  *  - "note_created", param: new_note_id
  *  - "note_displayed"
+ *  - "note_deleted"
  */
 class NoteView extends EventEmitter {
     constructor(is_public=false) {
@@ -319,7 +320,9 @@ class NoteView extends EventEmitter {
                 url: '/joplin/notes/' + note_id + "/delete",
                 type: 'post',
                 headers: { "X-CSRFToken": csrftoken },
-                complete: () => { super.emit("note_edit_finished", true); }
+                complete: () => { super.emit("note_edit_finished", true);
+                                  super.emit("note_deleted");    
+                                }
             });
         });
     }

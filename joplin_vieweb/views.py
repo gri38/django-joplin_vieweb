@@ -56,6 +56,9 @@ def notebook_delete(request, notebook_id):
     if request.method == "POST":  # delete the notebook
         joplin = Joplin()
         if notebook_id:
+            # first get all the notes of that notebook to remove them from last notes:
+            notes_metadata = joplin.get_notes_metadata(notebook_id)
+            LastsNotes.delete_notes([one_note.id for one_note in notes_metadata])
             joplin.delete_notebook(notebook_id)
         return HttpResponse("")
     return HttpResponseNotFound("")
@@ -76,11 +79,16 @@ def notebook_rename(request, notebook_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note(request, note_id, format="html"):
     return HttpResponse(note_body_name(note_id, format)[0])
+    
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def note_notebook(request, note_id):
+    return HttpResponse(Joplin().get_note_notebook(note_id))
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def delete_note(request, note_id):
     joplin = Joplin()
     joplin.delete_note(note_id)
+    LastsNotes.delete_note(note_id)
     return HttpResponse("")
 
 
@@ -150,6 +158,18 @@ def note_checkboxes(request, note_id):
     return HttpResponse("")
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def pin_note(request, note_id):
+    if request.method == "POST":
+        LastsNotes.pin_note(note_id, True)
+        return HttpResponse("")
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
+def unpin_note(request, note_id):
+    if request.method == "POST":
+        LastsNotes.pin_note(note_id, False)
+        return HttpResponse("")
+
+@conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)
 def note_tags(request, note_id):
     joplin = Joplin()
     if request.method == "GET":
@@ -161,6 +181,7 @@ def note_tags(request, note_id):
         tags = tags["tags"]
         joplin.update_note_tags(note_id, tags)
         return HttpResponse("")
+
 
     
     
@@ -308,4 +329,4 @@ def edit_session_create_note(request, session_id, notebook_id):
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def get_lasts_notes(request):
-    return HttpResponse(LastsNotes.get_lasts_notes())
+    return HttpResponse(LastsNotes.read_lasts_notes())

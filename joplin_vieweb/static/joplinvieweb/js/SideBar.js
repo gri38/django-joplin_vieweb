@@ -7,6 +7,7 @@
  * - 'tag_selected', param: tag_id
  * - 'tag_selected_and_note', param: tag_id, note_id
  * - 'notebooks_visibility', param: boolean
+ * - 'refresh_lasts_notes'
  * 
  * - 'sync_over' when a joplin synch has finished and notes list should be refreshed.
  * - "sync_started" when joplin sync starts and notes list and note view shoudl be cleared
@@ -109,6 +110,7 @@ class SideBar extends EventEmitter{
 
         if (this.last_notes_source == "notebook") {
             const node = $('#notebooks_tree_inner').tree('getNodeById', this.last_notebook_id);
+            $('#notebooks_tree_inner').tree('selectNode', null);
             $('#notebooks_tree_inner').tree('selectNode', node);
         }
 
@@ -125,6 +127,17 @@ class SideBar extends EventEmitter{
             this.reselect_after_reload_also_notes = false;
             super.emit("notebook_selected", this.last_notebook_id); // for now, only last_notebook_id is involved when reselect_after_reload_also_notes == true
         }
+    }
+    
+    /**
+     * Select the given notebook id, and unfold notebook section.
+     * @param {*} notebook_id 
+     */
+    select_notebook(notebook_id) {
+        this.reselect_after_reload_also_notes = false;
+        this.last_notes_source = "notebook";
+        this.last_notebook_id = notebook_id;
+        this.reselect();
     }
 
     /**
@@ -630,6 +643,7 @@ class SideBar extends EventEmitter{
                     this.reselect_after_reload = 2;
                     this.reselect_after_reload_also_notes = true;
                     this.reload();
+                    super.emit("refresh_lasts_notes");
                 }
             });
             $.modal.close();

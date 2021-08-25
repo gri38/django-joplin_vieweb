@@ -27,8 +27,15 @@ class JoplinVieweb {
         this.side_bar.on("notebooks_visibility", (visible) => {
             this.add_icons_set_visible(visible);
         });
+        this.side_bar.on("refresh_lasts_notes", () => { this.notes_list.get_lasts_notes(); })
         this.notes_list.on("note_selected", (note_data) => { this.note_view.get_note(note_data[0], note_data[1]) });
         this.notes_list.on("note_creation_request", () => { this.create_note(); } );
+        this.notes_list.on("note_notebook_selected", (selection) => {
+            let note_id = selection[0];
+            let notebook_id = selection[1];
+            this.side_bar.select_notebook(notebook_id);
+            this.notes_list.refresh_and_select_note_from_notebook(note_id, notebook_id);
+        });
         this.note_view.on("tags_changed", () => {
             this.side_bar.set_sync_dirty();
             this.side_bar.get_tags_from_server()}
@@ -52,6 +59,9 @@ class JoplinVieweb {
         this.note_view.on("note_displayed", () => {
             this.notes_list.get_lasts_notes();
         });
+        this.note_view.on("note_deleted", () => {
+            this.notes_list.get_lasts_notes();
+        })
     }
     
     init() {

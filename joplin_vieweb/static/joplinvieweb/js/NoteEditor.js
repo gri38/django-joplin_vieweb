@@ -27,7 +27,7 @@ class NoteEditor extends EventEmitter {
     init(md) {
         md = md.replace(/\(:\//g, "(/joplin/:/");
         clear_progress($("#note_view"));
-        $("#note_header_title").html('<input id="note_edit_title" type="text" value="' + this.note_name + '">');
+        $("#note_header_title").html('<input onfocus="$(this).select();" id="note_edit_title" type="text" value="' + this.note_name + '">');
         $("#note_view_header_right").append('<span id="note_edit_cancel" class="note_edit_icon icon-times-rectangle"></span><span id="note_edit_commit" class="note_edit_icon icon-check-square"></span>');
         $("#note_view").html('<textarea id="note_editor" name="note_editor">' + md + '</textarea>');
         this.easyMDE = new EasyMDE({
