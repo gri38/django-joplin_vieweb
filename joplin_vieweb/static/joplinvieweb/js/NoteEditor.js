@@ -45,9 +45,104 @@ class NoteEditor extends EventEmitter {
             imagePathAbsolute: true,
             imageMaxSize: 1024*1024*1024*8, // 1GB
             showIcons: ["code", "table", ],
-            sideBySideFullscreen: false,
-            previewRender: this.preview_render
-        });
+            toolbar: [  {
+                          name: "bold",
+                          action: EasyMDE.toggleBold,
+                          className: "fa fa-bold",
+                          title: "Bold",
+                        },
+                        {
+                            name: "italic",
+                            action: EasyMDE.toggleItalic,
+                            className: "fa fa-italic",
+                            title: "Italic",
+                        }, 
+                        {
+                            name: "heading",
+                            action: EasyMDE.toggleHeadingSmaller,
+                            className: "fa fa-header",
+                            title: "Heading",
+                        },
+                        '|',
+                        {
+                            name: "code",
+                            action: EasyMDE.toggleCodeBlock,
+                            className: "fa fa-code",
+                            title: "Code",
+                        },
+                        {
+                            name: "quote",
+                            action: EasyMDE.toggleBlockquote,
+                            className: "fa fa-quote-left",
+                            title: "Quote",
+                        },
+                        {
+                            name: "unordered-list",
+                            action: EasyMDE.toggleUnorderedList,
+                            className: "fa fa-list-ul",
+                            title: "Generic List",
+                        },
+                        {
+                            name: "ordered-list",
+                            action: EasyMDE.toggleOrderedList,
+                            className: "fa fa-list-ol",
+                            title: "Numbered List",
+                        },
+                        '|',
+                        {
+                            name: "link",
+                            action: EasyMDE.drawLink,
+                            className: "fa fa-link",
+                            title: "Create Link",
+                        },
+                        {
+                            name: "image",
+                            action: EasyMDE.drawImage,
+                            className: "fa fa-picture-o",
+                            title: "Insert Image",
+                        },
+                        {
+                            name: "table",
+                            action: EasyMDE.drawTable,
+                            className: "fa fa-table",
+                            title: "Insert Table",
+                        },
+                        '|',
+                        {
+                            name: "preview",
+                            action: EasyMDE.togglePreview,
+                            className: "fa fa-eye no-disable",
+                            title: "Toggle Preview",
+                        },
+                        {
+                            name: "side-by-side",
+                            action: EasyMDE.toggleSideBySide,
+                            className: "fa fa-columns no-disable no-mobile",
+                            title: "Toggle Side by Side",
+                        },
+                        {
+                            name: "fullscreen",
+                            action: EasyMDE.toggleFullScreen,
+                            className: "fa fa-arrows-alt no-disable no-mobile",
+                            title: "Toggle Fullscreen",
+                        },
+                        '|',
+                        {
+                            name: "guide",
+                            action: 'https://github.com/Ionaru/easy-markdown-editor',
+                            className: "fa fa-question-circle",
+                            title: "Markdown Guide",
+                        },
+                        {
+                            name: "custom markdown guide",
+                            action: 'https://facelessuser.github.io/pymdown-extensions/extensions/tabbed',
+                            className: "fa fa-question-circle",
+                            title: "Custom Markdown Guide",
+                        }
+                    ],
+                    sideBySideFullscreen: false,
+                    previewRender: this.preview_render
+                });
 
         // attach to cancel and commit buttons.
         $("#note_edit_cancel").on("click", () => { super.emit("cancel"); });

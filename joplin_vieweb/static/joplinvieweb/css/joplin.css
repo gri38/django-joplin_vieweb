@@ -270,6 +270,7 @@ animation-name: rotate_sync;
     display: flex;
     flex-direction: column;
     overflow: auto;
+    z-index: 20;
 }
 .center {
     align-self: center;

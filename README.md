@@ -44,6 +44,7 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 ![joplin_create_note](https://user-images.githubusercontent.com/26554495/126760127-de455fb1-76ab-4d05-9ace-44f8fe719284.gif)
 - Notebook edition: create / rename / delete
 ![notebook_edition](https://user-images.githubusercontent.com/26554495/127444638-a059931a-32f6-4027-8921-2dc073bf7034.gif)
+- Notes history and pin, to quickly navigate among the last notes read:
 
 
 ### No it doesn't (yet?) 💔
