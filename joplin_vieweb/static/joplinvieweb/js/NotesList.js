@@ -240,4 +240,18 @@ class NotesList extends EventEmitter {
         }
         
     }
+
+    /**
+     * 
+     */
+    hide_lasts() {
+        $("#lasts_notes").hide();
+    }
+    
+    /**
+     * 
+     */
+    show_lasts() {
+        $("#lasts_notes").show();
+    }
 } 

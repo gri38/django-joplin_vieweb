@@ -11,6 +11,9 @@
  * 
  * - 'sync_over' when a joplin synch has finished and notes list should be refreshed.
  * - "sync_started" when joplin sync starts and notes list and note view shoudl be cleared
+ * 
+ * - "please hide notes history"
+ * - "please show notes history"
  */
 class SideBar extends EventEmitter{
     constructor() {
@@ -279,6 +282,7 @@ class SideBar extends EventEmitter{
         console.log("reload after sync");
         this.reset_sync_dirty();
         this.not_sync_header_back();
+        super.emit("please show notes history");
         if (this.sync_polling != null) {
             this.sync_polling.removeListener("sync_over", this.reload_side_bar_after_sync_handler);
         }
@@ -298,6 +302,7 @@ class SideBar extends EventEmitter{
             this.sync_polling.on("sync_over", this.reload_side_bar_after_sync_handler);
             this.sync_polling.pause_emit();
             this.not_sync_header_readonly();
+            super.emit("please hide notes history");
         }
         this.udpate_sync_started();
         super.emit("sync_started");
@@ -310,6 +315,7 @@ class SideBar extends EventEmitter{
         }
         ).fail(() => {
             this.not_sync_header_back();
+            super.emit("please show notes history");
             if (this.sync_polling != null) {
                     this.resume_emit();
               }  

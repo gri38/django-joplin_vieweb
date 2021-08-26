@@ -27,7 +27,9 @@ class JoplinVieweb {
         this.side_bar.on("notebooks_visibility", (visible) => {
             this.add_icons_set_visible(visible);
         });
-        this.side_bar.on("refresh_lasts_notes", () => { this.notes_list.get_lasts_notes(); })
+        this.side_bar.on("refresh_lasts_notes", () => { this.notes_list.get_lasts_notes(); });
+        this.side_bar.on("please hide notes history", () => { this.notes_list.hide_lasts() });
+        this.side_bar.on("please show notes history", () => { this.notes_list.show_lasts() });
         this.notes_list.on("note_selected", (note_data) => { this.note_view.get_note(note_data[0], note_data[1]) });
         this.notes_list.on("note_creation_request", () => { this.create_note(); } );
         this.notes_list.on("note_notebook_selected", (selection) => {
