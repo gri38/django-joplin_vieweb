@@ -75,3 +75,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .vi { color: #f8f8f2 } /* Name.Variable.Instance */
 .codehilite .vm { color: #f8f8f2 } /* Name.Variable.Magic */
 .codehilite .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+
+/* My css */
+.codehilite { font-size: 1.25em; padding-top: 5px; padding-bottom: 5px; padding-left: 1em; padding-right: 1em; }
+.editor-preview .codehilite pre { background-color: #272822; margin: 0;
+                                  word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap; }
+.codehilite pre { margin: 0; word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap;}
