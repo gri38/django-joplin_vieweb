@@ -50,7 +50,7 @@ html, body {
     align-items: stretch;
     z-index: 10;
 }
-#notebooks_tree_ctn, #tags_ctn {
+#notebooks_tree_ctn, #tags_ctn, #sync_ctn {
     min-height: 0; /* So that their children don't make the size heighter than the flex container (cf. https://css-tricks.com/flexbox-truncated-text/) */
     display: flex;
     flex-direction: column;
@@ -418,4 +418,14 @@ animation-name: rotate_sync;
     bottom: 0.6em;
     left: 0.4em;
     box-shadow: 1px 1px 12px #f41;
+}
+
+.synch_output {
+    text-align: left;
+    margin-left: 1em;
+    font-size: 0.8em;
+    font-style: italic;
+}
+#synch_output_err {
+    color: red;
 }

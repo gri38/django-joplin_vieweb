@@ -57,11 +57,18 @@
         {% if sync_enable %}
         <div id="sync_ctn">
             <div class="accordion_header header">
-            <span class="icon-refresh"></span>
-            &nbsp;&nbsp;Synchronisation</div>
+                <span class="icon-refresh"></span>
+                &nbsp;&nbsp;Synchronisation
+            </div>
             <div class="accordion-inner" id="sync">
-            <div id="sync-data"></div>
-            <div id="sync_action"><div class="icon-refresh"></div></div>
+                <div id="sync-data"></div>
+                <div id="sync_action">
+                    <div class="icon-refresh"></div>
+                </div>
+                <div>
+                    <div class="synch_output" id="synch_output_out"></div>
+                    <div class="synch_output" id="synch_output_err"></div>
+                </div>
             </div>
         </div>
         {% endif %}

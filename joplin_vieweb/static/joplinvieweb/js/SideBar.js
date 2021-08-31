@@ -719,9 +719,12 @@ class SyncPolling extends EventEmitter {
      *
      */
     poll() {
-        $.get(
+        $.getJSON(
         '/joplin/sync/',
-        (data) => { this.process_sync_data(data); }
+        (data) => { this.process_sync_data(data["info"]);
+                    $("#synch_output_out").html(data["output"].replace(/\n/g, "<br />"));
+                    $("#synch_output_err").html(data["error"].replace(/\n/g, "<br />"));
+                }
         ).fail(() => {
             console.log("error while getting sync data");
         });
@@ -730,7 +733,7 @@ class SyncPolling extends EventEmitter {
             setTimeout(() => { this.poll(); }, 3000);
         }
     }
-    
+
     /**
      * We don't pause the polling, but stop emitting the polling result.
      */

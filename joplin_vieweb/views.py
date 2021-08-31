@@ -10,7 +10,7 @@ import json
 from bs4 import BeautifulSoup 
 from pathlib import Path
 import mimetypes
-from .utils import mimetype_to_icon, sync_enable, joplin_sync, markdown_public_ressource, md_to_html
+from .utils import JoplinSync, mimetype_to_icon, sync_enable, markdown_public_ressource, md_to_html
 import threading
 from .edit_session import EditSession
 from .lasts_notes import LastsNotes
@@ -271,14 +271,14 @@ def sync_data(request):
     except:
         logging.error("cannot read synchro file " + settings.JOPLIN_SYNC_INFO_FILE)
         
-    return HttpResponse(sync_info)
+    return HttpResponse(json.dumps({"info": sync_info, "output": JoplinSync.get_output(), "error": JoplinSync.get_err()}))
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def do_sync(request):
-    task = threading.Thread(target=joplin_sync, args=(settings.JOPLIN_SYNC_INFO_FILE,))
+    task = threading.Thread(target=JoplinSync.joplin_sync, args=(settings.JOPLIN_SYNC_INFO_FILE,))
     task.daemon = True
     task.start()
-    return HttpResponse("coucou")
+    return HttpResponse("Sync started")
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def upload_note_attachment(request, session_id):
