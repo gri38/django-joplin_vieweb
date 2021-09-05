@@ -8,6 +8,7 @@ import threading
 import re
 from django.urls import reverse
 import markdown
+import subprocess
 
 def mimetype_to_icon(mimetype):
     type2icon = {
@@ -61,19 +62,58 @@ def start_synchronize_joplin():
     
 def synchronize_joplin_loop(period_s, info_file):
     while True:
-        joplin_sync(info_file)
+        JoplinSync.joplin_sync(info_file)
         time.sleep(period_s)
         
-def joplin_sync(info_file):
-    logging.debug("+++++++++++++++++-> Start Joplin synchro")
-    sync_info = Path(info_file)
-    with open(sync_info, "w") as content:
-        content.write("ongoing")
-    os.system("joplin sync")
-    last_synchro = datetime.datetime.now().strftime("%d %b %Y %H:%M")
-    with open(sync_info, "w") as content:
-        content.write(last_synchro)
-    logging.debug("------------------> Joplin synchro done")
+class JoplinSync:
+    output = ""
+    err = ""
+    __lock = threading.Lock()
+
+    @staticmethod
+    def joplin_sync(info_file):
+        logging.debug("+++++++++++++++++-> Start Joplin synchro")
+        JoplinSync.output = ""
+        JoplinSync.err = ""
+        sync_info = Path(info_file)
+        with open(sync_info, "w") as content:
+            content.write("ongoing")
+        process = subprocess.Popen(["joplin", "sync"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        #process = subprocess.Popen(["python", "c:\\Users\\FRGUNI0\\temp\\joplinsync\\sync.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        for line in iter(process.stdout.readline, b''):
+            JoplinSync.append_output(line.decode("utf-8").rstrip())
+        for line in iter(process.stderr.readline, b''):
+            JoplinSync.append_err(line.decode("utf-8").rstrip())
+        last_synchro = datetime.datetime.now().strftime("%d %b %Y %H:%M")
+        with open(sync_info, "w") as content:
+            content.write(last_synchro)
+        logging.debug("------------------> Joplin synchro done")
+
+    @staticmethod
+    def append_output(line):
+        with JoplinSync.__lock:
+            JoplinSync.output = JoplinSync.output + "\n" + line
+            logging.debug("Sync output: " + JoplinSync.output)
+
+    @staticmethod
+    def append_err(line):
+        with JoplinSync.__lock:
+            JoplinSync.err = JoplinSync.err + "\n" + line
+            logging.debug("Sync err: " + JoplinSync.err)
+
+    @staticmethod
+    def get_output():
+        with JoplinSync.__lock:
+            return JoplinSync.output
+
+    @staticmethod
+    def get_err():
+        with JoplinSync.__lock:
+            return JoplinSync.err
+
+    
+
+
 
 def markdown_public_ressource(md):
     path_to_ressources = reverse('joplin:joplin_public_ressource', kwargs={

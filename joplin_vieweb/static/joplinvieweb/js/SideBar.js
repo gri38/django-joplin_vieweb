@@ -710,7 +710,7 @@ class SyncPolling extends EventEmitter {
     constructor() {
         super();
         this.enable = true;
-        this.sync_ongoing = true;
+        this.sync_ongoing = null;
         this.pause = false;
         this.poll();
     }
@@ -719,27 +719,30 @@ class SyncPolling extends EventEmitter {
      *
      */
     poll() {
-        $.get(
+        $.getJSON(
         '/joplin/sync/',
-        (data) => { this.process_sync_data(data); }
+        (data) => { this.process_sync_data(data["info"]);
+                    $("#synch_output_out").html(data["output"].replace(/\n/g, "<br />"));
+                    $("#synch_output_err").html(data["error"].replace(/\n/g, "<br />"));
+                }
         ).fail(() => {
             console.log("error while getting sync data");
         });
         
         if (this.enable == true) {
-            setTimeout(() => {this.poll();}, 3000);
+            setTimeout(() => { this.poll(); }, 3000);
         }
     }
-    
+
     /**
-     * We don't pause the pollin, but sto emitting the polling result.
+     * We don't pause the polling, but stop emitting the polling result.
      */
     pause_emit() {
         this.pause = true;
     }
     
     /**
-     * resule emitting polling info.
+     * resume emitting polling info.
      */
     resume_emit() {
         this.pause = false;
@@ -750,7 +753,7 @@ class SyncPolling extends EventEmitter {
      */
     process_sync_data(data) {
         if (data == "ongoing") {
-            if (this.sync_ongoing == false) {
+            if ((this.sync_ongoing == null) || (this.sync_ongoing == false)) {
                 this.sync_ongoing = true;
                 if (this.pause == false) {
                     super.emit('sync_started')
@@ -758,7 +761,7 @@ class SyncPolling extends EventEmitter {
             }
         }
         else {
-            if (this.sync_ongoing == true) {
+            if ((this.sync_ongoing == null) || (this.sync_ongoing == true)) {
                 this.sync_ongoing = false;
                 if (this.pause == false) {
                     super.emit('sync_over', data);
