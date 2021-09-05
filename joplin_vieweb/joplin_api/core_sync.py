@@ -56,7 +56,7 @@ class JoplinApiSync:
         self.token = token
         self.client = httpx.Client()
 
-    def query(self, method, path, fields='', **payload) -> Response:
+    def query(self, method, path, fields='', page=1, ** payload) -> Response:
         """
         Do a query to the System API
         :param method: the kind of query to do
@@ -92,6 +92,11 @@ class JoplinApiSync:
         if method == 'get':
             if 'search' in path:
                 full_path = self.JOPLIN_HOST + path + '?' + payload['query_string']
+                if page > 1:
+                    full_path = full_path + "&page={}".format(page)
+            elif page > 1:
+                full_path = full_path + "?page={}".format(page)
+
             res = self.client.get(full_path, params=params)
         elif method == 'post':
 
@@ -138,7 +143,7 @@ class JoplinApiSync:
         path = f'/notes/{note_id}'
         return self.query('get', path, self.note_props)
 
-    def get_notes_preview(self) -> Response:
+    def get_notes_preview(self, page) -> Response:
         """
         GET /notes
 
@@ -146,7 +151,7 @@ class JoplinApiSync:
         WITHOUT the BODY ! (default known field are `preview_note_props` )
         :return: res: result of the get
         """
-        return self.query('get', '/notes/', self.preview_note_props)
+        return self.query('get', '/notes/', self.preview_note_props, page=page)
 
     def get_notes(self) -> Response:
         """
@@ -292,14 +297,14 @@ class JoplinApiSync:
         path = f'/folders/{folder_id}'
         return self.query('get', path, self.folder_props)
 
-    def get_folders(self) -> Response:
+    def get_folders(self, page) -> Response:
         """
         GET /folders
 
         get the list of all the folders of the joplin profile
         :return: res: json result of the get
         """
-        return self.query('get', '/folders/', self.folder_props)
+        return self.query('get', '/folders/', self.folder_props, page=page)
 
     def get_folders_notes(self, folder_id) -> Response:
         """
@@ -377,14 +382,14 @@ class JoplinApiSync:
         path = f'/tags/{tag_id}'
         return self.query('get', path)
 
-    def get_tags(self) -> Response:
+    def get_tags(self, page=1) -> Response:
         """
         GET /tags
 
         get the list of all the tags of the joplin profile
         :return: res: json result of the get
         """
-        return self.query('get', '/tags/')
+        return self.query('get', '/tags/', '', page)
 
     def create_tag(self, title) -> Response:
         """
