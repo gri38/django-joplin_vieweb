@@ -300,14 +300,19 @@ animation-name: rotate_sync;
     padding-left: 10px;
     margin: 0;
 }
-.toc_ctrl {
+.toc_ctrl, .code_ctrl{
     position: absolute;
     top: 0px;
     right: 0px;
     cursor: pointer;
-    width: 100%
+    width: 100%;
     text-align: right;
 }
+.code_ctrl{
+    top: 2px;
+    right: 5px;
+}
+
 #number_btn {
     margin-right: 20px;
     font-size: 1.2em;

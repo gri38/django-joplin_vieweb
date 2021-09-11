@@ -105,6 +105,11 @@ class NoteView extends EventEmitter {
             $("#number_btn").on("click", (ev) => this.toggle_number());
             $("#toggle_toc_btn").on("click", (ev) => this.toggle_toc(ev));
         }
+
+        $("#note_view").find(".codehilite").append('<center class="expend_code"><i>Click to expand...</i></center><div class="code_ctrl"><span class="toggle_code_btn icon-chevron-circle-down"></span></div>')
+        $(".toggle_code_btn").on("click", (ev) => { // Let's fold
+            this.fold_code($(ev.currentTarget));
+        });
         
         $('.toc').draggabilly({});
 
@@ -112,6 +117,24 @@ class NoteView extends EventEmitter {
 
             $('#note_view input[type=checkbox]').on("click", () => {
                 this.handle_checkboxes();
+            });
+        }
+    }
+
+    /**
+     * fold a code block and change the button to right arrow
+     */
+    fold_code(btn) {
+        btn.toggleClass("icon-chevron-circle-down");
+        btn.toggleClass("icon-chevron-circle-right");
+        if (btn.hasClass("icon-chevron-circle-right")) {
+            btn.parent().parent().find("pre").fadeToggle(() => {
+                btn.parent().parent().find(".expend_code").fadeToggle();
+                });
+        }
+        else {
+            btn.parent().parent().find(".expend_code").fadeToggle(() => {
+                btn.parent().parent().find("pre").fadeToggle();
             });
         }
     }
