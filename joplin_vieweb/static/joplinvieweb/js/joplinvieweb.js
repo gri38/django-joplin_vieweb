@@ -1,5 +1,6 @@
 class JoplinVieweb {
     constructor() {
+        this.register_edit_keys();
         this.note_view = new NoteView();
         this.side_bar = new SideBar();
         this.notes_list = new NotesList();
@@ -8,6 +9,36 @@ class JoplinVieweb {
 
         this.add_icons_visible = true;
         this.note_edition_ongoing = false; // true when editing or creating. 
+    }
+
+    register_edit_keys() {
+        $(document).keydown(function (event) {
+            //console.log(event.ctrlKey + " " + event.which)
+            // is e pressed without modifiers?
+            if (event.which == 69 && !event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+                let pencil = $("#note_edit_edit");
+                if (pencil.length) {
+                    pencil.click();
+                }
+                event.preventDefault();
+            }
+            // is ctrl + s pressed?
+            else if (event.which == 83 && !event.metaKey && !event.altKey && event.ctrlKey && !event.shiftKey) {
+                let save = $("#note_edit_commit");
+                if (save.length) {
+                    save.click();
+                }
+                event.preventDefault();
+            }
+            // is esc pressed?
+            else if (event.which == 27 && !event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+                let cancel = $("#note_edit_cancel");
+                if (cancel.length) {
+                    cancel.click();
+                }
+                event.preventDefault();
+            }
+        });
     }
     
     route_the_events() {
