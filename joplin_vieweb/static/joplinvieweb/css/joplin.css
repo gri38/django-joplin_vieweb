@@ -306,10 +306,13 @@ animation-name: rotate_sync;
     top: 0px;
     right: 0px;
     cursor: pointer;
-    width: 17px;
     text-align: right;
 }
+.toc_ctrl{
+    width: 100%;
+}
 .code_ctrl{
+    width: 17px;
     top: 2px;
     right: 5px;
 }
