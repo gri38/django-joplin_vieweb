@@ -82,4 +82,4 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .editor-preview .codehilite pre { background-color: #272822; margin: 0;
                                   word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap; }
 .codehilite pre { margin: 0; word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap;}
-.expend_code {display: none; font-size: 0.8em; cursor: pointer;}
+.expend_code {display: none; font-size: 0.8em;}
