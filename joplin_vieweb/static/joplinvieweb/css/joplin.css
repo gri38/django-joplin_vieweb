@@ -283,6 +283,7 @@ animation-name: rotate_sync;
     vertical-align: middle;
 }
 .toc {
+    z-index: 2;
     color: #0052CC;
     float: right;
     position: fixed;
