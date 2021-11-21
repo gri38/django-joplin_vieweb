@@ -19,24 +19,24 @@ class JoplinVieweb {
                 let pencil = $("#note_edit_edit");
                 if (pencil.length) {
                     pencil.click();
+                    event.preventDefault();
                 }
-                event.preventDefault();
             }
             // is ctrl + s pressed?
             else if (event.which == 83 && !event.metaKey && !event.altKey && event.ctrlKey && !event.shiftKey) {
                 let save = $("#note_edit_commit");
                 if (save.length) {
                     save.click();
+                    event.preventDefault();
                 }
-                event.preventDefault();
             }
             // is esc pressed?
             else if (event.which == 27 && !event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
                 let cancel = $("#note_edit_cancel");
                 if (cancel.length) {
                     cancel.click();
+                    event.preventDefault();
                 }
-                event.preventDefault();
             }
         });
     }
