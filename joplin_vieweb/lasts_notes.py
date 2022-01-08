@@ -2,18 +2,20 @@ import threading
 from django.conf import settings
 from pathlib import Path
 import json
+import os
 
 if __name__ == "__main__":
-      settings.configure(
-          JOPLIN_RESSOURCES_PATH="c:\\Users\\FRGUNI0\\temp\\XXX\\", JOPLIN_NOTES_HISTORY_DEPTH=10)
+    #   settings.configure(
+    #       JOPLIN_RESSOURCES_PATH="c:\\Users\\FRGUNI0\\temp\\XXX\\", JOPLIN_NOTES_HISTORY_DEPTH=10)
+    pass
 
 class LastsNotes:
     __lock = threading.Lock()
-    HISTORY_DEPTH = settings.JOPLIN_NOTES_HISTORY_DEPTH
+    HISTORY_DEPTH = int(os.environ['JOPLIN_NOTES_HISTORY_DEPTH'])
 
     @staticmethod
     def get_path():
-        ressources_path = settings.JOPLIN_RESSOURCES_PATH
+        ressources_path = os.environ['JOPLIN_RESSOURCES_PATH']
         return Path(ressources_path).parent / "lasts_notes"
 
     @staticmethod

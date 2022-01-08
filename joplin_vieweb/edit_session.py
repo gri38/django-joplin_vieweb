@@ -10,13 +10,14 @@ from datetime import datetime
 from datetime import timedelta
 import glob
 import threading
+import os
 
 class EditSession:
     __lock = threading.Lock()
 
     @staticmethod
     def get_path(id):
-        ressources_path = settings.JOPLIN_RESSOURCES_PATH
+        ressources_path = os.environ['JOPLIN_RESSOURCES_PATH']
         return Path(ressources_path).parent / "temporary_edit_sessions" / id
 
     @staticmethod

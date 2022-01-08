@@ -4,6 +4,7 @@ import json
 import re
 import pathlib
 from django.conf import settings
+import os
 
 
 class Notebook():
@@ -40,10 +41,11 @@ class Joplin:
 
     def __init__(self):
         joplin_api_conf = {
-                              'JOPLIN_HOST': settings.JOPLIN_SERVER_URL,
-                              'JOPLIN_WEBCLIPPER': settings.JOPLIN_SERVER_PORT,
+            'JOPLIN_HOST': os.environ['JOPLIN_SERVER_URL'],
+            'JOPLIN_WEBCLIPPER': os.environ['JOPLIN_SERVER_PORT'],
                           }
-        self.joplin = JoplinApiSync(settings.JOPLIN_SERVER_TOKEN, **joplin_api_conf)
+        self.joplin = JoplinApiSync(
+            os.environ['JOPLIN_SERVER_TOKEN'], **joplin_api_conf)
         self.rootNotebook = None
         
     def parse_notebooks(self):

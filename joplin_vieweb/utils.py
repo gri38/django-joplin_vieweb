@@ -50,12 +50,14 @@ def mimetype_to_icon(mimetype):
     return 'icon-file-empty'
     
 def sync_enable():
-    return hasattr(settings, 'JOPLIN_SYNC_PERIOD_S')
+    return "JOPLIN_SYNC_PERIOD_S" in os.environ
     
 def start_synchronize_joplin():
     if sync_enable():
-        logging.info("Start joplin periodic synchro ({}s)".format(settings.JOPLIN_SYNC_PERIOD_S))
-        threading.Thread(target=synchronize_joplin_loop, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
+        period_s = int(os.environ['JOPLIN_SYNC_PERIOD_S'])
+        logging.info("Start joplin periodic synchro ({}s)".format(period_s))
+        threading.Thread(target=synchronize_joplin_loop, args=(
+            period_s, os.environ['JOPLIN_SYNC_INFO_FILE'])).start()
     else:
         logging.info("No joplin periodic synchro")
     
