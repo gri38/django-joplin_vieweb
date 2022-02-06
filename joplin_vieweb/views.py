@@ -15,6 +15,9 @@ import threading
 from .edit_session import EditSession
 from .lasts_notes import LastsNotes
 import glob
+import urllib.parse
+import hyperlink_preview as HLP
+import base64
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -116,7 +119,7 @@ def note_body_name(note_id, format, public=False):
     note_body = '[TOC]\n\n' + note_body
     html = md_to_html(note_body, False)
     
-    # Finally we set an attachment image to the attachments.
+    # Finally we set an attachment image to the attachments
     # We search for <a href="/joplin/joplin_ressources"> or <a href=":/">
     soup = BeautifulSoup(html)
     for link in soup.findAll('a'):
@@ -340,3 +343,8 @@ def edit_session_create_note(request, session_id, notebook_id):
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def get_lasts_notes(request):
     return HttpResponse(LastsNotes.read_lasts_notes())
+
+def get_hyperlink_preview(request, link):
+    link = base64.b64decode(link).decode('utf-8')
+    hlp = HLP.HyperLinkPreview(url=link)
+    return HttpResponse(json.dumps(hlp.get_data()))

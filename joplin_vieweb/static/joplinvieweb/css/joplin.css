@@ -353,7 +353,7 @@ animation-name: rotate_sync;
 #note_view p { font-family: 'Inder', sans-serif; line-height: 28px; margin-bottom: 15px; }
 #note_view a:not(.toc a) { color: #ff4411; transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s;}
 #note_view a:not(.toc a):hover { color: #a03c21 }
-#note_view img {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
+#note_view img:not(.hlp-img img) {max-height: 100vh; max-width: 100%; height: auto; width: auto;}
 #note_view table { border-collapse: collapse;}
 #note_view td, th { border: 1px solid #aaaaaa; padding-left: 1em; padding-right: 1em;}
 #note_view th {  background-color: rgba(255,68,17,0.25);}

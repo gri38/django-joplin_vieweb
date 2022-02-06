@@ -23,6 +23,7 @@ urlpatterns = [
     path('notes/<note_id>/pin', views.pin_note, name='pin a note'),
     path('notes/<note_id>/unpin', views.unpin_note, name='pin a note'),
     path('notes/lasts', views.get_lasts_notes, name='get lasts notes'),
+    path('notes/hyperlink/<link>', views.get_hyperlink_preview, name='get hyperlink preview'),
     path('note_error/', views.note_error, name='note error'),
     path('joplin_ressources/<ressource_path>', views.joplin_ressource, name='joplin_ressource'),
     path(':/<ressource_path>', views.joplin_ressource, name='joplin_ressource'),
