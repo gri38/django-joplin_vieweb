@@ -149,7 +149,7 @@ class NoteView extends EventEmitter {
         img.width(img.height() * 2/3);
         $('.hlp').css({ 'top': event.pageY + 10, 'left': $("#note_view").position().left + 10, 'width': $("#note_view").width()});
         this.hlp_req = $.getJSON(
-            '/joplin/notes/hyperlink/' + btoa(link).replace("/", "_"),
+            '/joplin/notes/hyperlink/' + btoa(link).replace("/", "_").replace("+", "-"),
             (data) => { this.fill_hlp_preview(data, link); }
         ).fail(() => { this.hide_hyperlink_preview(event) })
     }
@@ -176,11 +176,13 @@ class NoteView extends EventEmitter {
         let desc_height = $(".hlp-info-desc").height();
         if (img_src == null) {
             $(".hlp-img").addClass("wait-placeholder");
-            this.hlp_req = $.getJSON('/joplin/notes/hyperlink_image/' + btoa(link).replace("/", "_"),
+            this.hlp_req = $.getJSON('/joplin/notes/hyperlink_image/' + btoa(link).replace("/", "_").replace("+", "-"),
             (data) => {
-                    $(".hlp-img").removeClass("wait-placeholder");
-                    $(".hlp-img img").attr("src", data["image"]);
+                $(".hlp-img img").on("load", () => {
                     $(".hlp-img img").css('width', 'auto');
+                    $(".hlp-img").removeClass("wait-placeholder");
+                });
+                $(".hlp-img img").attr("src", data["image"]);
                 }
                 ).fail(() => {
                     $(".hlp-img").removeClass("wait-placeholder");

@@ -344,14 +344,14 @@ def get_lasts_notes(request):
     return HttpResponse(LastsNotes.read_lasts_notes())
 
 def get_hyperlink_preview(request, link):
-    link = base64.b64decode(link.replace("_", "/")).decode('utf-8')
+    link = base64.b64decode(link.replace("_", "/").replace("-", "+")).decode('utf-8')
     data = hyperlink_preview_cache.get_hyperlink_preview(link)
     if data is None:
         return HttpResponseNotFound("")
     return HttpResponse(json.dumps(data))
 
 def get_hyperlink_preview_image(request, link):
-    link = base64.b64decode(link.replace("_", "/")).decode('utf-8')
+    link = base64.b64decode(link.replace("_", "/").replace("-", "+")).decode('utf-8')
     data = hyperlink_preview_cache.get_hyperlink_preview_image(link)
     if data is None:
         return HttpResponseNotFound("")
