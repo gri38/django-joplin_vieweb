@@ -15,9 +15,8 @@ import threading
 from .edit_session import EditSession
 from .lasts_notes import LastsNotes
 import glob
-import urllib.parse
-import hyperlink_preview as HLP
 import base64
+from . import hyperlink_preview_cache
 
 def conditional_decorator(dec, condition):
     def decorator(func):
@@ -345,6 +344,15 @@ def get_lasts_notes(request):
     return HttpResponse(LastsNotes.read_lasts_notes())
 
 def get_hyperlink_preview(request, link):
-    link = base64.b64decode(link).decode('utf-8')
-    hlp = HLP.HyperLinkPreview(url=link)
-    return HttpResponse(json.dumps(hlp.get_data()))
+    link = base64.b64decode(link.replace("_", "/")).decode('utf-8')
+    data = hyperlink_preview_cache.get_hyperlink_preview(link)
+    if data is None:
+        return HttpResponseNotFound("")
+    return HttpResponse(json.dumps(data))
+
+def get_hyperlink_preview_image(request, link):
+    link = base64.b64decode(link.replace("_", "/")).decode('utf-8')
+    data = hyperlink_preview_cache.get_hyperlink_preview_image(link)
+    if data is None:
+        return HttpResponseNotFound("")
+    return HttpResponse(json.dumps(data))
