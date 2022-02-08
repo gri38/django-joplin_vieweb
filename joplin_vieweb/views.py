@@ -345,14 +345,20 @@ def get_lasts_notes(request):
 
 def get_hyperlink_preview(request, link):
     link = base64.b64decode(link.replace("_", "/").replace("-", "+")).decode('utf-8')
-    data = hyperlink_preview_cache.get_hyperlink_preview(link)
+    try:
+        data = hyperlink_preview_cache.get_hyperlink_preview(link)
+    except: 
+        data = None
     if data is None:
         return HttpResponseNotFound("")
     return HttpResponse(json.dumps(data))
 
 def get_hyperlink_preview_image(request, link):
     link = base64.b64decode(link.replace("_", "/").replace("-", "+")).decode('utf-8')
-    data = hyperlink_preview_cache.get_hyperlink_preview_image(link)
+    try:
+        data = hyperlink_preview_cache.get_hyperlink_preview_image(link)
+    except: 
+        data = None
     if data is None:
         return HttpResponseNotFound("")
     return HttpResponse(json.dumps(data))
