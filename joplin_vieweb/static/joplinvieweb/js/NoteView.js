@@ -114,10 +114,97 @@ class NoteView extends EventEmitter {
         $('.toc').draggabilly({});
 
         if (this.is_public == false) {
-
             $('#note_view input[type=checkbox]').on("click", () => {
                 this.handle_checkboxes();
             });
+        }
+
+        this.add_hover_link();
+    }
+
+    /**
+     * For each a tag of #note_view, we add a hover callback to dispaly a link preview
+     */
+    add_hover_link() {
+        $("#note_view a").each((index, el) => {
+            let current_link = $(el);
+            let href = current_link.attr('href');
+            if (href.startsWith("https://") || href.startsWith("http://")) {
+                current_link.hover((event) => { this.display_hyperlink_preview(event); }, 
+                                   (event) => { this.hide_hyperlink_preview(event); })
+            }
+        });
+    }
+
+    /**
+     * 
+     */
+    display_hyperlink_preview(event) {
+        let link = event.target["href"];
+        let preview_html = this.get_hyperlink_preview_template(link);
+        $("#note_view").append(preview_html);
+        $(".hlp-img").height($(".hlp-informations").outerHeight());
+        let img = $(".hlp-img img");
+        img.height("100%");
+        img.width(img.height() * 2/3);
+        $('.hlp').css({ 'top': event.pageY + 10, 'left': $("#note_view").position().left + 10, 'width': $("#note_view").width()});
+        this.hlp_req = $.getJSON(
+            '/joplin/notes/hyperlink/' + btoa(link).replace("/", "_").replace("+", "-"),
+            (data) => { this.fill_hlp_preview(data, link); }
+        ).fail(() => { this.hide_hyperlink_preview(event) })
+    }
+
+    /**
+     * 
+     */
+    hide_hyperlink_preview(event) {
+        $('.hlp').remove();
+        this.hlp_req.abort();
+    }
+
+    /**
+     * hyperlink preview is "blinking" waiting for data.
+     * When they are received, this function set the data instead of the link (except for img if data has no img)
+     */
+    fill_hlp_preview(data, link) {
+        console.debug(data);
+        let type = data["type"];
+        if (type == null) {
+            type = "website";
+        }
+        let img_src = data['image'];
+        let desc_height = $(".hlp-info-desc").height();
+        if (img_src == null) {
+            $(".hlp-img").addClass("wait-placeholder");
+            this.hlp_req = $.getJSON('/joplin/notes/hyperlink_image/' + btoa(link).replace("/", "_").replace("+", "-"),
+            (data) => {
+                $(".hlp-img img").on("load", () => {
+                    $(".hlp-img img").css('width', 'auto');
+                    $(".hlp-img").removeClass("wait-placeholder");
+                });
+                $(".hlp-img img").attr("src", data["image"]);
+                }
+                ).fail(() => {
+                    $(".hlp-img").removeClass("wait-placeholder");
+                });
+            $(".hlp-info-type").html(type);
+            $(".hlp-info-title").html(data["title"]);
+            $(".hlp-info-desc").html("<span>" + data["description"] + "</span>");
+            $(".hlp-info-desc").height(desc_height);
+            $(".hlp-info-domain span").html(data["domain"]);
+            $(".hlp").removeClass("wait-placeholder");
+        }
+        else {
+            $(".hlp-img img").on("load", () => {
+                $(".hlp-img img").css('width', 'auto');
+                $(".hlp-info-type").html(type);
+                $(".hlp-info-title").html(data["title"]);
+                $(".hlp-info-desc").html("<span>" + data["description"] + "</span>");
+                $(".hlp-info-desc").height(desc_height);
+                $(".hlp-info-domain span").html(data["domain"]);
+                $(".hlp").removeClass("wait-placeholder");
+            });
+            $(".hlp-img img").attr("src", img_src);
         }
     }
 
@@ -357,6 +444,37 @@ class NoteView extends EventEmitter {
                                 }
             });
         });
+    }
+
+    /**
+     * 
+     * @returns the html template of the preview
+     */
+    get_hyperlink_preview_template(url) {
+        let html = '<div class="hlp wait-placeholder">\n';
+        html += '    <div class="hlp-img">\n';
+        html += '        <img/>\n';
+        html += '    </div>\n';
+        html += '    <div class="hlp-informations">\n';
+        html += '        <div class="hlp-info-header">\n';
+        html += '            <span class="hlp-info-type"><!--PLACEHOLDER_TYPE-->&nbsp;</span>\n';
+        html += '            <a href="' + url + '" class="hlp-info-title hlp-wait-line"><!--PLACEHOLDER_TITLE-->&nbsp;</a>\n';
+        html += '        </div>\n';
+        html += '        <div class="hlp-info-desc">\n';
+        html += '            <!--PLACEHOLDER_DESC--><span class="hlp-desc-line hlp-wait-line">&nbsp;</span><span class="hlp-desc-line hlp-wait-line">&nbsp;</span><span class="hlp-desc-line hlp-wait-line">&nbsp;</span><span class="hlp-desc-line hlp-wait-line">&nbsp;</span>\n';
+        html += '        </div>\n';
+        html += '        <div class="hlp-info-domain">\n';
+        html += '            <svg class="hlp-info-link-ico" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"\n';
+        html += '                y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\n';
+        html += '                <script xmlns="" id="__gaOptOutExtension" />\n';
+        html += '                <path fill="#010101"\n';
+        html += '                    d="M459.654,233.373l-90.531,90.5c-49.969,50-131.031,50-181,0c-7.875-7.844-14.031-16.688-19.438-25.813  l42.063-42.063c2-2.016,4.469-3.172,6.828-4.531c2.906,9.938,7.984,19.344,15.797,27.156c24.953,24.969,65.563,24.938,90.5,0  l90.5-90.5c24.969-24.969,24.969-65.563,0-90.516c-24.938-24.953-65.531-24.953-90.5,0l-32.188,32.219  c-26.109-10.172-54.25-12.906-81.641-8.891l68.578-68.578c50-49.984,131.031-49.984,181.031,0  C509.623,102.342,509.623,183.389,459.654,233.373z M220.326,382.186l-32.203,32.219c-24.953,24.938-65.563,24.938-90.516,0  c-24.953-24.969-24.953-65.563,0-90.531l90.516-90.5c24.969-24.969,65.547-24.969,90.5,0c7.797,7.797,12.875,17.203,15.813,27.125  c2.375-1.375,4.813-2.5,6.813-4.5l42.063-42.047c-5.375-9.156-11.563-17.969-19.438-25.828c-49.969-49.984-131.031-49.984-181.016,0  l-90.5,90.5c-49.984,50-49.984,131.031,0,181.031c49.984,49.969,131.031,49.969,181.016,0l68.594-68.594  C274.561,395.092,246.42,392.342,220.326,382.186z" />\n';
+        html += '            </svg>\n';
+        html += '            <span class="hlp-wait-line"><!--PLACEHOLDER_DOMAIN-->&nbsp;</span>\n';
+        html += '        </div>\n';
+        html += '    </div>\n';
+        html += '</div>\n';
+        return html;
     }
 
 }
