@@ -26,7 +26,11 @@ def get_hyperlink_preview(link_url):
 
     # following code outside with _hlp_cache_lock to release the lock ASAP.
     if is_new:
-        hlp_cache.hlp = HLP.HyperLinkPreview(url=link_url)
+        try:
+            hlp_cache.hlp = HLP.HyperLinkPreview(url=link_url)
+        except:
+            del _hlp_cache[link_url]
+            return None
         hlp_cache.data_get.set()
     else:
         hlp_cache.data_get.wait()
