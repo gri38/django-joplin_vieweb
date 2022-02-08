@@ -48,6 +48,8 @@ Once tags edited, a little reminder not to forget to synchronize Joplin:
 ![demo_joplin_notes_history](https://user-images.githubusercontent.com/26554495/130871700-a78e54c1-81ff-4373-8b30-06bd826038d8.gif)
 - Tabs in notes (not displayed in joplin applications). Syntax here.
 ![image](https://user-images.githubusercontent.com/26554495/130869166-4be37017-450b-4ee4-942a-3936963faaf8.png)
+- Hyperlink preview in notes, on mouse hover:
+![2022-02-08 10-31-54](https://user-images.githubusercontent.com/26554495/152967009-39286c76-bdc4-43bf-aaaa-1f04911cdf5f.gif)
 
 
 ### No it doesn't (yet?) 💔
