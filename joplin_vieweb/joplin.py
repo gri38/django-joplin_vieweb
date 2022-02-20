@@ -136,24 +136,17 @@ class Joplin:
     def get_note_notebook(self, note_id):
         return self.joplin.get_note(note_id)["parent_id"]
 
-    def get_notes_metadata_from_tag(self, tag_id):  
+    def get_notes_metadata_from_tag(self, tag_id):
+        """
+        Returns:
+            a list of NoteMetadata for all notes with the given tag.
+        """ 
         notes_metadata = []
-        page = 1
-        while page == 1 or notes_detail["has_more"]:
-            notes_detail = json.loads(self.joplin.get_notes_preview(page).text)
-            page = page + 1
-            notes_items = notes_detail["items"]
-            for one_note in notes_items:
-                one_note_tags = json.loads(self.joplin.get_notes_tags(one_note["id"]).text)
-                one_note_tags = one_note_tags["items"]
-                try:
-                    next(tag for tag in one_note_tags if tag["id"] == tag_id)
-                    new_note_metadata = NoteMetadata()
-                    new_note_metadata.id = one_note["id"]
-                    new_note_metadata.name = one_note["title"]
-                    notes_metadata.append(new_note_metadata)
-                except:
-                    pass # this note has not the target tag.
+        for one_note in self.joplin.get_all_notes(tag_id=tag_id):
+            new_note_metadata = NoteMetadata()
+            new_note_metadata.id = one_note["id"]
+            new_note_metadata.name = one_note["title"]
+            notes_metadata.append(new_note_metadata)
         return notes_metadata
 
     def get_note_body_name(self, note_id):
