@@ -193,7 +193,7 @@ class Joplin:
             self.joplin.delete_tag(all_tags_dict[tag_to_delete], note_id)
 
         for tag_to_add in existing_tags_to_add:
-            self.joplin.add_tag(tag_id=all_tags_dict[tag_to_add], note_id=note_id)
+            self.joplin.add_tag_to_note(tag_id=all_tags_dict[tag_to_add], note_id=note_id)
 
         for tag_to_add in new_tags_to_add:
             tag_id = self.joplin.add_tag(title=tag_to_add)
