@@ -34,7 +34,12 @@
 <script src="{% static 'joplinvieweb/js/joplinvieweb.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/draggabilly.pkgd.min.js' %}"></script>
 <script src="{% static 'joplinvieweb/js/jquery.modal.min.js' %}"></script>
+{% csrf_token %}
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
 <body>
+
 
 <div id="joplin_container">
     <div id="side_ctn">
