@@ -117,7 +117,7 @@ class EditSession:
         session_path = EditSession.get_path(session_id)
         for one_attachment in attachment_files:
             (id, title) = joplin.create_resource(
-                session_path / one_attachment, id_name[one_attachment])
+                str(session_path / one_attachment), id_name[one_attachment])
             attachment_data.append((id, title, one_attachment))
         # let's update md for images:
         for one_id, one_title, one_attachment in attachment_data:

@@ -1,4 +1,4 @@
-from .joplin_api import JoplinApiSync
+from joppy.api import Api
 import logging
 import json
 import re
@@ -39,11 +39,10 @@ class Joplin:
 
 
     def __init__(self):
-        joplin_api_conf = {
-                              'JOPLIN_HOST': settings.JOPLIN_SERVER_URL,
-                              'JOPLIN_WEBCLIPPER': settings.JOPLIN_SERVER_PORT,
-                          }
-        self.joplin = JoplinApiSync(settings.JOPLIN_SERVER_TOKEN, **joplin_api_conf)
+        self.joplin = Api(
+            settings.JOPLIN_SERVER_TOKEN,
+            "{}:{}".format(settings.JOPLIN_SERVER_URL, settings.JOPLIN_SERVER_PORT),
+        )
         self.rootNotebook = None
         
     def parse_notebooks(self):
@@ -51,16 +50,11 @@ class Joplin:
         self.rootNotebook.id = ""
         self.rootNotebook.name = "ROOT NOTEBOOK"
         
-        folders = []
         folders_by_id = {}
-        page = 1
-        while page == 1 or folders_paged["has_more"]:
-            folders_paged = json.loads(self.joplin.get_folders(page).text)
-            page = page + 1
-            folders_items = folders_paged["items"]
-            folders = folders + folders_items
-            folders_by_id = {**folders_by_id, **
-                             {folder["id"]: folder for folder in folders_items}}
+
+        folders = self.joplin.get_all_notebooks()
+        folders_by_id = {folder["id"]: folder for folder in folders}
+
         Joplin.folders_by_parent_id = dict()
         for one_folder in folders:
             parent_id = one_folder["parent_id" ]
@@ -85,20 +79,16 @@ class Joplin:
                 self.append_notebook(new_notebook)
 
     def create_notebook(self, parent_id, title):
-        new_notebook_details = json.loads(
-            self.joplin.create_folder(title, **{"parent_id": parent_id}).text)
-        new_notebook_id = new_notebook_details["id"]
-        return new_notebook_id
+        return self.joplin.add_notebook(title=title, parent_id=parent_id)
 
     def delete_notebook(self, notebook_id):
-        res = self.joplin.delete_folder(notebook_id)
-        logging.debug(
-            "delete_notebook [{}] result: [{}]".format(notebook_id, res))
+        notebook_id = self.joplin.delete_notebook(notebook_id)
+        logging.debug("delete_notebook [{}]".format(notebook_id))
 
     def rename_notebook(self, notebook_id, title):
-        res = self.joplin.rename_folder(notebook_id, title)
+        self.joplin.modify_notebook(notebook_id, title=title)
         logging.debug(
-            "rename_notebook [{}] / [{}] result: [{}]".format(notebook_id, title, res))
+            "rename_notebook [{}] / [{}]".format(notebook_id, title))
 
     def get_notebook_descendants(self, notebook_id):
         # return a list of notebooks ids: all notebooks that are descendents of notebook_id
@@ -120,19 +110,14 @@ class Joplin:
         Return a list of NoteMetadata for all notes which have given notebook_id as direct or indirect ancestor.
         """
         descendents = self.get_notebook_descendants(notebook_id)
-        
+
         notes_metadata = []
-        page = 1
-        while page == 1 or notes_detail["has_more"]:
-            notes_detail = json.loads(self.joplin.get_notes_preview(page).text)
-            page = page + 1
-            notes_items = notes_detail["items"]
-            for one_note in notes_items:
-                if one_note["parent_id"] in descendents:
-                    new_note_metadata = NoteMetadata()
-                    new_note_metadata.id = one_note["id"]
-                    new_note_metadata.name = one_note["title"]
-                    notes_metadata.append(new_note_metadata)
+        for one_note in self.joplin.get_all_notes():
+            if one_note["parent_id"] in descendents:
+                new_note_metadata = NoteMetadata()
+                new_note_metadata.id = one_note["id"]
+                new_note_metadata.name = one_note["title"]
+                notes_metadata.append(new_note_metadata)
         return notes_metadata
                 
     def get_notes_metadata(self, notebook_id):
@@ -140,58 +125,37 @@ class Joplin:
         Return a list of NoteMetadata for all notes which have given notebook_id as direct ancestor.
         """
         notes_metadata = []
-        page = 1
-        while page == 1 or notes_detail["has_more"]:
-            notes_detail = json.loads(self.joplin.get_notes_preview(page).text)
-            page = page + 1
-            notes_items = notes_detail["items"]
-            for one_note in notes_items:
-                if one_note["parent_id"] == notebook_id:
-                    new_note_metadata = NoteMetadata()
-                    new_note_metadata.id = one_note["id"]
-                    new_note_metadata.name = one_note["title"]
-                    notes_metadata.append(new_note_metadata)
+        for one_note in self.joplin.get_all_notes():
+            if one_note["parent_id"] == notebook_id:
+                new_note_metadata = NoteMetadata()
+                new_note_metadata.id = one_note["id"]
+                new_note_metadata.name = one_note["title"]
+                notes_metadata.append(new_note_metadata)
         return notes_metadata
 
     def get_note_notebook(self, note_id):
-        note = json.loads(self.joplin.get_note(note_id).text)
-        return note["parent_id"]
-        
+        return self.joplin.get_note(note_id)["parent_id"]
 
-    
-    def get_notes_metadata_from_tag(self, tag_id):  
+    def get_notes_metadata_from_tag(self, tag_id):
+        """
+        Returns:
+            a list of NoteMetadata for all notes with the given tag.
+        """ 
         notes_metadata = []
-        page = 1
-        while page == 1 or notes_detail["has_more"]:
-            notes_detail = json.loads(self.joplin.get_notes_preview(page).text)
-            page = page + 1
-            notes_items = notes_detail["items"]
-            for one_note in notes_items:
-                one_note_tags = json.loads(self.joplin.get_notes_tags(one_note["id"]).text)
-                one_note_tags = one_note_tags["items"]
-                try:
-                    next(tag for tag in one_note_tags if tag["id"] == tag_id)
-                    new_note_metadata = NoteMetadata()
-                    new_note_metadata.id = one_note["id"]
-                    new_note_metadata.name = one_note["title"]
-                    notes_metadata.append(new_note_metadata)
-                except:
-                    pass # this note has not the target tag.
+        for one_note in self.joplin.get_all_notes(tag_id=tag_id):
+            new_note_metadata = NoteMetadata()
+            new_note_metadata.id = one_note["id"]
+            new_note_metadata.name = one_note["title"]
+            notes_metadata.append(new_note_metadata)
         return notes_metadata
-   
-        
-    def get_note_body_name(self, note_id):
-        note = json.loads(self.joplin.get_note(note_id).text)
-        note_body = note["body"]
-        note_name = note["title"]
 
-        return (note_body, note_name)
+    def get_note_body_name(self, note_id):
+        note = self.joplin.get_note(note_id, fields="body,title")
+        return (note["body"], note["title"])
         
     def get_note_tags(self, note_id):
-        note_tags = json.loads(self.joplin.get_notes_tags(note_id).text)
-        note_tags = note_tags["items"]
         tags = []
-        for one_tag in note_tags:
+        for one_tag in self.joplin.get_all_tags(note_id=note_id):
             new_tag_metadata = NoteMetadata()
             new_tag_metadata.id = one_tag["id"]
             new_tag_metadata.name = one_tag["title"]
@@ -219,21 +183,17 @@ class Joplin:
                     new_tags_to_add.append(one)
 
         for tag_to_delete in existing_tags_to_delete:
-            self.joplin.delete_tags_notes(all_tags_dict[tag_to_delete], note_id)
+            self.joplin.delete_tag(all_tags_dict[tag_to_delete], note_id)
 
         for tag_to_add in existing_tags_to_add:
-            self.joplin.create_tags_notes(note_id, all_tags_dict[tag_to_add])
+            self.joplin.add_tag_to_note(tag_id=all_tags_dict[tag_to_add], note_id=note_id)
 
         for tag_to_add in new_tags_to_add:
-            result = self.joplin.create_tag(tag_to_add)
-            if result.status_code == 200:
-                self.joplin.create_tags_notes(note_id, json.loads(result.text)["id"])
+            tag_id = self.joplin.add_tag(title=tag_to_add)
+            self.joplin.add_tag_to_note(tag_id=tag_id, note_id=note_id)
 
     def update_note_checkboxes(self, note_id, cb):
-        note = json.loads(self.joplin.get_note(note_id).text)
-        note_body = note["body"]
-        note_title = note["title"]
-        note_parent_id = note["parent_id"]
+        note_body = self.joplin.get_note(note_id, fields="body")["body"]
         cb_indexes = [m.start() for m in re.finditer("- \[[ x]\] ", note_body)]
         for checked, cb_index in zip(cb, cb_indexes):
             cb_string = "- [ ] "
@@ -241,21 +201,13 @@ class Joplin:
                 cb_string = "- [x] "
             note_body = note_body[0:cb_index] + cb_string + \
                 note_body[cb_index + len(cb_string):]
-        self.joplin.update_note(note_id, note_title, note_body, note_parent_id)
-
-
+        self.joplin.modify_note(note_id, body=note_body)
 
     def _get_tags(self):
         """
         Get all tags
         """
-        tags_items = []
-        page = 1
-        while page == 1 or all_tags["has_more"]:
-            all_tags = json.loads(self.joplin.get_tags(page).text)
-            page = page + 1
-            tags_items = tags_items + all_tags["items"]
-        return tags_items
+        return self.joplin.get_all_tags()
     
     def get_tags(self, with_notes=False):
         tags = []
@@ -263,9 +215,7 @@ class Joplin:
         for one_tag in all_tags:
             add_one_tag = True
             if with_notes:
-                notes_preview = json.loads(self.joplin.get_tags_notes_preview(one_tag["id"]).text)
-                notes_preview = notes_preview["items"]
-                if not notes_preview:
+                if not self.joplin.get_all_notes(tag_id=one_tag["id"]):
                     # if one_tag has no note, we don't add it.
                     add_one_tag = False
             if add_one_tag: 
@@ -276,30 +226,19 @@ class Joplin:
         return tags
 
     def create_resource(self, file_path, title):
-        res = self.joplin.create_resource(file_path, **{"title": title})
-        logging.debug("create ressource for [{}]".format(file_path))
-        logging.debug("    code = [{}]".format(res.status_code))
-        logging.debug("    text = [{}]".format(res.text))
-        res = json.loads(res.text)
-        return (res["id"], res["title"])
+        res_id = self.joplin.add_resource(filename=file_path, title=title)
+        return (res_id, title)
 
     def get_ressource_name(self, resource_id):
-        res = json.loads(self.joplin.get_resource(resource_id).text)
-        try:
-            return res["title"]
-        except:
-            return None
+        return self.joplin.get_resource(resource_id)["title"]
 
     def update_note(self, note_id, title, md):
-        parent_id = json.loads(self.joplin.get_note(note_id).text)["parent_id"]
-        res = self.joplin.update_note(note_id, title, md, parent_id)
+        self.joplin.modify_note(note_id, title=title, body=md)
 
     def create_note(self, notebook_id, title, md):
         if not title:
             title = "Untitled"
-        res = json.loads(self.joplin.create_note(title, md, notebook_id).text)
-        return res["id"]
-
+        return self.joplin.add_note(parent_id=notebook_id, title=title, body=md)
 
     def delete_note(self, note_id):
         self.joplin.delete_note(note_id)
