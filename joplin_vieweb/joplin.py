@@ -5,6 +5,8 @@ import re
 import pathlib
 from django.conf import settings
 
+from joplin_vieweb.utils import get_api_token
+
 
 class Notebook():
     def __init__(self):
@@ -40,8 +42,8 @@ class Joplin:
 
     def __init__(self):
         self.joplin = Api(
-            settings.JOPLIN_SERVER_TOKEN,
-            "{}:{}".format(settings.JOPLIN_SERVER_URL, settings.JOPLIN_SERVER_PORT),
+            token=get_api_token(),
+            url="{}:{}".format(settings.JOPLIN_SERVER_URL, settings.JOPLIN_SERVER_PORT)
         )
         self.rootNotebook = None
         

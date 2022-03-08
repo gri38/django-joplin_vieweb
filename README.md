@@ -79,7 +79,6 @@ Configure it and start it.
    # Joplin variables
    JOPLIN_SERVER_URL="http://127.0.0.1"
    JOPLIN_SERVER_PORT=41184
-   JOPLIN_SERVER_TOKEN="1234567890987654321"
    JOPLIN_RESSOURCES_PATH="/home/pi/.config/joplin/resources/"
    JOPLIN_LOGIN_REQUIRED=True # set to True only if you require a logged user for accessing the notes
    JOPLIN_SYNC_PERIOD_S=86400 # once a day
@@ -111,7 +110,7 @@ Thanks for joplin-api that helped me !
 
 ## For dev: how to setup a dev server around this "package"
 Execute script setup_dev_env.sh  
-Then: check joplin ressource path in dev_server/dev_server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.  
+Then: check joplin ressource path in server/settings.py (STATICFILES_DIRS), and ALLOWED_HOSTS.  
 If you choose `JOPLIN_LOGIN_REQUIRED=True`, then: :add 
 ```python
 urlpatterns = [
@@ -123,7 +122,6 @@ urlpatterns = [
 Then:  
 ```
 . venv/bin/activate
-cd dev_server
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver 0:8000

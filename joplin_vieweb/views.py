@@ -266,20 +266,21 @@ def tag_notes(request, tag_id):
     
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def sync_data(request):
-    sync_info = "N/A"
-    try:
-        with open(settings.JOPLIN_SYNC_INFO_FILE, "r") as sync_info_content:
-            sync_info = sync_info_content.read()
-    except:
-        logging.error("cannot read synchro file " + settings.JOPLIN_SYNC_INFO_FILE)
+    return HttpResponse(json.dumps({"info": "todo", "output": "todo", "error": "todo"}))
+    # sync_info = "N/A"
+    # try:
+    #     with open(settings.JOPLIN_SYNC_INFO_FILE, "r") as sync_info_content:
+    #         sync_info = sync_info_content.read()
+    # except:
+    #     logging.error("cannot read synchro file " + settings.JOPLIN_SYNC_INFO_FILE)
         
-    return HttpResponse(json.dumps({"info": sync_info, "output": JoplinSync.get_output(), "error": JoplinSync.get_err()}))
+    # return HttpResponse(json.dumps({"info": sync_info, "output": JoplinSync.get_output(), "error": JoplinSync.get_err()}))
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  
 def do_sync(request):
-    task = threading.Thread(target=JoplinSync.joplin_sync, args=(settings.JOPLIN_SYNC_INFO_FILE,))
-    task.daemon = True
-    task.start()
+    # task = threading.Thread(target=JoplinSync.joplin_sync, args=(settings.JOPLIN_SYNC_INFO_FILE,))
+    # task.daemon = True
+    # task.start()
     return HttpResponse("Sync started")
 
 @conditional_decorator(login_required, settings.JOPLIN_LOGIN_REQUIRED)  

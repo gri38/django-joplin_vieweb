@@ -16,8 +16,8 @@ class EditSession:
 
     @staticmethod
     def get_path(id):
-        ressources_path = settings.JOPLIN_RESSOURCES_PATH
-        return Path(ressources_path).parent / "temporary_edit_sessions" / id
+        ressources_path = settings.JOPLIN_JOPLINVIEWEB_PATH
+        return Path(ressources_path) / "temporary_edit_sessions" / id
 
     @staticmethod
     def create_creation_file(session_id):
@@ -128,7 +128,7 @@ class EditSession:
 
         return md
 
-        
+
 
 #
 # regeg pour retrouver les images de la session dans le markdown

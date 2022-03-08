@@ -5,7 +5,7 @@ import json
 
 if __name__ == "__main__":
       settings.configure(
-          JOPLIN_RESSOURCES_PATH="c:\\Users\\FRGUNI0\\temp\\XXX\\", JOPLIN_NOTES_HISTORY_DEPTH=10)
+          JOPLIN_JOPLINVIEWEB_PATH="c:\\Users\\FRGUNI0\\temp\\XXX\\", JOPLIN_NOTES_HISTORY_DEPTH=10)
 
 class LastsNotes:
     __lock = threading.Lock()
@@ -13,8 +13,8 @@ class LastsNotes:
 
     @staticmethod
     def get_path():
-        ressources_path = settings.JOPLIN_RESSOURCES_PATH
-        return Path(ressources_path).parent / "lasts_notes"
+        joplinvieweb_path = settings.JOPLIN_JOPLINVIEWEB_PATH
+        return Path(joplinvieweb_path) / "lasts_notes"
 
     @staticmethod
     def read_lasts_notes():

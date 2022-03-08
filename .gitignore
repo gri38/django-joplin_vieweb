@@ -1,7 +1,9 @@
 __pycache__/
 venv/
-dev_server/
+server/
 build/
 dist/
 django_joplin_vieweb.egg-info/
 .vscode/launch.json
+db.sqlite3
+manage.py

@@ -55,7 +55,8 @@ def sync_enable():
 def start_synchronize_joplin():
     if sync_enable():
         logging.info("Start joplin periodic synchro ({}s)".format(settings.JOPLIN_SYNC_PERIOD_S))
-        threading.Thread(target=synchronize_joplin_loop, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
+        # threading.Thread(target=synchronize_joplin_loop, args=(settings.JOPLIN_SYNC_PERIOD_S, settings.JOPLIN_SYNC_INFO_FILE)).start()
+        # todo: synchro with joplin-terminal-xapi
     else:
         logging.info("No joplin periodic synchro")
     
@@ -72,6 +73,7 @@ class JoplinSync:
 
     @staticmethod
     def joplin_sync(info_file):
+        return 
         logging.debug("+++++++++++++++++-> Start Joplin synchro")
         JoplinSync.output = ""
         JoplinSync.err = ""
@@ -177,3 +179,14 @@ def md_to_html(md, for_preview):
         html = html.replace("<li>[x] ", '<li><input type="checkbox" checked>')
 
     return html
+
+
+import json
+api_token = ""
+def get_api_token():
+    global api_token
+    if not api_token:
+        with open("/root/.config/joplin/settings.json") as settings:
+            settings_json = json.load(settings)
+            api_token = settings_json["api.token"]
+    return api_token
