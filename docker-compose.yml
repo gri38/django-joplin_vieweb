@@ -6,9 +6,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    #command: ["/bin/sh"]
-    #stdin_open: true
-    #tty: true
+    command: ["/bin/sh"]
+    stdin_open: true
+    tty: true
     depends_on:
       - joplin-terminal-xapi
     ports:
