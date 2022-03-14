@@ -20,7 +20,7 @@ RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY settings/nginx.conf /etc/nginx/nginx.conf
 
 # Keeps Python from generating .pyc files in the container
-ENV PYToplin/noteboHONDONTWRITEBYTECODE=1
+ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
@@ -36,4 +36,4 @@ COPY . /app
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 RUN chmod +x /app/runserver.sh
-CMD ["/app/runserver.sh"]
+CMD ["/bin/sh -x /app/runserver.sh"]
