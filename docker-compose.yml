@@ -13,6 +13,7 @@ services:
       - joplin-terminal-xapi
     ports:
       - 80:80
+    restart: unless-stopped
     volumes:
       - joplin:/root/.config/joplin:ro
       - joplin-vieweb:/root/.config/joplin-vieweb
@@ -24,6 +25,7 @@ services:
     # ports:
     #   - "8080:8080"
     #   - "8081:8081"
+    restart: unless-stopped
     volumes:
       - joplin:/root/.config/joplin
     networks:
