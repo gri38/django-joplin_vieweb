@@ -26,3 +26,5 @@ README.md
 env
 venv
 joplin-icomoon.json
+manage.py
+server/

@@ -6,32 +6,32 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["/bin/sh"]
-    stdin_open: true
-    tty: true
+    # command: ["/bin/sh"]
+    # stdin_open: true
+    # tty: true
     depends_on:
       - joplin-terminal-xapi
     ports:
-      - 8001:8001
+      - 80:80
     volumes:
       - joplin:/root/.config/joplin:ro
       - joplin-vieweb:/root/.config/joplin-vieweb
-    # networks:
-    #   - joplin-net
+    networks:
+      - joplin-net
 
   joplin-terminal-xapi:
     image: joplin-terminal-xapi
-    ports:
-      - "8080:8080"
-      - "8081:8081"
+    # ports:
+    #   - "8080:8080"
+    #   - "8081:8081"
     volumes:
       - joplin:/root/.config/joplin
-    # networks:
-    #   - joplin-net
+    networks:
+      - joplin-net
 
 volumes:
   joplin:
   joplin-vieweb:
 
-# networks:
-#   joplin-net: {}
+networks:
+  joplin-net: {}

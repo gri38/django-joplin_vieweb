@@ -8,7 +8,17 @@ RUN pip install --user -r requirements.txt
 
 
 FROM python:3.9-alpine
-EXPOSE 8001
+
+# add nginx
+EXPOSE 80
+RUN apk add --no-cache nginx
+RUN adduser -D -g 'www' www
+RUN mkdir /www
+RUN chown -R www:www /var/lib/nginx
+RUN chown -R www:www /www
+RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+COPY settings/nginx.conf /etc/nginx/nginx.conf
+
 # Keeps Python from generating .pyc files in the container
 ENV PYToplin/noteboHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
@@ -25,4 +35,5 @@ COPY . /app
 #USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+RUN chmod +x /app/runserver.sh
 CMD ["/app/runserver.sh"]

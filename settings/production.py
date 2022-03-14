@@ -6,7 +6,7 @@ import sys
 import pathlib
 joplin_app_folder = pathlib.Path(__file__).parent.parent.parent.absolute()
 sys.path.append(str(joplin_app_folder))
-print(sys.path)
+# print(sys.path)
 
 LOGGING = {
     'version': 1,
@@ -24,8 +24,8 @@ LOGGING = {
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = Path("/app")
+# print(f"BASE_DIR={BASE_DIR}")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -116,24 +116,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATICFILES_DIRS = [
-    BASE_DIR / "joplin_vieweb/static",
-    '/root/.config/joplin/resources/',
-]
-
 STATIC_URL = '/static/'
+# print(f"BASE_DIR / 'staticfiles'={BASE_DIR / 'staticfiles'}")
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# print(f"STATIC_ROOT={STATIC_ROOT}")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -147,7 +140,6 @@ JOPLIN_LOGIN_REQUIRED=True
 JOPLIN_RESSOURCES_PATH="/root/.config/joplin/resources/"
 JOPLIN_JOPLINVIEWEB_PATH="/root/.config/joplin-vieweb"
 JOPLIN_SYNC_PERIOD_S=86400 # once a day
-# JOPLIN_SYNC_INFO_FILE="/home/pi/.config/joplin/joplin_vieweb_sync_info"
 JOPLIN_NOTES_HISTORY_DEPTH=10
 
-print("Done with production settings")
+# print("Done with production settings")
