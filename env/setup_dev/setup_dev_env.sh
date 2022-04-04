@@ -11,6 +11,7 @@ fi
 # python venv
 python3 -m venv venv
 . venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 
 # django dev server
@@ -25,6 +26,7 @@ echo "JOPLIN_SERVER_URL=\"http://127.0.0.1\"" >> dev_server/dev_server/settings.
 echo "JOPLIN_SERVER_PORT=41184" >> dev_server/dev_server/settings.py
 echo "JOPLIN_SERVER_TOKEN=\"1234567890987654321\"" >> dev_server/dev_server/settings.py
 echo "JOPLIN_LOGIN_REQUIRED=True" >> dev_server/dev_server/settings.py
-echo "JOPLIN_RESSOURCES_PATH=\"/home/pi/.config/joplin/resources/\"" >> dev_server/dev_server/settings.py
+echo "JOPLIN_RESSOURCES_PATH=\"~/.config/joplin/resources/\"" >> dev_server/dev_server/settings.py
 echo "JOPLIN_SYNC_PERIOD_S=86400 # once a day" >> dev_server/dev_server/settings.py
-echo "JOPLIN_SYNC_INFO_FILE=\"/home/pi/.config/joplin/joplin_vieweb_sync_info\"" >> dev_server/dev_server/settings.py
+echo "JOPLIN_SYNC_INFO_FILE=\"~/.config/joplin/joplin_vieweb_sync_info\"" >> dev_server/dev_server/settings.py
+echo "JOPLIN_NOTES_HISTORY_DEPTH=10" >> dev_server/dev_server/settings.py

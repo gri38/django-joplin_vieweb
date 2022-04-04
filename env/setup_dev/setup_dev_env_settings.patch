@@ -35,7 +35,7 @@
  DEBUG = True
  
 -ALLOWED_HOSTS = []
-+ALLOWED_HOSTS = ['192.168.21.8']
++ALLOWED_HOSTS = ['127.0.0.1']
  
  
  # Application definition
@@ -51,7 +51,7 @@
  # https://docs.djangoproject.com/en/3.2/howto/static-files/
 +STATICFILES_DIRS = [
 +    BASE_DIR / "static",
-+    '/home/pi/.config/joplin/resources/',
++    '~/.config/joplin/resources/',
 +]
  
  STATIC_URL = '/static/'
