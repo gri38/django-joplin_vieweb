@@ -1,5 +1,5 @@
 # WARNING: deprecation
-This project will be "*deprecated*": continued [here](https://github.com/joplin-vieweb) for a deployment with docker-compose (a lot easier than current way).  
+This project will be "*deprecated*": continued [here](https://github.com/joplin-vieweb/joplin-vieweb) for a deployment with docker-compose (a lot easier than current way).  
 I'll communicate here and in Joplin forum once it's available.
 
 # joplin-vieweb
