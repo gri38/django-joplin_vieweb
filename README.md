@@ -1,3 +1,7 @@
+# WARNING: deprecation
+This project will be "*deprecated*": continued [here](https://github.com/joplin-vieweb) for a deployment with docker-compose (a lot easier than current way).  
+I'll communicate here and in Joplin forum once it's available.
+
 # joplin-vieweb
 A simple web viewer for Joplin app  
 [View on github](https://github.com/gri38/django-joplin_vieweb)
